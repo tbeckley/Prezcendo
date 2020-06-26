@@ -1,6 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+// import { Provider } from 'react-redux';
 
 function App() {
   return (

@@ -1,0 +1,33 @@
+{
+    "env": {
+        "browser": true,
+        "es2020": true,
+        "commonjs": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "settings": {
+        "react": {
+          "version": "detect"
+        }
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "globals": {
+        "process": false
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "semi": [ "warn", "always" ],
+        "eol-last": ["warn", "always"]
+    }
+}

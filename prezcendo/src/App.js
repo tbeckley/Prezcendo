@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from './assets/logo.svg';
+import './css/App.css';
 
-// import { Provider } from 'react-redux';
+import TestComponent from './components/testComponent';
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <TestComponent />
     </div>
   );
 }

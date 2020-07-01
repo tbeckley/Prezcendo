@@ -59,16 +59,20 @@
 }
 
 .modal-dialog {
-    height: 90vh;
     color: var(--grey-light);
-    margin: 0 auto;
     max-width: 90vw;
 }
 
 .modal-content {
   background-color: var(--grey-medium);
+  height: 90vh;
+  border-radius: 1em;
 }
 
 .close {
+  color: var(--grey-light);
+}
+
+.close:hover {
   color: var(--grey-light);
 }

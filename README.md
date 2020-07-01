@@ -7,6 +7,8 @@ Steps to get up and running
 - ```yarn install```
 - ```yarn start```
 
+Alterntatively, can use 
+- ```npm start```
 
 Required / reccomended VS code extensions
 - Debugger for Chrome/Firefox

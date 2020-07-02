@@ -1,18 +1,26 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-import './css/App.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import TestComponent from './components/testComponent';
 import { HeaderComponent, ContainerComponent } from './components/mainPageComponents';
 
-function App() {
-  return (
-    <div className="App">
-      <HeaderComponent />
-      <ContainerComponent />
-      <TestComponent />
-    </div>
-  );
+function mapStateToProps() {
+  return {
+  };
 }
 
-export default App;
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <HeaderComponent />
+        <ContainerComponent />
+        <TestComponent />
+      </div>
+    );
+  }
+
+}
+
+export default connect(mapStateToProps)(App);

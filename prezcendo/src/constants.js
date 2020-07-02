@@ -5,7 +5,7 @@ export const GENRES = {
     POP: 'pop'
 };
 
-export const scaleNotes = {
+export const SCALE_NOTES = {
     A: 0,
     B: 1,
     C: 2,
@@ -15,7 +15,7 @@ export const scaleNotes = {
     G: 6,
 };
 
-export const scaleTypes = {
+export const SCALE_TYPES = {
     FLAT: 0,
     NATRUAL: 1,
     SHARP: 2

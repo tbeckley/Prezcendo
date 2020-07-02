@@ -1,6 +1,7 @@
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { GENRES, SCALE_NOTES, SCALE_TYPES } from '../constants';
 import reducer from './reducer';
-import { createStore } from 'redux';
-import { GENRES, scaleNotes, scaleTypes } from '../constants';
 
 const initialState = {
     blocks: [],
@@ -14,18 +15,10 @@ const initialState = {
                 simpleComplex: 0.5,
                 duration: 5 // seconds
             },
-            scale: [scaleNotes.C, scaleTypes.NATRUAL],
+            scale: [SCALE_NOTES.C, SCALE_TYPES.NATRUAL],
             previousBars: [], // TBD
             nextBars: [], // TBD
-            revisions: [
-                /*
-                {
-                    revisonID: 0,
-                    MIDI: [],
-                    rating: 
-                }
-                */
-            ]
+            revisions: []
         }
     ],
     songSettings: {
@@ -35,4 +28,6 @@ const initialState = {
     }
 };
 
-export default createStore(reducer, initialState);
+export default createStore(reducer,
+    initialState,
+    applyMiddleware(thunk));

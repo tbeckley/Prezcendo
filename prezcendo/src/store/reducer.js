@@ -1,7 +1,14 @@
 import types from './types';
+import _ from 'lodash';
 
 export default function rootReducer(initialState = 0, action) {
-    const newState = {...initialState};
+    // TODO - Actually write these functions correctly
+    // so I don't have to do this abomination
+    // This is really hard. Multiple reducers is the right way but yikes.
+    // https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns/
+    // FFS I literally made common mistake #2
+
+    const newState = _.cloneDeep(initialState);
 
     const payload = action.payload;
 

@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { GENRES, SCALE_NOTES, SCALE_TYPES } from '../constants';
 import reducer from './reducer';
 
-const initialState = {
+export const defaultState = {
     blocks: [],
     bridges: [
         {
@@ -29,5 +29,5 @@ const initialState = {
 };
 
 export default createStore(reducer,
-    initialState,
+    defaultState,
     applyMiddleware(thunk));

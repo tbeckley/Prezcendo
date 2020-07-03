@@ -20,8 +20,11 @@ class fitnessFunc:
         scale = [tonic, tonic+3, tonic+5, tonic+6, tonic+7, tonic+10, tonic+12]
         return scale    
     
+    #note that this assumes 4/4 time, will implement other time signatures in future
     def fitnessCalc(self, bridge, tonic):
         melody = bridge[0]
+
+        print(melody)
 
         longRest = 0 #neg ten points for rests longer than a half note
         curRestLen = 0 
@@ -58,7 +61,7 @@ class fitnessFunc:
             else:
                 next = None
 
-            if (val == -2): #rest
+            if (val == -1): #rest
                 curRestLen += 1
                 
                 if (next is None) or (next != -2):
@@ -69,7 +72,7 @@ class fitnessFunc:
                     elif (curRestLen > 8):
                         longRest += 1
 
-            if (val == -1): #hold
+            if (val == -2): #hold
                 curNoteLen += 1
 
                 #check for dotted quarter notes
@@ -86,14 +89,14 @@ class fitnessFunc:
                     if (val == j):
                         noteOnScale += 1
 
-                if(index%2 == 0):
+                if(index%16 == 4) or (index%16 == 12): #each bar has 16 notes
                     noteOnDown += 1
 
 
             if(next is not None): #reset current length counters
-                if (next == -2):
+                if (next == -1):
                     curNoteLen = 0
-                elif (next >= -1):
+                elif (next >= 0):
                     curRestLen = 0
 
         print(longNote)

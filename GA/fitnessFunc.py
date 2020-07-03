@@ -23,10 +23,10 @@ class fitnessFunc:
     def fitnessCalc(self, bridge, tonic):
         melody = bridge[0]
 
-        maxRestLen = 0 #neg ten points for rests longer than a quarter note
+        longRest = 0 #neg ten points for rests longer than a half note
         curRestLen = 0 
 
-        maxNoteLen = 0 #neg ten points for notes longer than a whole note
+        longNote = 0 #neg ten points for notes longer than a whole note
         curNoteLen = 0
 
         #not done
@@ -60,25 +60,24 @@ class fitnessFunc:
 
             if (val == -2): #rest
                 curRestLen += 1
-
-                if (curRestLen > maxRestLen):
-                    maxRestLen = curRestLen
                 
                 if (next is None) or (next != -2):
                     if (curRestLen == 2):
                         restEight += 1
                     elif (curRestLen == 4):
                         restQuarter += 1
+                    elif (curRestLen > 8):
+                        longRest += 1
 
             if (val == -1): #hold
                 curNoteLen += 1
 
                 #check for dotted quarter notes
-                if (next is None) or (next == -2 and curNoteLen == 6):
-                    dottedQuarter += 1
-
-                if (curNoteLen > maxNoteLen):
-                    maxNoteLen = curNoteLen
+                if (next is None) or (next == -2):
+                    if (curNoteLen == 6):
+                        dottedQuarter += 1
+                    elif (curNoteLen > 16):
+                        longNote += 1
 
             if (val >= 0): #new note
                 curNoteLen = 1
@@ -97,14 +96,17 @@ class fitnessFunc:
                 elif (next >= -1):
                     curRestLen = 0
 
-        print(maxNoteLen)
-        print(maxRestLen)
+        print(longNote)
+        print(longRest)
         print(noteOnScale)
 
         #for the rules with bounded points (so we don't end up with a bajillion dotted quarter notes)
         dottedQuarter = min(dottedQuarter, 2)
         restEight = min(restEight, 2)
         restQuarter = min(restQuarter, 2)
+
+        fitness = (longNote + longRest)*(-10) + (noteOnScale + noteOnDown + noteDiffBar)*1 + (dottedQuarter + restEight + restQuarter)*2
+        return fitness
 
         #TODO: actually compute and return the fitness value
 

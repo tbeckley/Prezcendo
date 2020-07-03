@@ -7,7 +7,12 @@ def ALtests():
 
     jazz = fitnessFunc("Jazz")
     jazz.printBridge(bridge)
-    jazz.fitnessCalc(bridge, 0)
+    fitness = jazz.fitnessCalc(bridge, 0)
+    print(fitness)
+
+    bridge = [[0]*cols]*rows
+    fitness = jazz.fitnessCalc(bridge, 0)
+    print(fitness)
 
 
 

@@ -56,9 +56,9 @@ class DNA:
                 elif ((surprise >= self.mutationRate)):
                     newNote = random.randrange(-2, 24) # random from -2 to 24
                     self.gene[track][note] = newNote
-        print("BEFORE FIXUP " + str(self.gene)) 
+        #print("BEFORE FIXUP " + str(self.gene)) 
         self.fixup()
-        print("AFTER FIXUP " + str(self.gene))  
+        #print("AFTER FIXUP " + str(self.gene))  
 
     # crossover function, picks a random location between bars and splits there
     def crossover(self, partner):
@@ -67,18 +67,18 @@ class DNA:
         child = []
 
         if (firstParent == 0):
-            print(len(self.gene))
+            #print(len(self.gene))
             for track in range(len(self.gene)):
                 newTrack = self.gene[track][0:int(self.length*location/8)]
                 #print("NEW TRACK " + str(newTrack))
-                newTrack.extend(partner.gene[track][int(self.length*location/8)+1 : int(self.length-1)])
+                newTrack.extend(partner.gene[track][int(self.length*location/8) : int(self.length)])
                 #print("NEW TRACK AFTER " + str(newTrack))
                 child.append(newTrack)
         else:
             for track in range(len(self.gene)):
                 newTrack = partner.gene[track][0:int(self.length*location/8)]
                 #print("NEW TRACK " + str(newTrack))
-                newTrack.extend(self.gene[track][int(self.length*location/8)+1 : int(self.length-1)])
+                newTrack.extend(self.gene[track][int(self.length*location/8) : int(self.length)])
                 #print("NEW TRACK AFTER " + str(newTrack))
                 child.append(newTrack)
         

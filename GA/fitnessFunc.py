@@ -24,7 +24,7 @@ class fitnessFunc:
     def fitnessCalc(self, bridge, tonic):
         melody = bridge[0]
 
-        print(melody)
+        #print(melody)
 
         longRest = 0 #neg ten points for rests longer than a half note
         curRestLen = 0 
@@ -98,10 +98,6 @@ class fitnessFunc:
                     curNoteLen = 0
                 elif (next >= 0):
                     curRestLen = 0
-
-        # print(longNote)
-        # print(longRest)
-        # print(noteOnScale)
 
         #for the rules with bounded points (so we don't end up with a bajillion dotted quarter notes)
         dottedQuarter = min(dottedQuarter, 2)

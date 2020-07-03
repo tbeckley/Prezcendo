@@ -1,4 +1,5 @@
 from fitnessFunc import *
+from DNA import *
 
 #to reduce merge conflicts
 def ALtests():
@@ -31,10 +32,48 @@ def ALtests():
     fitness = jazz.fitnessCalc(bridge, 0)
     print(fitness)
 
+def DNAFitnessTest():
+
+    gene1 = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2,
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2],
+        
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+    #test constructor function
+    DNA1 = DNA(4, 4, 2, gene1)
+    DNA2 = DNA(4, 4, 2)
+
+    #test crossover function
+    child = DNA1.crossover(DNA2)
+    print(child.gene)
+
+    child.mutate()
+    print(child.gene)
+
+    jazz = fitnessFunc("Jazz")
+    fitness = jazz.fitnessCalc(child.gene, 0)
+    print("FITNESS " + str(fitness))
+
+
 msg = "Hello World. Python is running on your computer."
 print(msg)
 
 ALtests()
+
+DNAFitnessTest()
 
 
 

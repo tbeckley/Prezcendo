@@ -76,3 +76,33 @@
 .close:hover {
   color: var(--grey-light);
 }
+
+.Modal-container {
+  color: white;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgba(29, 29, 29, 0.452);
+  /* transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s; */
+  left: 0;
+  top: 0;
+}
+
+.Modal-content {
+  padding: 3%;
+  border-radius: 20px;
+  height: 90%;
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: #494949;
+}
+
+.Icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+}

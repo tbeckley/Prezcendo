@@ -1,13 +1,15 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import TestComponent from './components/testComponent';
-import { HeaderComponent, ContainerComponent } from './components/mainPageComponents';
+import TestComponent from "./components/testComponent";
+import {
+  HeaderComponent,
+  ContainerComponent,
+} from "./components/mainPageComponents";
 
 function mapStateToProps() {
-  return {
-  };
+  return {};
 }
 
 class App extends Component {
@@ -20,7 +22,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 export default connect(mapStateToProps)(App);

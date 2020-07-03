@@ -99,9 +99,9 @@ class fitnessFunc:
                 elif (next >= 0):
                     curRestLen = 0
 
-        print(longNote)
-        print(longRest)
-        print(noteOnScale)
+        # print(longNote)
+        # print(longRest)
+        # print(noteOnScale)
 
         #for the rules with bounded points (so we don't end up with a bajillion dotted quarter notes)
         dottedQuarter = min(dottedQuarter, 2)

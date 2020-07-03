@@ -80,7 +80,7 @@ def weighted_choice(weights):
     #print("WEIGHT: " + str(i))
     return i
 
-def evolution(gen, childAmt, tonic):
+def genInitPop(childAmt):
     #init first population (from midi/tyler)
     gene1 = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
         0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
@@ -106,10 +106,14 @@ def evolution(gen, childAmt, tonic):
 
     children = []
 
-    jazz = fitnessFunc("Jazz")
-
     for i in range(childAmt):
         children.append(DNA1.crossover(DNA2))
+    
+    return children
+
+def evolution(gen, childAmt, tonic, initialPop):
+    children = initialPop
+    jazz = fitnessFunc("Jazz")
 
     for g in range(gen):
         fitness = []
@@ -136,8 +140,7 @@ def evolution(gen, childAmt, tonic):
         children = newChildren
 
     print(fitness)
-    for val in children:
-        print(val.gene)
+    return children
     
 
     #generate 5 children
@@ -146,10 +149,18 @@ def evolution(gen, childAmt, tonic):
     #use to calculate probability of selecting child as parent
     #generate 5 new children from randomly selected parents (randomly select each time, reroll if it's the same)
 
-msg = "Hello World. Python is running on your computer."
-print(msg)
+#msg = "Hello World. Python is running on your computer."
+#print(msg)
 
-evolution(100, 5, 0)
+#separated because it keeps lagging out my computer otherwise. ideally you could just put in as many gen as you want...
+init = genInitPop(25)
+children = evolution(10, 20, 0, init)
+children = evolution(10, 20, 0, children)
+children = evolution(10, 20, 0, children)
+children = evolution(10, 20, 0, children)
+
+# for val in children:
+#     print(val.gene)
 
 #tests
 #ALtests()

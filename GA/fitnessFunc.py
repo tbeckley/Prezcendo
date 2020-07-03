@@ -13,6 +13,107 @@ class fitnessFunc:
         for row in bridge:
             print(row)
 
+    def genJazzScale(self, tonic):
+        #there are 12 notes in total
+        #this is the hexatonic scale (blues)
+        #could potentially use heptatonic scale for more "major" tone in future
+        scale = [tonic, tonic+3, tonic+5, tonic+6, tonic+7, tonic+10, tonic+12]
+        return scale    
+    
+    def fitnessCalc(self, bridge, tonic):
+        melody = bridge[0]
+
+        maxRestLen = 0 #neg ten points for rests longer than a quarter note
+        curRestLen = 0 
+
+        maxNoteLen = 0 #neg ten points for notes longer than a whole note
+        curNoteLen = 0
+
+        #not done
+        uniqueNoteBar = [0, 0, 0, 0, 0, 0, 0, 0] #two points for every bar with at least two different pitches
+        #not done
+        totalNotes = [0, 0, 0, 0, 0, 0, 0, 0] #neg 10 points for bars with over 8 notes
+
+        #rules for jazz
+
+        scale = self.genJazzScale(tonic)
+        
+        noteOnScale = 0 #one point per note on the jazz scale
+        #not done
+        int7 = 0 #two points per dominant 7th, max four points
+
+        noteOnDown = 0 #one point for every note started on 2nd or 4th beat
+        #notDone
+        noteDiffBar = 0 #one point for every bar with at least two note lengths
+
+        dottedQuarter = 0 #two points for every dotted quarter note, max four points
+
+        restEight = 0 #two points for every eigth rest, max four points
+        restQuarter = 0 #two points for every quarter rest, max four points
+
+        for index, val in enumerate(melody):
+
+            if (index < len(melody)-1):
+                next = melody[index+1]
+            else:
+                next = None
+
+            if (val == -2): #rest
+                curRestLen += 1
+
+                if (curRestLen > maxRestLen):
+                    maxRestLen = curRestLen
+                
+                if (next is None) or (next != -2):
+                    if (curRestLen == 2):
+                        restEight += 1
+                    elif (curRestLen == 4):
+                        restQuarter += 1
+
+            if (val == -1): #hold
+                curNoteLen += 1
+
+                #check for dotted quarter notes
+                if (next is None) or (next == -2 and curNoteLen == 6):
+                    dottedQuarter += 1
+
+                if (curNoteLen > maxNoteLen):
+                    maxNoteLen = curNoteLen
+
+            if (val >= 0): #new note
+                curNoteLen = 1
+
+                for j in scale:
+                    if (val == j):
+                        noteOnScale += 1
+
+                if(index%2 == 0):
+                    noteOnDown += 1
+
+
+            if(next is not None): #reset current length counters
+                if (next == -2):
+                    curNoteLen = 0
+                elif (next >= -1):
+                    curRestLen = 0
+
+        print(maxNoteLen)
+        print(maxRestLen)
+        print(noteOnScale)
+
+        #for the rules with bounded points (so we don't end up with a bajillion dotted quarter notes)
+        dottedQuarter = min(dottedQuarter, 2)
+        restEight = min(restEight, 2)
+        restQuarter = min(restQuarter, 2)
+
+        #TODO: actually compute and return the fitness value
+
+        
+    
+
+
+
+
 
 
     

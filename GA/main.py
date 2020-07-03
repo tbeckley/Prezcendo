@@ -6,16 +6,30 @@ def ALtests():
     bridge = [[-2]*cols]*rows
 
     jazz = fitnessFunc("Jazz")
-    jazz.printBridge(bridge)
+    # jazz.printBridge(bridge)
+    # fitness = jazz.fitnessCalc(bridge, 0)
+    # print(fitness)
+
+    # bridge = [[0]*cols]*rows
+    # fitness = jazz.fitnessCalc(bridge, 0)
+    # print(fitness)
+
+    # bridge = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2]]*rows
+
+    bridge = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2],
+        
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
     fitness = jazz.fitnessCalc(bridge, 0)
     print(fitness)
-
-    bridge = [[0]*cols]*rows
-    fitness = jazz.fitnessCalc(bridge, 0)
-    print(fitness)
-
-
-
 
 msg = "Hello World. Python is running on your computer."
 print(msg)

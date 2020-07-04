@@ -42,7 +42,6 @@ class fitnessFunc:
         scale = self.genJazzScale(tonic)
         
         noteOnScale = 0 #one point per note on the jazz scale
-        #not done
         int7 = 0 #two points per dominant 7th, max four points
 
         noteOnDown = 0 #one point for every note started on 2nd or 4th beat
@@ -53,6 +52,8 @@ class fitnessFunc:
 
         restEight = 0 #two points for every eigth rest, max four points
         restQuarter = 0 #two points for every quarter rest, max four points
+
+        prevNote = None
 
         for index, val in enumerate(melody):
 
@@ -69,7 +70,7 @@ class fitnessFunc:
                         restEight += 1
                     elif (curRestLen == 4):
                         restQuarter += 1
-                    elif (curRestLen > 8):
+                    elif (curRestLen == 8):
                         longRest += 1
 
             if (val == -2): #hold
@@ -79,8 +80,13 @@ class fitnessFunc:
                 if (next is None) or (next == -2):
                     if (curNoteLen == 6):
                         dottedQuarter += 1
-                    elif (curNoteLen > 16):
+                    elif (curNoteLen == 16):
                         longNote += 1
+
+                if (prevNote is not None):
+                    if (prevNote - val == 1) or (prevNote - val == -11):
+                        int7 += 1
+                prevNote = val
 
             if (val >= 0): #new note
                 curNoteLen = 1
@@ -103,8 +109,11 @@ class fitnessFunc:
         dottedQuarter = min(dottedQuarter, 2)
         restEight = min(restEight, 2)
         restQuarter = min(restQuarter, 2)
+        int7 = min(int7, 2)
 
-        fitness = (longNote + longRest)*(-10) + (noteOnScale + noteOnDown + noteDiffBar)*1 + (dottedQuarter + restEight + restQuarter)*2
+        fitness = (longNote + longRest)*(-10) + (noteOnScale + noteOnDown + noteDiffBar)*4 + (dottedQuarter + restEight + restQuarter + int7)*8
+        if (fitness < 1):
+            fitness = 1 #no negative fitness allowed, not the best fix but will adjust later
         return fitness
 
         #TODO: actually compute and return the fitness value

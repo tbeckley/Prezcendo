@@ -13,7 +13,7 @@ class DNA:
     # gene: 2d array with dimensions tracks*length
     # fitness: an object's fitness, defaults to 0 but can be calculated using fitness functions
 
-    mutationRate = 0.10 # replace with whatever rate you want
+    mutationRate = 0.01 # replace with whatever rate you want
     highestNote = 24 # assuming lowest note is 0, and we want a 2-octave span
 
     def __init__(self, numerator, denominator, track, genes=None):
@@ -50,11 +50,16 @@ class DNA:
         for track in range(len(self.gene)):
             for note in range(len(self.gene[track])):
                 surprise = random.random()
-                if ((surprise >= self.mutationRate) and (self.gene[track][note] > -1)):
-                    newNote = random.randrange(-1, 24) # random from -1 to 24
-                    self.gene[track][note] = newNote
-                elif ((surprise >= self.mutationRate)):
-                    newNote = random.randrange(-2, 24) # random from -2 to 24
+                # if ((surprise >= self.mutationRate) and (self.gene[track][note] > -1)):
+                #     newNote = random.randrange(-1, 24) # random from -1 to 24
+                #     self.gene[track][note] = newNote
+                # elif ((surprise >= self.mutationRate)):
+                #     newNote = random.randrange(-2, 24) # random from -2 to 24
+                #     self.gene[track][note] = newNote
+                if ((surprise >= self.mutationRate)):
+                    newNote = random.randrange(-2, 5) # random from -2 to 24
+                    if (newNote >= 0):
+                        newNote = random.randrange(0, 24)
                     self.gene[track][note] = newNote
         #print("BEFORE FIXUP " + str(self.gene)) 
         self.fixup()

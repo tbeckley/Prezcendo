@@ -99,7 +99,23 @@ def genInitPop(childAmt):
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    gene2 = []
+    gene2 =  [[10, -2, -2, 24, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        3, -2, 4, -2, -1, 0, -1, 5, -2, -1, -1, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2,
+        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+        0, -2, 8, -2, -2, 0, -1, 5, -2, -1, -1, 7, -2, -2, -2, -2, 
+        24, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -1, -1, 
+        0, 9, -2, 7, -2, 0, -1, 5, -2, -2, -2, 7, -2, 6, 0, 7],
+        
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
     DNA1 = DNA(4, 4, 2, gene1)
     DNA2 = DNA(4, 4, 2)
@@ -129,7 +145,7 @@ def evolution(gen, childAmt, tonic, initialPop):
             index2 = int(weighted_choice(fitness))
 
             while index1 == index2: #don't want asexual reproduction
-                index2 = weighted_choice(fitness)
+                index2 = int(weighted_choice(fitness))
 
             parent1 = children[index1]
             parent2 = children[index2]
@@ -153,14 +169,13 @@ def evolution(gen, childAmt, tonic, initialPop):
 #print(msg)
 
 #separated because it keeps lagging out my computer otherwise. ideally you could just put in as many gen as you want...
-init = genInitPop(25)
-children = evolution(10, 20, 0, init)
-children = evolution(10, 20, 0, children)
-children = evolution(10, 20, 0, children)
-children = evolution(10, 20, 0, children)
+init = genInitPop(10)
+children = evolution(20, 10, 0, init)
+children = evolution(20, 10, 0, children)
+children = evolution(20, 10, 0, children)
 
-# for val in children:
-#     print(val.gene)
+for val in children:
+    print(val.gene)
 
 #tests
 #ALtests()

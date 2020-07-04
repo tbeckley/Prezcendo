@@ -5,7 +5,7 @@ import { PropTypes } from "prop-types";
 import { responseToArrayBuffer, getObjectFromArray,
             playMusic, stopMusic } from '../helpers/midiHelper';
 
-import MusicBox from './musicBox';
+import MusicBox from './algorithmInterface/musicBox';
 
 import actions from "../store/actions";
 
@@ -62,7 +62,7 @@ class TestComponent extends Component {
             <div>
                 <button onClick={this.loadMidi}>LOAD 1</button>
                 <button onClick={this.loadMidi2}>LOAD 2</button> <br />
-                <MusicBox bridge={0} rev={0} />
+                <MusicBox style={{width: '20%' }} bridge={0} rev={0} />
             </div>
         );
     }

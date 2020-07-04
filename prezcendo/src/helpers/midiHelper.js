@@ -1,5 +1,7 @@
 import { Midi } from '@tonejs/midi';
-import Tone from 'tone'; //eslint-disable-line
+import Tone from 'tone';
+
+import * as R from 'ramda';
 
 export async function responseToArrayBuffer(resp) {
   return await (await resp.blob()).arrayBuffer();
@@ -7,16 +9,26 @@ export async function responseToArrayBuffer(resp) {
 
 export const getObjectFromArray = arrayBuffer => new Midi(arrayBuffer);
 
-export async function playMusic(music) {
-    await Tone.start();
+export const getMaxLength = (music) => Math.max(...R.map(
+        R.pipe(R.props(['time', 'duration'], R.__), R.sum),
+        R.filter(R.pipe(R.isNil, R.not), R.map(
+        R.pipe(R.prop('notes'), R.last), music.tracks))));
+
+export async function playMusic(music, onceComplete = null) {
+    await Tone.start(); // TODO - Is running
+    Tone.Transport.stop();
 
     const synth = new Tone.Synth().toMaster();
-
     synth.sync();
 
     for (let track of music.tracks)
         for (let note of track.notes)
             synth.triggerAttackRelease(note.name, note.duration, note.time);
+
+    Tone.Transport.scheduleOnce(() => {
+        Tone.Transport.emit('cleanup');
+        onceComplete();
+    }, getMaxLength(music));
 
     Tone.Transport.start();
 

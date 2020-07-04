@@ -19,7 +19,7 @@ class DNA:
     def __init__(self, numerator, denominator, track, genes=None):
         self.nn = numerator
         self.dd = denominator
-        self.length = int(16*numerator/denominator)
+        self.length = int(16*8*numerator/denominator)
         self.tracks = track
         self.fitness = 0
 
@@ -57,7 +57,7 @@ class DNA:
                 #     newNote = random.randrange(-2, 24) # random from -2 to 24
                 #     self.gene[track][note] = newNote
                 if ((surprise >= self.mutationRate)):
-                    newNote = random.randrange(-2, 5) # random from -2 to 24
+                    newNote = random.randrange(-2, 4) # 1/6 chance of being rest or hold, 4/6 chance of being new note
                     if (newNote >= 0):
                         newNote = random.randrange(0, 24)
                     self.gene[track][note] = newNote

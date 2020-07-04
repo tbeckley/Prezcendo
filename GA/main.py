@@ -170,9 +170,9 @@ def evolution(gen, childAmt, tonic, initialPop):
 
 #separated because it keeps lagging out my computer otherwise. ideally you could just put in as many gen as you want...
 init = genInitPop(10)
-children = evolution(20, 10, 0, init)
-children = evolution(20, 10, 0, children)
-children = evolution(20, 10, 0, children)
+children = evolution(1, 10, 0, init)
+children = evolution(5, 10, 0, children)
+children = evolution(10, 10, 0, children)
 
 for val in children:
     print(val.gene)

@@ -43,6 +43,7 @@ class fitnessFunc:
         
         noteOnScale = 0 #one point per note on the jazz scale
         int7 = 0 #two points per dominant 7th, max four points
+        int45 = 0 #one point per perfect fifth or perfect fourth, max four points or something
 
         noteOnDown = 0 #one point for every note started on 2nd or 4th beat
         #notDone
@@ -86,6 +87,8 @@ class fitnessFunc:
                 if (prevNote is not None):
                     if (prevNote - val == 1) or (prevNote - val == -11):
                         int7 += 1
+                    if (abs(prevNote - val) == 4) or (abs(prevNote - val) == 5):
+                        int45 += 1
                 prevNote = val
 
             if (val >= 0): #new note
@@ -110,8 +113,9 @@ class fitnessFunc:
         restEight = min(restEight, 2)
         restQuarter = min(restQuarter, 2)
         int7 = min(int7, 2)
+        int45 = min(int45, 2)
 
-        fitness = (longNote + longRest)*(-10) + (noteOnScale + noteOnDown + noteDiffBar)*4 + (dottedQuarter + restEight + restQuarter + int7)*8
+        fitness = (longNote + longRest)*(-10) + (noteOnScale + noteOnDown + noteDiffBar)*1 + (dottedQuarter + restEight + restQuarter + int7 + int45)*2
         if (fitness < 1):
             fitness = 1 #no negative fitness allowed, not the best fix but will adjust later
         return fitness

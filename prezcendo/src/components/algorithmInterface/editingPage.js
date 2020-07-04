@@ -56,3 +56,20 @@ EditingPage.propTypes = {
 };
 
 export default EditingPage;
+
+const Sliders = () => {
+  return(
+    <React.Fragment>
+      <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
+        onChange={ () => console.log("changing value")}
+      />
+      <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
+        onChange={ () => console.log("changing value")}
+      />
+      <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
+        onChange={ () => console.log("changing value")}
+      />
+    </React.Fragment>
+
+  );
+};

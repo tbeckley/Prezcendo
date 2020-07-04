@@ -2,7 +2,7 @@ import { Midi } from '@tonejs/midi';
 import Tone from 'tone'; //eslint-disable-line
 
 export async function responseToArrayBuffer(resp) {
-    return await (await resp.blob()).arrayBuffer();
+  return await (await resp.blob()).arrayBuffer();
 }
 
 export const getObjectFromArray = arrayBuffer => new Midi(arrayBuffer);

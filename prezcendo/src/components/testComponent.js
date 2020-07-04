@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { PropTypes } from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { PropTypes } from "prop-types";
 
 import { responseToArrayBuffer, getObjectFromArray,
             playMusic, stopMusic } from '../helpers/midiHelper';
 
 import MusicBox from './musicBox';
 
-import actions from '../store/actions';
+import actions from "../store/actions";
 
 function mapStateToProps(state, ownProps) {
-    return {
-        revisions: state.bridges[0].revisions,
-        ...ownProps
-    };
+  return {
+    revisions: state.bridges[0].revisions,
+    ...ownProps,
+  };
 }
-
 
 class TestComponent extends Component {
     constructor(props) {
@@ -70,8 +69,8 @@ class TestComponent extends Component {
 }
 
 TestComponent.propTypes = {
-    dispatch: PropTypes.func,
-    revisions: PropTypes.array
+  dispatch: PropTypes.func,
+  revisions: PropTypes.array,
 };
 
 export default connect(mapStateToProps)(TestComponent);

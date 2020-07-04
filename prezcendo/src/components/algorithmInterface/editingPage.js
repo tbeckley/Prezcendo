@@ -1,12 +1,12 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import React from "react";
+import PropTypes from "prop-types";
 
 import { FlexRow, Typography, FlexCol } from "./common";
-
-const EditingPage = () => {
+import SettingsControl from "./settingsControl";
+const EditingPage = ({ onExit }) => {
   return (
-    <React.Fragment>
+    <div>
       <FlexRow
         css={css`
           justify-content: center;
@@ -18,7 +18,7 @@ const EditingPage = () => {
       </FlexRow>
       <FlexRow
         css={css`
-          height: 75%;
+          height: 50vh;
         `}
       >
         <FlexCol
@@ -32,13 +32,21 @@ const EditingPage = () => {
         <FlexCol
           css={css`
             width: 50%;
+            align-items: center;
+            justify-content: center;
           `}
         >
-          Selection Box
+          {/* Selection Box */}
+
+          <SettingsControl onExit={onExit} />
         </FlexCol>
       </FlexRow>
-    </React.Fragment>
+    </div>
   );
+};
+
+EditingPage.propTypes = {
+  onExit: PropTypes.func,
 };
 
 export default EditingPage;

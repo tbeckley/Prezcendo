@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
+import "../../css/VersionB.css";
 
 import { FlexRow, FlexCol } from "./common";
 import SettingsControl from "./settingsControl";
@@ -59,7 +60,7 @@ export default EditingPage;
 
 const Sliders = () => {
   return(
-    <React.Fragment>
+    <div>
       <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
         onChange={ () => console.log("changing value")}
       />
@@ -69,7 +70,7 @@ const Sliders = () => {
       <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
         onChange={ () => console.log("changing value")}
       />
-    </React.Fragment>
+    </div>
 
   );
 };

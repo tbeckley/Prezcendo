@@ -1,0 +1,29 @@
+.VersionB {
+    display: flex;
+    flex-direction: column;
+}
+
+.VersionB.Generate {
+    display: flex;
+    flex-direction: row;
+}
+
+.VersionB.Playback {
+    display: flex;
+    flex-direction: row;
+}
+
+.VersionB.Playback-Button {
+    display: flex;
+    flex-direction: column;
+}
+
+.VersionB.Button-Container {
+    display: flex;
+    flex-direction: column;
+}
+
+.VersionB.Button {
+    display: flex;
+    flex-direction: column;
+}

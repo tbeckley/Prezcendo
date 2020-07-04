@@ -11,19 +11,27 @@ export async function playMusic(music) {
     await Tone.start();
 
     const synth = new Tone.Synth().toMaster();
-    const newTransport = new Tone.Transport();
-
-    console.log(newTransport);
 
     synth.sync();
 
     for (let track of music.tracks)
-    {
-        for (let note of track.notes) {
+        for (let note of track.notes)
             synth.triggerAttackRelease(note.name, note.duration, note.time);
-        }
-    }
 
-    newTransport.start();
+    Tone.Transport.start();
 
+    Tone.Transport.on('cleanup', () => {
+        synth.triggerRelease();
+
+        Tone.Transport.scheduleOnce(() => {
+            Tone.Transport.stop();
+        }, (Tone.Transport.seconds + 0.1));
+    });
 }
+
+export async function stopMusic() {
+    Tone.Transport.cancel();
+    Tone.Transport.emit('cleanup');
+}
+
+export const isPlaying = () => Tone.Transport.status == 'status';

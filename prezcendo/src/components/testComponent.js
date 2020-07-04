@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
 import { responseToArrayBuffer, getObjectFromArray,
-            playMusic } from '../helpers/midiHelper';
+            playMusic, stopMusic } from '../helpers/midiHelper';
+
+import MusicBox from './musicBox';
 
 import actions from '../store/actions';
 
@@ -20,7 +22,6 @@ class TestComponent extends Component {
         super(props);
 
         this.createRevision();
-        this.loadMidi();
     }
 
     break = () => {
@@ -54,22 +55,15 @@ class TestComponent extends Component {
     }
 
     stopMusic = () => {
-        console.log();
+        stopMusic();
     }
 
     render() {
         return (
             <div>
-                <button onClick={this.break}> BREAK</button>
-                <button onClick={this.createRevision}> CREATE REIVSION </button> <br />
-
-                <button onClick={this.loadMidi}>LOAD MIDI 1</button>
-                <button onClick={this.loadMidi2}>LOAD MIDI 2</button><br />
-
-                <button onClick={this.playMusic}> PLAY PHAT BATS</button>
-                <button onClick={this.stopMusic}> STOP PHAT BATS</button>
-
-                <br />{ this.props.revisions.length > 0 && JSON.stringify(getObjectFromArray(this.props.revisions[0].MIDI)) }
+                <button onClick={this.loadMidi}>LOAD 1</button>
+                <button onClick={this.loadMidi2}>LOAD 2</button> <br />
+                <MusicBox bridge={0} rev={0} />
             </div>
         );
     }

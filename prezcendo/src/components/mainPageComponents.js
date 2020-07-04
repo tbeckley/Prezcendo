@@ -54,6 +54,11 @@ export class ContainerComponent extends React.Component {
     this.state = {
       isOpen: true,
       versionA: false,
+      bridge: {
+        history: [],
+        playback: [1,2,3],
+        edits: [],
+      },
     };
   }
 
@@ -89,6 +94,7 @@ export class ContainerComponent extends React.Component {
           <ModalBody>
             <EditingPage 
                 versionA={ this.state.versionA }
+                bridge={ this.state.bridge }
             />
           </ModalBody>
         </Modal>

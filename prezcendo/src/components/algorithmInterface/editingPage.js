@@ -2,8 +2,12 @@
 import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
 
-import { FlexRow, Typography, FlexCol } from "./common";
+import { FlexRow, FlexCol } from "./common";
 import SettingsControl from "./settingsControl";
+
+import HistoryBar from "../algorithmInterface/historyBar";
+import MusicBox from '../algorithmInterface/musicBox';
+
 const EditingPage = ({ onExit }) => {
   return (
     <div>
@@ -14,7 +18,7 @@ const EditingPage = ({ onExit }) => {
           height: 100px;
         `}
       >
-        <Typography>PLACEHOLDER -- History Bar</Typography>
+        <HistoryBar bridgeID={0} />
       </FlexRow>
       <FlexRow
         css={css`
@@ -27,7 +31,7 @@ const EditingPage = ({ onExit }) => {
             margin-right: 3%;
           `}
         >
-          <Typography> Current Iteration: 37</Typography>
+          <MusicBox />
         </FlexCol>
         <FlexCol
           css={css`
@@ -40,6 +44,8 @@ const EditingPage = ({ onExit }) => {
 
           <SettingsControl onExit={onExit} />
         </FlexCol>
+
+
       </FlexRow>
     </div>
   );

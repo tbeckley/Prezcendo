@@ -14,17 +14,22 @@ export default function rootReducer(initialState = 0, action) {
 
     switch(action.type) {
         case types.CREATE_REVISION:
-            newState.bridges[payload.bridgeID].revisions[payload.revisionID] = {
-                revisionID: payload.revisionID,
-                rating: payload.rating
-            };
+            newState.bridges[payload.bridgeID].revisions.push({
+                revisionID: payload.revCount,
+                rating: payload.rating,
+                starred: payload.starred
+            });
             break;
         case types.LOAD_ARRAY_BUFFER:
             newState.bridges[payload.bridgeID].revisions[payload.revisionID].MIDI = payload.arrayBuffer;
             break;
+        case types.SELECT_REVISION:
+            newState.interfaceSettings.modal.selectedRevision = payload.revID;
+            break;
         case types.TEST_ACTION:
             console.log("HELLO WORLD!");
             console.log(payload);
+            console.log(JSON.stringify(initialState));
             break;
         default:
             break;

@@ -9,13 +9,19 @@ export default {
         async dispatch => setTimeout(() =>
             dispatch({ type: types.TEST_ACTION, payload: msg }),
         timeout*1000),
-    createRevision: (bridgeID, revisionID, rating=null, midi=null) => ({
+    createRevision: (bridgeID, revisionID = null, rating=null, midi=null) => ({
         type: types.CREATE_REVISION,
         payload: {
             bridgeID,
             revisionID,
             rating,
             midi
+        }
+    }),
+    setSelectedRevision: (revID) => ({
+        type: types.SELECT_REVISION,
+        payload: {
+            revID
         }
     }),
     loadArrayBuffer: (bridgeID, revisionID, promiseToArrayBuffer) =>

@@ -18,7 +18,6 @@ class App extends Component {
       <div>
         <HeaderComponent />
         <ContainerComponent />
-        <TestComponent />
       </div>
     );
   }

@@ -28,44 +28,37 @@ export class HeaderComponent extends React.Component {
   }
 }
 
-export class ContainerComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: true,
-      versionA: true,
-    };
-  }
+export const ContainerComponent = () => {
+  const [bridgeEditorOpen, setBridgeEditorOpen] = React.useState(false);
+  //   const [prototypeVersion, setPrototypeVersion] = React.useState("1");
 
-  render() {
-    return (
-      <div className="App-container">
-        <div style={{ position: "relative" }}>
-          <img
-            src={require("../assets/prezcendo_blocks.PNG")}
-            style={{ height: "auto", width: "100%" }}
-            alt="blocks"
-          />
-          <button className="App-bridge-button left" />
-          <button className="App-bridge-button middle" />
-          <button
-            className="App-bridge-button right"
-            onClick={() => this.setState({ isOpen: true })}
-          />
-        </div>
-        <Modal
-          isOpen={this.state.isOpen}
-          toggle={() => this.setState({ isOpen: false })}
-          centered
-        >
-          <ModalHeader toggle={() => this.setState({ isOpen: false })}>
-            Title
-          </ModalHeader>
-          <ModalBody>
-            <EditingPage />
-          </ModalBody>
-        </Modal>
+  return (
+    <div className="App-container">
+      <div style={{ position: "relative" }}>
+        <img
+          src={require("../assets/prezcendo_blocks.PNG")}
+          style={{ height: "auto", width: "100%" }}
+          alt="blocks"
+        />
+        <button className="App-bridge-button left" />
+        <button className="App-bridge-button middle" />
+        <button
+          className="App-bridge-button right"
+          onClick={() => setBridgeEditorOpen(true)}
+        />
       </div>
-    );
-  }
-}
+      <Modal
+        isOpen={bridgeEditorOpen}
+        toggle={() => setBridgeEditorOpen(false)}
+        centered
+      >
+        <ModalHeader toggle={() => setBridgeEditorOpen(false)}>
+          Title
+        </ModalHeader>
+        <ModalBody>
+          <EditingPage onExit={() => setBridgeEditorOpen(false)} />
+        </ModalBody>
+      </Modal>
+    </div>
+  );
+};

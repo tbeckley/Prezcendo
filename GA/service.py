@@ -48,7 +48,7 @@ def convert_to_input_convention(tracks):
         track_notes = []
         for msg in track:
             # for each msg get the length from the time and velocity
-            length = msg['time'] * msg['velocity']
+            length = msg['time']
             # convert to our convention by subtracting midi by 48 (middle C=60)
             music_note = int(msg['note']) - 48
             # Usually 480 ticks per a beat so to convert to 16th beats, use 120

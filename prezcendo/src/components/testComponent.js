@@ -37,14 +37,14 @@ class TestComponent extends Component {
     loadMidi = () => {
         // Load a MIDI file into the revision to simulate a slow connection
         this.props.dispatch(actions.loadArrayBuffer(0, 0,
-            fetch("http://localhost:3000/test.mid")
+            fetch("http://localhost:3000/first.mid")
                 .then(responseToArrayBuffer)));
     }
 
     loadMidi2 = () => {
         // Load a MIDI file into the revision to simulate a slow connection
         this.props.dispatch(actions.loadArrayBuffer(0, 0,
-            fetch("http://localhost:3000/teddybear.mid")
+            fetch("http://localhost:3000/last.mid")
                 .then(responseToArrayBuffer)));
     }
 

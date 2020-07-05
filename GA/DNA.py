@@ -14,8 +14,8 @@ class DNA:
     # gene: 2d array with dimensions tracks*length
     # fitness: an object's fitness, defaults to 0 but can be calculated using fitness functions
 
-    mutationRate = 0.01  # replace with whatever rate you want
-    highestNote = 24  # assuming lowest note is 0, and we want a 2-octave span
+    mutationRate = 0.1 # replace with whatever rate you want
+    highestNote = 24 # assuming lowest note is 0, and we want a 2-octave span
 
     def __init__(self, numerator, denominator, track, genes=None):
         self.nn = numerator
@@ -48,19 +48,22 @@ class DNA:
             # add empty notes
 
     def mutate(self):
+        random.seed()
         for track in range(len(self.gene)):
             for note in range(len(self.gene[track])):
                 surprise = random.random()
+                print("Will it mutate? " + str(surprise))
                 # if ((surprise >= self.mutationRate) and (self.gene[track][note] > -1)):
-                #     newNote = random.randrange(-1, 24) # random from -1 to 24
+                #     newNote = random.randrange(-1, 25) # random from -1 to 24
                 #     self.gene[track][note] = newNote
                 # elif ((surprise >= self.mutationRate)):
-                #     newNote = random.randrange(-2, 24) # random from -2 to 24
+                #     newNote = random.randrange(-2, 25) # random from -2 to 24
                 #     self.gene[track][note] = newNote
-                if surprise >= self.mutationRate:
-                    newNote = random.randrange(-2, 4)  # 1/6 chance of being rest or hold, 4/6 chance of being new note
+                if ((surprise <= self.mutationRate)):
+                    print("Yes it will!")
+                    newNote = random.randrange(-2, 5) # 1/6 chance of being rest or hold, 4/6 chance of being new note
                     if (newNote >= 0):
-                        newNote = random.randrange(0, 24)
+                        newNote = random.randrange(0, 25)
                     self.gene[track][note] = newNote
         # print("BEFORE FIXUP " + str(self.gene))
         self.fixup()
@@ -68,8 +71,9 @@ class DNA:
 
     # crossover function, picks a random location between bars and splits there
     def crossover(self, partner):
-        location = random.randrange(1, 7)  # random split location between 1 and 7
-        firstParent = random.randrange(0, 1)  # pick a random parent to be "first"
+        random.seed()
+        location = random.randrange(1, 8) # random split location between 1 and 7
+        firstParent = random.randrange(0, 2) # pick a random parent to be "first"
         child = []
         chooseTrack = self if firstParent == 0 else partner
         otherTrack = partner if firstParent == 0 else self
@@ -86,6 +90,37 @@ class DNA:
         childDNA.fixup()
         # print("CHILD " + str(child))
         return childDNA
+
+    def crossover2(self, partner):
+        random.seed()
+        child = []
+        for i in range(self.tracks):
+            new = []
+            child.append(new)
+
+        for bar in range(8):
+            start = int(bar*self.length/8)
+            finish = int((bar+1)*self.length/8)
+            parent = random.randrange(0, 2)
+
+            if (parent == 0):
+                for track in range(len(self.gene)):
+                    newBar = self.gene[track][start:finish]
+                    # print("NEW BAR PARENT 0 " + str(newBar))
+                    child[track].extend(newBar)
+                    # print("CHILD UPDATE 0 " + str(child))
+            else:
+                for track in range(len(partner.gene)):
+                    newBar = partner.gene[track][start:finish]
+                    # print("NEW BAR PARENT 1 " + str(newBar))
+                    child[track].extend(newBar)
+                    # print("CHILD UPDATE 1 " + str(child))
+
+        # print("FINAL " + str(child))
+        childDNA = DNA(self.nn, self.dd, self.tracks, child)
+        childDNA.fixup()
+        return childDNA
+
 
     # function for removing holds (-2) that don't have a proper start
     # TODO: still needs to be tested

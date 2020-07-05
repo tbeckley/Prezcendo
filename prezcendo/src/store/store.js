@@ -25,6 +25,12 @@ export const defaultState = {
         bpm: 60,
         timeSignature: [4, 4],
         genre: GENRES.JAZZ
+    },
+    interfaceSettings: {
+        modal: {
+            selectedBridge: 0,
+            selectedRevision: null
+        }
     }
 };
 

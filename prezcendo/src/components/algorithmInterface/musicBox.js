@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import waveFormImg from '../../assets/WaveForm.png';
-
 import { Container, Row, Col, Button } from 'react-bootstrap';
-
 import { MdPlayArrow, MdStop } from 'react-icons/md';
 
 import { getObjectFromArray,
             playMusic, stopMusic,
             isPlaying, getMaxLength } from '../../helpers/midiHelper';
 
-function mapStateToProps(state, ownProps) {
-    let revDetails = state.bridges[ownProps.bridge].revisions[ownProps.rev];
+import waveFormImg from '../../assets/WaveForm.png';
+
+function mapStateToProps(state) {
+    let ui = state.interfaceSettings.modal;
+    let revDetails = ui.selectedBridge != null && ui.selectedRevision != null
+            ? state.bridges[ui.selectedBridge].revisions[ui.selectedRevision]
+            : {};
 
     return {
+        revID: ui.selectedRevision,
         revDetails,
-        hasMusic: Boolean(revDetails.MIDI),
+        hasMusic: Boolean(revDetails.MIDI)
     };
 }
 
@@ -57,7 +60,9 @@ class MusicBox extends Component {
         let onClickFn = this.state.playing ? this.stop : this.play;
         let buttonIcon = this.state.playing ? (<MdStop size="50" />) : (<MdPlayArrow size="50" />);
 
-        let time = Math.ceil(getMaxLength(getObjectFromArray(this.props.revDetails.MIDI)));
+        let time = this.props.hasMusic
+                    ? Math.ceil(getMaxLength(getObjectFromArray(this.props.revDetails.MIDI)))
+                    : null;
 
         return (
             <Container fluid style={this.props.style}>
@@ -85,12 +90,13 @@ MusicBox.propTypes = {
     bridge: PropTypes.number,
     rev: PropTypes.number,
     hasMusic: PropTypes.bool,
-    style: PropTypes.object
+    style: PropTypes.object,
+    revID: PropTypes.number
 };
 
 MusicBox.defaultProps = {
     bridge: 0,
     rev: 0
-  };
+};
 
 export default connect(mapStateToProps)(MusicBox);

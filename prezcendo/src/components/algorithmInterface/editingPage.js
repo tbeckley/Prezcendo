@@ -111,14 +111,14 @@ class VersionBGenerate extends Component {
         happySad:{
             names: [ "Happy", "Sad" ],
             min: 0,
-            max: 1,
-            value: 0.5,
+            max: 100,
+            value: 50,
         },
         simpleComplex:{
           names: [ "Simple", "Complex" ],
           min: 0,
-          max: 1,
-          value: 0.5,
+          max: 100,
+          value: 50,
         },
         duration:{
           names: [ "Duration", "(seconds)" ],

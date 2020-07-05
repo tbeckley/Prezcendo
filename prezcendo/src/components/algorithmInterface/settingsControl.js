@@ -171,8 +171,8 @@ const SettingsControl = ({ onExit }) => {
       <PaddedRow>
         <Col>
           <Typography>
-            The algorithm has finished making different variations has. Select
-            which one you want to use.
+            The algorithm has finished making different variations. Select which
+            one you want to use.
           </Typography>
         </Col>
       </PaddedRow>

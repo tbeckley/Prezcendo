@@ -11,7 +11,8 @@ import actions from "../../store/actions";
 import {
   Row,
   Col,
-  Input
+  Input,
+  Tooltip,
 } from "reactstrap";
 
 import HistoryBar from "../algorithmInterface/historyBar";
@@ -20,6 +21,10 @@ import MusicBox from '../algorithmInterface/musicBox';
 class EditingPage extends Component {
   constructor(props) {
       super(props);
+      
+      this.state={
+        tooltipOpen: false,
+      };
   }
 
   render () {
@@ -75,9 +80,12 @@ class EditingPage extends Component {
                       </button>
                     </div>
                   ) }
-                  <button className="VersionB Button">
+                  <button className="VersionB Button" id="TooltipHistory">
                     History
                   </button>
+                  <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
+                    Currently not available
+                  </Tooltip>
                 </div>
               }
             </div>

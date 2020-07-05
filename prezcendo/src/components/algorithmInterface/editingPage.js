@@ -2,6 +2,8 @@
 import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
 import "../../css/VersionB.css";
+import { connect } from "react-redux";
+import { Component } from "react";
 
 import { FlexRow, FlexCol } from "./common";
 import SettingsControl from "./settingsControl";
@@ -54,23 +56,65 @@ const EditingPage = ({ onExit }) => {
 
 EditingPage.propTypes = {
   onExit: PropTypes.func,
+  bridgeVersionA: PropTypes.bool,
+  revisions: PropTypes.array,
+  dispatch: PropTypes.func,
 };
 
-export default EditingPage;
+function mapStateToProps(state, ownProps) {
+  return {
+    revisions: state.bridges[0].revisions,
+    ...ownProps,
+  };
+}
 
-const Sliders = () => {
-  return(
-    <div>
-      <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
-        onChange={ () => console.log("changing value")}
-      />
-      <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
-        onChange={ () => console.log("changing value")}
-      />
-      <input type="range" className="custom-range" id="customRange1" min="-100" max="100" step="50" value="0"
-        onChange={ () => console.log("changing value")}
-      />
-    </div>
+export default connect(mapStateToProps)(EditingPage);
 
-  );
+class VersionBGenerate extends Component {
+  constructor(props) {
+      super(props);
+  }
+
+  createRevision = () => {
+    if(this.props.revisions.length == 0) {
+        // Create a revision
+        this.props.dispatch(actions.createRevision(0, 0)); // Create a dummy revision
+    }
+  }
+
+  render() {
+    return(
+      <div className="VersionB Generate">
+        <img 
+          src={require("../../assets/GenreMap.PNG")}
+          alt="Genre Map"
+          style={{ height: "350px"}}
+        />
+        <div>
+          <input type="range" id="customRange1" min="-100" max="100" step="50" value="0"
+            onChange={ () => console.log("changing value")}
+          />
+          <input type="range" id="customRange1" min="-100" max="100" step="50" value="0"
+            onChange={ () => console.log("changing value")}
+          />
+          <input type="range" id="customRange1" min="-100" max="100" step="50" value="0"
+            onChange={ () => console.log("changing value")}
+          />
+        </div>
+        <div className="VersionB Button-Container">
+          <button className="VersionB Button" onClick={this.createRevision}>
+            Generate
+          </button>
+          <button className="VersionB Button">
+            Clear
+          </button>
+        </div>
+      </div>
+    );
+  }
+}
+
+VersionBGenerate.propTypes = {
+  dispatch: PropTypes.func,
+  revisions: PropTypes.array,
 };

@@ -31,6 +31,7 @@ export class HeaderComponent extends React.Component {
 <<<<<<< HEAD
 export const ContainerComponent = () => {
   const [bridgeEditorOpen, setBridgeEditorOpen] = React.useState(false);
+  const [bridgeVersionA, setBridgeVersionA] = React.useState(true);
   //   const [prototypeVersion, setPrototypeVersion] = React.useState("1");
 
   return (
@@ -100,6 +101,7 @@ export class ContainerComponent extends React.Component {
         </Modal>
 >>>>>>> 70c8f76... Added versionB sliders
       </div>
+      <button onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</button>
       <Modal
         isOpen={bridgeEditorOpen}
         toggle={() => setBridgeEditorOpen(false)}
@@ -109,7 +111,10 @@ export class ContainerComponent extends React.Component {
           Title
         </ModalHeader>
         <ModalBody>
-          <EditingPage onExit={() => setBridgeEditorOpen(false)} />
+          <EditingPage 
+            onExit={() => setBridgeEditorOpen(false)} 
+            bridgeVersionA={ bridgeVersionA }
+          />
         </ModalBody>
       </Modal>
     </div>

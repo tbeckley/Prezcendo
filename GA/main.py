@@ -156,13 +156,20 @@ def evolution(gen, childAmt, tonic, initialPop, crossVer):
 #msg = "Hello World. Python is running on your computer."
 #print(msg)
 
-crossVer = 1
+crossVer = 1 #TODO: CHANGE THIS
 init = genInitPop(10, crossVer)
+
+#gen 1
 children = evolution(1, 10, 0, init, crossVer)
+#gen 2
 children = evolution(1, 10, 0, children, crossVer)
+#gen 3
 children = evolution(1, 10, 0, children, crossVer)
-children = evolution(3, 10, 0, children, crossVer)
+#gen 5
+children = evolution(2, 10, 0, children, crossVer)
+#gen 10
 children = evolution(5, 10, 0, children, crossVer)
+#gen 20
 children = evolution(10, 10, 0, children, crossVer)
 
 for val in children:

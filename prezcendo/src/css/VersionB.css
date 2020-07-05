@@ -16,6 +16,8 @@
 .VersionB.Playback-Button {
     display: flex;
     flex-direction: column;
+    margin: 5px 15px;
+    align-items: center;
 }
 
 .VersionB.Button-Container {

@@ -75,9 +75,11 @@ class EditingPage extends Component {
               { this.props.bridgeInfo.revisions && this.props.bridgeInfo.revisions.length != 0 && 
                 <div className="VersionB Playback">
                   { this.props.bridgeInfo.revisions.map( ( bridge, i ) =>
-                    <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("here") }>
-                      <Button color={"primary"}>
-                        Track {i+1}
+                    <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("Playing track ", i + 1) }>
+                      Track {i+1}
+                      <Button color={"primary"} style={{ width: "70px"}}>
+                        
+                        <i className="fa fa-play" />
                       </Button>
                     </div>
                   ) }
@@ -98,7 +100,6 @@ EditingPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log(state.bridges[state.interfaceSettings.modal.selectedBridge]);
   return {
     ...ownProps,
     bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge]

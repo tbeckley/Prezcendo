@@ -71,10 +71,10 @@ class EditingPage extends Component {
       </FlexRow>
           </div>
           : <div className="VersionB">
-              <VersionBGenerate revisions={ this.props.revisions } dispatch={ this.props.dispatch }/>
-              { this.props.revisions && this.props.revisions.length != 0 && 
+              <VersionBGenerate revisions={ this.props.bridgeInfo.revisions } dispatch={ this.props.dispatch }/>
+              { this.props.bridgeInfo.revisions && this.props.bridgeInfo.revisions.length != 0 && 
                 <div className="VersionB Playback">
-                  { this.props.revisions.map( ( bridge, i ) =>
+                  { this.props.bridgeInfo.revisions.map( ( bridge, i ) =>
                     <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("here") }>
                       <Button color={"primary"}>
                         Track {i+1}
@@ -93,14 +93,15 @@ class EditingPage extends Component {
 EditingPage.propTypes = {
   onExit: PropTypes.func,
   bridgeVersionA: PropTypes.bool,
-  revisions: PropTypes.array,
+  bridgeInfo: PropTypes.object,
   dispatch: PropTypes.func,
 };
 
 function mapStateToProps(state, ownProps) {
+  console.log(state.bridges[state.interfaceSettings.modal.selectedBridge]);
   return {
-    revisions: state.bridges[0].revisions,
     ...ownProps,
+    bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge]
   };
 }
 
@@ -136,10 +137,7 @@ class VersionBGenerate extends Component {
   }
 
   createRevision = () => {
-    if(this.props.revisions.length == 0) {
-        // Create a revision
-        this.props.dispatch(actions.createRevision(0, 0)); // Create a dummy revision
-    }
+    this.props.dispatch(actions.createRevision(0)); // Create a dummy revision
   }
 
   changeSlider( parameter, value ) {

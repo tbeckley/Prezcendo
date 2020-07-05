@@ -23,7 +23,6 @@
     flex-direction: column;
 }
 
-.VersionB.Button {
-    display: flex;
-    flex-direction: column;
+.VersionB.Button-Container > * {
+    margin: "5px"
 }

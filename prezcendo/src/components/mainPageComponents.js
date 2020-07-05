@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/App.css";
 
-import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Button, Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
 import EditingPage from "./algorithmInterface/editingPage";
 
 export class HeaderComponent extends React.Component {
@@ -55,7 +55,7 @@ export const ContainerComponent = () => {
           Add a bridge
         </Tooltip>
       </div>
-      <button onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</button>
+      <Button color={"primary"} onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</Button>
       <Modal
         isOpen={bridgeEditorOpen}
         toggle={() => setBridgeEditorOpen(false)}

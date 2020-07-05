@@ -13,6 +13,7 @@ import {
   Col,
   Input,
   Tooltip,
+  Button,
 } from "reactstrap";
 
 import HistoryBar from "../algorithmInterface/historyBar";
@@ -75,17 +76,11 @@ class EditingPage extends Component {
                 <div className="VersionB Playback">
                   { this.props.revisions.map( ( bridge, i ) =>
                     <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("here") }>
-                      <button>
+                      <Button color={"primary"}>
                         Track {i+1}
-                      </button>
+                      </Button>
                     </div>
                   ) }
-                  <button className="VersionB Button" id="TooltipHistory">
-                    History
-                  </button>
-                  <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
-                    Currently not available
-                  </Tooltip>
                 </div>
               }
             </div>
@@ -116,24 +111,27 @@ class VersionBGenerate extends Component {
       super(props);
 
       this.state= {
-        happySad:{
+        parameters: {
+          happySad:{
             names: [ "Happy", "Sad" ],
             min: 0,
             max: 100,
             value: 50,
+          },
+          simpleComplex:{
+            names: [ "Simple", "Complex" ],
+            min: 0,
+            max: 100,
+            value: 50,
+          },
+          duration:{
+            names: [ "Duration", "(seconds)" ],
+            min: 0,
+            max: 10,
+            value: 5,
+          },
         },
-        simpleComplex:{
-          names: [ "Simple", "Complex" ],
-          min: 0,
-          max: 100,
-          value: 50,
-        },
-        duration:{
-          names: [ "Duration", "(seconds)" ],
-          min: 0,
-          max: 10,
-          value: 5,
-        },
+        tooltipOpen: false,
       };
   }
 
@@ -144,7 +142,14 @@ class VersionBGenerate extends Component {
     }
   }
 
+  changeSlider( parameter, value ) {
+    var newParam = this.state.parameters;
+    newParam[parameter].value = value;
+    this.setState({ parameters: newParam });
+  }
+
   render() {
+    const param = this.state.parameters;
     return(
       <div className="VersionB Generate">
         <img 
@@ -153,39 +158,45 @@ class VersionBGenerate extends Component {
           style={{ height: "350px"}}
         />
         <Col>
-          { Object.keys(this.state).map( ( parameter, i ) =>
+          { Object.keys(param).map( ( parameter, i ) =>
             <Col key={ i }>
               <Row>
                 <Col>
-                  <Typography>{ this.state[parameter].names[0] }</Typography>
+                  <Typography>{ param[parameter].names[0] }</Typography>
                 </Col>
                 <Col>
                   <Input
                     type="range"
-                    min={ this.state[parameter].min }
-                    max={ this.state[parameter].max }
-                    value={ this.state[parameter].value }
-                    onChange={ (e) => this.setState({ [parameter]: {...this.state[parameter], value: e.target.value }})}
+                    min={ param[parameter].min }
+                    max={ param[parameter].max }
+                    value={ param[parameter].value }
+                    onChange={ (e) => this.changeSlider( parameter, e.target.value )}
                   ></Input>
                 </Col>
                 <Col>
-                  <Typography>{ this.state[parameter].names[1] }</Typography>
+                  <Typography>{ param[parameter].names[1] }</Typography>
                 </Col>
               </Row>
               <Row style={{ justifyContent:"center"}}>
-                <Typography>{ this.state[parameter].value }</Typography>
+                <Typography>{ param[parameter].value }</Typography>
               </Row>
             </Col>
           ) }
         </Col>
         
         <div className="VersionB Button-Container">
-          <button className="VersionB Button" onClick={this.createRevision}>
+          <Button color={"primary"} onClick={this.createRevision}>
             Generate
-          </button>
-          <button className="VersionB Button">
+          </Button>
+          <Button color={"primary"}>
             Clear
-          </button>
+          </Button>
+          <Button color={"primary"} id="TooltipHistory">
+            History
+          </Button>
+          <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
+            Currently not available
+          </Tooltip>
         </div>
       </div>
     );

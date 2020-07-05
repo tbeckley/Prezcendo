@@ -73,6 +73,27 @@ export default connect(mapStateToProps)(EditingPage);
 class VersionBGenerate extends Component {
   constructor(props) {
       super(props);
+
+      this.state= {
+        happySad:{
+            names: [ "Happy", "Sad" ],
+            min: 0,
+            max: 1,
+            value: 0.5,
+        },
+        simpleComplex:{
+          names: [ "Simple", "Complex" ],
+          min: 0,
+          max: 1,
+          value: 0.5,
+        },
+        duration:{
+          names: [ "Duration", "(seconds)" ],
+          min: 0,
+          max: 10,
+          value: 5,
+        },
+      }
   }
 
   createRevision = () => {
@@ -90,17 +111,33 @@ class VersionBGenerate extends Component {
           alt="Genre Map"
           style={{ height: "350px"}}
         />
-        <div>
-          <input type="range" id="customRange1" min="-100" max="100" step="50" value="0"
-            onChange={ () => console.log("changing value")}
-          />
-          <input type="range" id="customRange1" min="-100" max="100" step="50" value="0"
-            onChange={ () => console.log("changing value")}
-          />
-          <input type="range" id="customRange1" min="-100" max="100" step="50" value="0"
-            onChange={ () => console.log("changing value")}
-          />
-        </div>
+        <Col>
+          { Object.keys(this.state).map( ( parameter, i ) =>
+            <Col key={ i }>
+              <Row>
+                <Col>
+                  <Typography>{ this.state[parameter].names[0] }</Typography>
+                </Col>
+                <Col>
+                  <Input
+                    type="range"
+                    min={ this.state[parameter].min }
+                    max={ this.state[parameter].max }
+                    value={ this.state[parameter].value }
+                    onChange={ (e) => this.setState({ [parameter]: {...this.state[parameter], value: e.target.value }})}
+                  ></Input>
+                </Col>
+                <Col>
+                  <Typography>{ this.state[parameter].names[1] }</Typography>
+                </Col>
+              </Row>
+              <Row style={{ justifyContent:"center"}}>
+                <Typography>{ this.state[parameter].value }</Typography>
+              </Row>
+            </Col>
+          ) }
+        </Col>
+        
         <div className="VersionB Button-Container">
           <button className="VersionB Button" onClick={this.createRevision}>
             Generate

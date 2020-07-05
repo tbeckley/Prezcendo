@@ -72,7 +72,7 @@ class EditingPage extends Component {
           </div>
           : <div className="VersionB">
               <VersionBGenerate revisions={ this.props.revisions } dispatch={ this.props.dispatch }/>
-              { this.props.revisions && this.props.revisions.length && 
+              { this.props.revisions && this.props.revisions.length != 0 && 
                 <div className="VersionB Playback">
                   { this.props.revisions.map( ( bridge, i ) =>
                     <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("here") }>

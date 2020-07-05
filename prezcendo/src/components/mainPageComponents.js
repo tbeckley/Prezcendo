@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/App.css";
 
-import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Button, Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
 import EditingPage from "./algorithmInterface/editingPage";
 
 export class HeaderComponent extends React.Component {
@@ -32,6 +32,9 @@ export const ContainerComponent = () => {
   const [bridgeEditorOpen, setBridgeEditorOpen] = React.useState(false);
   const [bridgeVersionA, setBridgeVersionA] = React.useState(true);
   //   const [prototypeVersion, setPrototypeVersion] = React.useState("1");
+  const [tooltipOpen, setTooltipOpen] = React.useState(false);
+
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   return (
     <div className="App-container">
@@ -46,16 +49,20 @@ export const ContainerComponent = () => {
         <button
           className="App-bridge-button right"
           onClick={() => setBridgeEditorOpen(true)}
+          id="TooltipBridge"
         />
+        <Tooltip placement="bottom" isOpen={tooltipOpen} target="TooltipBridge" toggle={toggle}>
+          Add a bridge
+        </Tooltip>
       </div>
-      <button onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</button>
+      <Button color={"primary"} onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</Button>
       <Modal
         isOpen={bridgeEditorOpen}
         toggle={() => setBridgeEditorOpen(false)}
         centered
       >
         <ModalHeader toggle={() => setBridgeEditorOpen(false)}>
-          Title
+          Version { bridgeVersionA ? "A" : "B"}
         </ModalHeader>
         <ModalBody>
           <EditingPage 

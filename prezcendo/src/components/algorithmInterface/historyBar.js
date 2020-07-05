@@ -38,13 +38,13 @@ class HistoryBar extends Component {
     loadMidis = () => {
         // Load a MIDI file into the revision to simulate a slow connection
         this.props.dispatch(actions.loadArrayBuffer(0, 0,
-            fetch("http://localhost:3000/first.mid")
+            fetch("https://prezcendo.tbeckley.com/first.mid")
                 .then(responseToArrayBuffer)));
 
         // Delay to avoid race condition that seemingly crops up
         setTimeout(() =>
             this.props.dispatch(actions.loadArrayBuffer(0, 1,
-                fetch("http://localhost:3000/last.mid")
+                fetch("https://prezcendo.tbeckley.com/last.mid")
                     .then(responseToArrayBuffer))), 1000);
     }
 

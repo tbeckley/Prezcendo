@@ -69,7 +69,7 @@ class MusicBox extends Component {
                 <Row style={{ borderStyle: 'solid', backgroundColor: this.props.revDetails.color }}>
                     <Col md={8}>
                         <span style={{ alignItems: "center", display: 'flex', flexDirection: 'column' }} >
-                            {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.rev}` : 'No song selected'} <br />
+                            {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revID}` : 'No song selected'} <br />
                             <img src={waveFormImg} height={40} /> <br />
                             { this.props.hasMusic ? `Length - ${(time-(time%=60))/60+(9<time?':':':0')+time}` : `No song selected`}
                          </span>

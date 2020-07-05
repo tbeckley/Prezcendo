@@ -80,54 +80,38 @@ def weighted_choice(weights):
     #print("WEIGHT: " + str(i))
     return i
 
-def genInitPop(childAmt):
+def genInitPop(childAmt, crossVer):
     #init first population (from midi/tyler)
-    gene1 = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2,
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2],
+
+    #careless whisper
+    gene1 = [[19, -2, -2, -2, 17, -2, 12, -2, -2, -2, 8, -2, -2, -2, -2, -2, 19, -2, -2, -2, 17, -2, 12, -2, -2, -2, 8, -2, -2, -2, -1, -1,  15, -2, -2, -2, 13, -2, 8, -2, -2, -2, 5, -2, -2, -2, -2, -2, 15, -2, -2, -2, 13, -2, 8, -2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, 12, -2, 8, -2, -2, -2, -2, -2, 5, -2, -2, -2, 1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, 1, -2, -2, -2, 3, -2, -2, -2, 5, -2, -2, -2, 7, -2, -2, -2, 8, -2, -2, -2, 10, -2, -2, -2, 12, -2, -2, -2],
         
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    gene2 =  [[10, -2, -2, 24, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        3, -2, 4, -2, -1, 0, -1, 5, -2, -1, -1, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2,
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, 8, -2, -2, 0, -1, 5, -2, -1, -1, 7, -2, -2, -2, -2, 
-        24, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -1, -1, 
-        0, 9, -2, 7, -2, 0, -1, 5, -2, -2, -2, 7, -2, 6, 0, 7],
+        [-1, -1, -1, -1, 5, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, 10, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, -1, 0, -2, -2, -2, -1, -1, 1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, 12, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, 12, -2, -1, -1, 12, -2, -2, -2, -2, -2, -2, -2, -2, -2]]
+    
+    #giorno's theme
+    gene2 =  [[12, -2, -2, -2, -1, -1, 8, -2, -2, -2, -2, -2, -1, -1, 8, 10, 11, -2, -2, 10, -2, -2, 8, -2, 7, -2, -2, 8, -2, -2, 10, -2, 12, -2, -1, 12, -1, -1, 17, -2, -2, -2, -2, -2, 5, -1, 7, -1, 8, -2, -2, 10, -2, -2, 8, -2, 9, -2, -2, 15, -2, -2, 13, -2, 12, -2, -2, -2, -1, -1, 8, -2, -2, -2, -2, -2, -1, -1, 8, 10, 11, -2, -2, 10, -2, -2, 8, -2, 7, -2, -2, 8, -2, -2, 10, -2, 12, -2, -2, -2, -1, -1, 17, -2, -2, -2, -2, -1, 17, -1, 19, -1, 20, -2, -2, 13, -2, -2, 12, -2, 11, -2, -2, 20, -2, -2, 16, -2],
         
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        [5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, -2, -2, -2, -2, 5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, -2, -2, -2, -2, 5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, -2, -2, -2, -2, 5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -2, -2, 0, -2, -2, -2, -2, -2, -2, -2]]
 
     DNA1 = DNA(4, 4, 2, gene1)
     DNA2 = DNA(4, 4, 2)
 
+    jazz = fitnessFunc("Jazz")
+    print("Careless Whisper: " + str(jazz.fitnessCalc(gene1, 0))) #originally in B, transposed to C, lowest note C
+    print("Giorno's theme: " + str(jazz.fitnessCalc(gene2, 7))) #originally in D, transposed to G, lowest note A
+
     children = []
 
-    for i in range(childAmt):
-        children.append(DNA1.crossover(DNA2))
+    if crossVer == 1:
+        for i in range(childAmt):
+            children.append(DNA1.crossover(DNA2))
+    else:
+        for i in range(childAmt):
+            children.append(DNA1.crossover2(DNA2))
     
     return children
 
-def evolution(gen, childAmt, tonic, initialPop):
+def evolution(gen, childAmt, tonic, initialPop, crossVer):
     children = initialPop
     jazz = fitnessFunc("Jazz")
 
@@ -150,12 +134,16 @@ def evolution(gen, childAmt, tonic, initialPop):
             parent1 = children[index1]
             parent2 = children[index2]
 
-            newChildren.append(parent1.crossover(parent2))
+            if crossVer == 1:
+                newChildren.append(parent1.crossover(parent2))
+            else:
+                newChildren.append(parent1.crossover2(parent2))
+
             newChildren[-1].mutate() #mutates last element
 
         children = newChildren
 
-    print(fitness)
+    print("FITNESS: " + str(fitness))
     return children
     
 
@@ -168,11 +156,14 @@ def evolution(gen, childAmt, tonic, initialPop):
 #msg = "Hello World. Python is running on your computer."
 #print(msg)
 
-#separated because it keeps lagging out my computer otherwise. ideally you could just put in as many gen as you want...
-init = genInitPop(10)
-children = evolution(1, 10, 0, init)
-children = evolution(5, 10, 0, children)
-children = evolution(10, 10, 0, children)
+crossVer = 1
+init = genInitPop(10, crossVer)
+children = evolution(1, 10, 0, init, crossVer)
+children = evolution(1, 10, 0, children, crossVer)
+children = evolution(1, 10, 0, children, crossVer)
+children = evolution(3, 10, 0, children, crossVer)
+children = evolution(5, 10, 0, children, crossVer)
+children = evolution(10, 10, 0, children, crossVer)
 
 for val in children:
     print(val.gene)

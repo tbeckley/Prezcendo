@@ -52,7 +52,7 @@ class DNA:
         for track in range(len(self.gene)):
             for note in range(len(self.gene[track])):
                 surprise = random.random()
-                print("Will it mutate? " + str(surprise))
+                # print("Will it mutate? " + str(surprise))
                 # if ((surprise >= self.mutationRate) and (self.gene[track][note] > -1)):
                 #     newNote = random.randrange(-1, 25) # random from -1 to 24
                 #     self.gene[track][note] = newNote
@@ -60,7 +60,7 @@ class DNA:
                 #     newNote = random.randrange(-2, 25) # random from -2 to 24
                 #     self.gene[track][note] = newNote
                 if ((surprise <= self.mutationRate)):
-                    print("Yes it will!")
+                    # print("Yes it will!")
                     newNote = random.randrange(-2, 5) # 1/6 chance of being rest or hold, 4/6 chance of being new note
                     if (newNote >= 0):
                         newNote = random.randrange(0, 25)

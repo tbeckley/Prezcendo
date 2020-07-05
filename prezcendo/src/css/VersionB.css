@@ -28,3 +28,9 @@
 .VersionB.Button-Container > * {
     margin: 5px
 }
+
+.fa-star {
+    position: relative;
+    top: 20px;
+    right: 57px;
+}

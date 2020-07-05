@@ -25,6 +25,7 @@ class EditingPage extends Component {
       
       this.state={
         tooltipOpen: false,
+        favTrack: null,
       };
   }
 
@@ -77,8 +78,8 @@ class EditingPage extends Component {
                   { this.props.bridgeInfo.revisions.map( ( bridge, i ) =>
                     <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("Playing track ", i + 1) }>
                       Track {i+1}
-                      <Button color={"primary"} style={{ width: "70px"}}>
-                        
+                      <i className={ this.state.favTrack == i ? "fas fa-star": "far fa-star"} onClick={ () => this.setState({ favTrack: i }) } />
+                      <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
                         <i className="fa fa-play" />
                       </Button>
                     </div>

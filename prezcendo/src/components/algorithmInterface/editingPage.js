@@ -5,25 +5,38 @@ import "../../css/VersionB.css";
 import { connect } from "react-redux";
 import { Component } from "react";
 
-import { FlexRow, FlexCol } from "./common";
+import { FlexRow, FlexCol, Typography } from "./common";
 import SettingsControl from "./settingsControl";
+import actions from "../../store/actions";
+import {
+  Row,
+  Col,
+  Input
+} from "reactstrap";
 
 import HistoryBar from "../algorithmInterface/historyBar";
 import MusicBox from '../algorithmInterface/musicBox';
 
-const EditingPage = ({ onExit }) => {
-  return (
-    <div>
-      <FlexRow
-        css={css`
-          justify-content: center;
-          background: rgba(38, 38, 38);
-          height: 100px;
-        `}
-      >
-        <HistoryBar bridgeID={0} />
-      </FlexRow>
-      <FlexRow
+class EditingPage extends Component {
+  constructor(props) {
+      super(props);
+  }
+
+  render () {
+    return (
+      <div>
+        { this.props.bridgeVersionA ? 
+          <div>
+            <FlexRow
+              css={css`
+                justify-content: center;
+                background: rgba(38, 38, 38);
+                height: 100px;
+              `}
+            >
+              <HistoryBar bridgeID={0} />
+            </FlexRow>
+            <FlexRow
         css={css`
           height: 50vh;
         `}
@@ -45,14 +58,34 @@ const EditingPage = ({ onExit }) => {
         >
           {/* Selection Box */}
 
-          <SettingsControl onExit={onExit} />
+          <SettingsControl onExit={this.props.onExit} />
         </FlexCol>
 
 
       </FlexRow>
+          </div>
+          : <div className="VersionB">
+              <VersionBGenerate revisions={ this.props.revisions } dispatch={ this.props.dispatch }/>
+              { this.props.revisions && this.props.revisions.length && 
+                <div className="VersionB Playback">
+                  { this.props.revisions.map( ( bridge, i ) =>
+                    <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("here") }>
+                      <button>
+                        Track {i+1}
+                      </button>
+                    </div>
+                  ) }
+                  <button className="VersionB Button">
+                    History
+                  </button>
+                </div>
+              }
+            </div>
+        }
     </div>
-  );
-};
+    );
+  }
+}
 
 EditingPage.propTypes = {
   onExit: PropTypes.func,
@@ -93,7 +126,7 @@ class VersionBGenerate extends Component {
           max: 10,
           value: 5,
         },
-      }
+      };
   }
 
   createRevision = () => {

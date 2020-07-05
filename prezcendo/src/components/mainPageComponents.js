@@ -28,7 +28,6 @@ export class HeaderComponent extends React.Component {
   }
 }
 
-<<<<<<< HEAD
 export const ContainerComponent = () => {
   const [bridgeEditorOpen, setBridgeEditorOpen] = React.useState(false);
   const [bridgeVersionA, setBridgeVersionA] = React.useState(true);
@@ -48,58 +47,6 @@ export const ContainerComponent = () => {
           className="App-bridge-button right"
           onClick={() => setBridgeEditorOpen(true)}
         />
-=======
-export class ContainerComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: true,
-      versionA: false,
-      bridge: {
-        history: [],
-        playback: [1,2,3],
-        edits: [],
-      },
-    };
-  }
-
-  toggle() {
-      this.setState({ versionA: !this.state.versionA });
-  }
-
-  render() {
-    return (
-      <div className="App-container">
-        <div style={{ position: "relative" }}>
-          <img
-            src={require("../assets/prezcendo_blocks.PNG")}
-            style={{ height: "auto", width: "100%" }}
-            alt="blocks"
-          />
-          <button className="App-bridge-button left" />
-          <button className="App-bridge-button middle" />
-          <button
-            className="App-bridge-button right"
-            onClick={() => this.setState({ isOpen: true })}
-          />
-          <button color="primary" onClick={() => this.toggle()} style={{ marginBottom: '1rem' }}>Toggle</button>
-        </div>
-        <Modal
-          isOpen={this.state.isOpen}
-          toggle={() => this.setState({ isOpen: false })}
-          centered
-        >
-          <ModalHeader toggle={() => this.setState({ isOpen: false })}>
-            Title
-          </ModalHeader>
-          <ModalBody>
-            <EditingPage 
-                versionA={ this.state.versionA }
-                bridge={ this.state.bridge }
-            />
-          </ModalBody>
-        </Modal>
->>>>>>> 70c8f76... Added versionB sliders
       </div>
       <button onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</button>
       <Modal

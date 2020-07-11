@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import actions from '../../store/actions';
 import { responseToArrayBuffer } from '../../helpers/midiHelper';
+import { getBaseURL } from '../../helpers/webHelper';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import { MdArrowForward } from 'react-icons/md';
@@ -26,7 +27,9 @@ class HistoryBar extends Component {
 
         this.createRevision(0); // Create two test revisions for the history bar
         this.createRevision(0); // The second test revision
+    }
 
+    componentDidMount() {
         this.loadMidis();
     }
 
@@ -36,15 +39,17 @@ class HistoryBar extends Component {
     }
 
     loadMidis = () => {
+        const MIDIURL = getBaseURL();
+
         // Load a MIDI file into the revision to simulate a slow connection
         this.props.dispatch(actions.loadArrayBuffer(0, 0,
-            fetch("https://prezcendo.tbeckley.com/first.mid")
+            fetch(`${MIDIURL}/first.mid`)
                 .then(responseToArrayBuffer)));
 
         // Delay to avoid race condition that seemingly crops up
         setTimeout(() =>
             this.props.dispatch(actions.loadArrayBuffer(0, 1,
-                fetch("https://prezcendo.tbeckley.com/last.mid")
+                fetch(`${MIDIURL}/last.mid`)
                     .then(responseToArrayBuffer))), 1000);
     }
 

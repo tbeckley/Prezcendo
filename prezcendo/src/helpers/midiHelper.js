@@ -27,15 +27,12 @@ export async function playMusic(music, onceComplete = null) {
   const synth = new Tone.Synth().toMaster();
   synth.sync();
 
-  //   for (let track of music.tracks)
-  //     for (let note of track.notes)
-  //       synth.triggerAttackRelease(note.name, note.duration, note.time);
-
-  //   FOR DEMO
-  setTimeout(onceComplete, 9000);
+  for (let track of music.tracks)
+    for (let note of track.notes)
+      synth.triggerAttackRelease(note.name, note.duration, note.time);
 
   Tone.Transport.scheduleOnce(() => {
-    Tone.Transport.emit("cleanup");
+    stopMusic();
     onceComplete();
   }, getMaxLength(music));
 
@@ -48,6 +45,10 @@ export async function playMusic(music, onceComplete = null) {
       Tone.Transport.stop();
     }, Tone.Transport.seconds + 0.1);
   });
+}
+
+export function getPlaybackTime() {
+  return Tone.Transport.state == "stopped" ? 0 : Tone.Transport.getSecondsAtTime();
 }
 
 export async function stopMusic() {

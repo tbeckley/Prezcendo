@@ -7,7 +7,8 @@ import { MdPlayArrow, MdStop } from 'react-icons/md';
 
 import { getObjectFromArray,
             playMusic, stopMusic,
-            isPlaying, getMaxLength } from '../../helpers/midiHelper';
+            isPlaying, getMaxLength,
+            getPlaybackTime } from '../../helpers/midiHelper';
 
 import waveFormImg from '../../assets/WaveForm.png';
 
@@ -40,11 +41,21 @@ class MusicBox extends Component {
 
     play = () => {
         playMusic(getObjectFromArray(this.props.revDetails.MIDI),
-            () => this.setState({ playing: false }
-        ));
+            () => {
+                this.setState({ playing: false });
+                console.log("STOPPING");
+            }
+        );
+
+        var intervalID = setInterval(() => {
+            this.setState({
+                playbackStatus: Math.ceil(getPlaybackTime())
+            });
+        }, 100);
 
         this.setState({
-            playing: true
+            playing: true,
+            playbackIntervalID: intervalID
         });
     };
 
@@ -54,6 +65,8 @@ class MusicBox extends Component {
         this.setState({
             playing: false
         });
+
+        clearInterval(this.state.playbackIntervalID);
     };
 
     render() {
@@ -71,7 +84,8 @@ class MusicBox extends Component {
                         <span style={{ alignItems: "center", display: 'flex', flexDirection: 'column' }} >
                             {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revID}` : 'No song selected'} <br />
                             <img src={waveFormImg} height={40} /> <br />
-                            { this.props.hasMusic ? `Length - ${(time-(time%=60))/60+(9<time?':':':0')+time}` : `No song selected`}
+                            { this.props.hasMusic ? `Length - ${(time-(time%=60))/60+(9<time?':':':0')+time}` : `No song selected`} <br />
+                            TIME: { this.state.playbackStatus }
                          </span>
                     </Col>
                     <Col md={4} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>

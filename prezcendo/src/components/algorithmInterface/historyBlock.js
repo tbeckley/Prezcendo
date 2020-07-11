@@ -9,8 +9,6 @@ import PropTypes from 'prop-types';
 import actions from '../../store/actions';
 
 function mapStateToProps(state, ownProps) {
-    console.log(state.interfaceSettings.modal.selectedRevision);
-
     return {
         selected: (ownProps.revID == state.interfaceSettings.modal.selectedRevision)
     };

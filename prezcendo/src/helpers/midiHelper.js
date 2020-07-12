@@ -3,43 +3,82 @@ import Tone from "tone";
 
 import * as R from "ramda";
 
+import { getBaseURL } from './webHelper';
+
+// RESPONSE
 export async function responseToArrayBuffer(resp) {
   return await (await resp.blob()).arrayBuffer();
 }
 
 export const getObjectFromArray = (arrayBuffer) => new Midi(arrayBuffer);
 
-export const getMaxLength = (music) =>
-  Math.max(
-    ...R.map(
-      R.pipe(R.props(["time", "duration"], R.__), R.sum),
-      R.filter(
-        R.pipe(R.isNil, R.not),
-        R.map(R.pipe(R.prop("notes"), R.last), music.tracks)
-      )
-    )
-  );
+// MUSIC INFO
+export const getMaxLength = (music) => Math.max(
+    ...R.map(R.pipe(R.props(["time", "duration"], R.__), R.sum),
+    R.filter(R.pipe(R.isNil, R.not), R.map(R.pipe(R.prop("notes"), R.last), music.tracks))));
 
-export async function playMusic(music, onceComplete = null) {
+// Match up track names to our names - Logic TBD
+export function getInstrumentName (instrument) {
+  switch(instrument) {
+    default:
+      return "piano"; // For now, everything is a piano
+  }
+}
+
+// Take the track and get hthe name property
+export const getInstrumentFromTrack = R.pipe(R.path(['instrument', 'name']), getInstrumentName);
+
+export function getInstrumentsToAdd(existingInstruments, music) {
+  const requiredInstruments = R.uniq(R.map(getInstrumentFromTrack, music.tracks));
+  const toCreate = R.difference(requiredInstruments, R.keys(existingInstruments)); // Find required items that are not loaded
+
+  const BASE_URL = getBaseURL();
+
+  return R.fromPairs(R.transpose([toCreate, R.map(instrument =>
+    new Tone.Sampler(generateSourceMap(".ogg"), () => {}, `${BASE_URL}/samples/${instrument}/`).toMaster(), toCreate)]));
+}
+
+export function generateSourceMap(extesion='.ogg') {
+  const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+  const nums = R.map(R.toString, R.range(1, 7));
+
+  let fullNotes = R.map(R.reduce(R.concat, ""), R.xprod(notes, nums));
+
+  return R.fromPairs(R.transpose([fullNotes, R.map(R.pipe(R.concat(R.__, extesion), R.replace("#", "s")), fullNotes)]));
+}
+
+export async function playMusic(music, onceComplete = null, instruments = {}) {
   await Tone.start(); // TODO - Is running
-  Tone.Transport.stop();
 
-  const synth = new Tone.Synth().toMaster();
-  synth.sync();
+  Tone.Transport.stop(); // I shouldn't need this, keeping for safety
+
+  const requiredInstruments = R.props(R.uniq(R.map(getInstrumentFromTrack, music.tracks)), instruments);
+
+  // Sync all the instruments
+  requiredInstruments.map(i => i.sync());
+
+  // Prepare the cleanup
+  const cleanupFunctions = ['releaseAll', 'unsync'];
+  const onCleanup = R.map(i => (() => i[0][i[1]]()), R.xprod(requiredInstruments, cleanupFunctions));
 
   for (let track of music.tracks)
+  {
+    let instrument = instruments[getInstrumentFromTrack(track)];
     for (let note of track.notes)
-      synth.triggerAttackRelease(note.name, note.duration, note.time);
+      instrument.triggerAttackRelease(note.name, note.duration, note.time);
+  }
 
   Tone.Transport.scheduleOnce(() => {
     stopMusic();
     onceComplete();
   }, getMaxLength(music));
 
+  let qq = Tone.Transport; // eslint-disable-line
+
   Tone.Transport.start();
 
   Tone.Transport.on("cleanup", () => {
-    synth.triggerRelease();
+    R.map(R.call, onCleanup);
 
     Tone.Transport.scheduleOnce(() => {
       Tone.Transport.stop();

@@ -13,7 +13,8 @@ import HistoryBlock from './historyBlock';
 
 function mapStateToProps(state) {
     return {
-        bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge]
+        bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
+        instruments: state.instruments
     };
 }
 
@@ -27,6 +28,7 @@ class HistoryBar extends Component {
 
         this.createRevision(0); // Create two test revisions for the history bar
         this.createRevision(0); // The second test revision
+        this.props.dispatch(actions.setSelectedRevision(0));
     }
 
     componentDidMount() {
@@ -42,19 +44,19 @@ class HistoryBar extends Component {
         const MIDIURL = getBaseURL();
 
         // Load a MIDI file into the revision to simulate a slow connection
-        this.props.dispatch(actions.loadArrayBuffer(0, 0,
+        this.props.dispatch(actions.handleMIDI(0, 0,
             fetch(`${MIDIURL}/first.mid`)
                 .then(responseToArrayBuffer)));
 
         // Delay to avoid race condition that seemingly crops up
         setTimeout(() =>
-            this.props.dispatch(actions.loadArrayBuffer(0, 1,
+            this.props.dispatch(actions.handleMIDI(0, 1,
                 fetch(`${MIDIURL}/last.mid`)
                     .then(responseToArrayBuffer))), 1000);
     }
 
     getBlock = (v, k) => <HistoryBlock
-        key={k} revID={k} bridgeID={this.props.bridgeID} style={{
+        key={k} revisionID={k} bridgeID={this.props.bridgeID} style={{
         }} />;
 
     render() {
@@ -65,17 +67,15 @@ class HistoryBar extends Component {
 
                     </Col>
                     <Col md={10} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-                        {this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
+                        { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
 
-                        {this.props.bridgeInfo.revisions.slice(1).map((v, k) =>
-                            [ <MdArrowForward key={k} size={50} />, this.getBlock(v,k+1) ] )}
+                        {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowForward key={k} size={50} />, this.getBlock(v,k+1) ] )}
                     </Col>
                     <Col md={1}>
 
                     </Col>
                 </Row>
-
-                </Container>
+            </Container>
         );
     }
 }

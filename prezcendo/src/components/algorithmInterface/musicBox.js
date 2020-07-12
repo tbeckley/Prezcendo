@@ -19,9 +19,10 @@ function mapStateToProps(state) {
             : {};
 
     return {
-        revID: ui.selectedRevision,
+        revisionID: ui.selectedRevision,
         revDetails,
-        hasMusic: Boolean(revDetails.MIDI)
+        hasMusic: Boolean(revDetails.MIDI),
+        instruments: state.instruments
     };
 }
 
@@ -43,8 +44,8 @@ class MusicBox extends Component {
         playMusic(getObjectFromArray(this.props.revDetails.MIDI),
             () => {
                 this.setState({ playing: false });
-                console.log("STOPPING");
-            }
+            },
+            this.props.instruments
         );
 
         var intervalID = setInterval(() => {
@@ -82,10 +83,10 @@ class MusicBox extends Component {
                 <Row style={{ borderStyle: 'solid', backgroundColor: this.props.revDetails.color }}>
                     <Col md={8}>
                         <span style={{ alignItems: "center", display: 'flex', flexDirection: 'column' }} >
-                            {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revID}` : 'No song selected'} <br />
+                            {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revisionID}` : 'No song selected'} <br />
                             <img src={waveFormImg} height={40} /> <br />
                             { this.props.hasMusic ? `Length - ${(time-(time%=60))/60+(9<time?':':':0')+time}` : `No song selected`} <br />
-                            TIME: { this.state.playbackStatus }
+                            Time: { this.state.playbackStatus }
                          </span>
                     </Col>
                     <Col md={4} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
@@ -105,12 +106,14 @@ MusicBox.propTypes = {
     rev: PropTypes.number,
     hasMusic: PropTypes.bool,
     style: PropTypes.object,
-    revID: PropTypes.number
+    revisionID: PropTypes.number,
+    instruments: PropTypes.object
 };
 
 MusicBox.defaultProps = {
     bridge: 0,
-    rev: 0
+    rev: 0,
+    instruments: {},
 };
 
 export default connect(mapStateToProps)(MusicBox);

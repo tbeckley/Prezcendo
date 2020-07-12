@@ -9,10 +9,8 @@ import PropTypes from 'prop-types';
 import actions from '../../store/actions';
 
 function mapStateToProps(state, ownProps) {
-    console.log(state.interfaceSettings.modal.selectedRevision);
-
     return {
-        selected: (ownProps.revID == state.interfaceSettings.modal.selectedRevision)
+        selected: (ownProps.revisionID == state.interfaceSettings.modal.selectedRevision)
     };
 }
 
@@ -25,7 +23,7 @@ class HistoryBlock extends Component {
     select = () => {
         this.props.dispatch(
             actions.setSelectedRevision(
-                this.props.revID));
+                this.props.revisionID));
     }
 
     render() {
@@ -33,7 +31,7 @@ class HistoryBlock extends Component {
             <Container fluid style={{ ...style, ...this.props.style}} onClick={this.select}>
                 <Row>
                     <Col>
-                        REVISION {this.props.revID} {this.props.selected ? '*' : ''}
+                        REVISION {this.props.revisionID} {this.props.selected ? '*' : ''}
                     </Col>
                 </Row>
             </Container>
@@ -49,7 +47,7 @@ const style={
 
 HistoryBlock.propTypes = {
     style: PropTypes.object,
-    revID: PropTypes.number,
+    revisionID: PropTypes.number,
     selected: PropTypes.bool,
     dispatch: PropTypes.func
 };

@@ -68,7 +68,7 @@ class fitnessFunc:
             if val == -1:  # rest
                 curRestLen += 1
 
-                if (next is None) or (next != -2):
+                if (next is None) or (next != -1):
                     if curRestLen == 2:
                         restEight += 1
                     elif curRestLen == 4:
@@ -80,7 +80,7 @@ class fitnessFunc:
                 curNoteLen += 1
 
                 # check for dotted quarter notes
-                if (next is None) or (next == -2):
+                if (next is None) or (next == -1):
                     if curNoteLen == 6:
                         dottedQuarter += 1
                     elif curNoteLen == 16:

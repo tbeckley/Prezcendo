@@ -114,13 +114,16 @@ def genInitPop(childAmt, crossVer):
 def evolution(gen, childAmt, tonic, initialPop, crossVer):
     children = initialPop
     jazz = fitnessFunc("Jazz")
+    total = 0
 
     for g in range(gen):
+        total = 0
         fitness = []
 
         for val in children:
             #print(val.gene)
             fitness.append(jazz.fitnessCalc(val.gene, tonic))
+            total += fitness[-1]
         #print(fitness)
 
         newChildren = []
@@ -144,6 +147,7 @@ def evolution(gen, childAmt, tonic, initialPop, crossVer):
         children = newChildren
 
     print("FITNESS: " + str(fitness))
+    print(total)
     return children
     
 
@@ -156,7 +160,7 @@ def evolution(gen, childAmt, tonic, initialPop, crossVer):
 #msg = "Hello World. Python is running on your computer."
 #print(msg)
 
-crossVer = 1 #TODO: CHANGE THIS
+crossVer = 2 #TODO: CHANGE THIS
 init = genInitPop(10, crossVer)
 
 #gen 1
@@ -170,7 +174,7 @@ children = evolution(2, 10, 0, children, crossVer)
 #gen 10
 children = evolution(5, 10, 0, children, crossVer)
 #gen 20
-children = evolution(10, 10, 0, children, crossVer)
+children = evolution(100, 10, 0, children, crossVer)
 
 for val in children:
     print(val.gene)

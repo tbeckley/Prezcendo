@@ -88,7 +88,6 @@ class MusicBox extends Component {
                             {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revisionID}` : 'No song selected'} <br />
                             <img src={waveFormImg} height={40} /> <br />
                             <PlaybackBar duration={time} />
-                            Time: { this.state.playbackStatus }
                          </span>
                     </Col>
                     <Col md={4} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>

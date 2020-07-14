@@ -4,7 +4,7 @@ import { ProgressBar, Container, Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import { getPlaybackTime, isPlaying } from '../helpers/midiHelper';
-
+import { toTimeNotation } from '../helpers/unitHelper';
 
 function mapStateToProps() { // Stub
     return {
@@ -42,8 +42,11 @@ class PlaybackBar extends Component {
             <Container fluid>
                 <Row>
                     <Col>
-                        <ProgressBar min={0} max={this.props.duration} now={ this.state.time } style={{ width: '100%' }} />
+                        <ProgressBar min={0} now={ this.state.time } max={ this.props.duration }  style={{ width: '100%', height: '100%' }} />
                     </Col>
+                    <div>
+                        { toTimeNotation(this.state.time) } / { toTimeNotation(this.props.duration) }
+                    </div>
                 </Row>
             </Container>
         );

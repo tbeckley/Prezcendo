@@ -12,6 +12,8 @@ import { getObjectFromArray,
 
 import waveFormImg from '../../assets/WaveForm.png';
 
+import PlaybackBar from '../playbackBar';
+
 function mapStateToProps(state) {
     let ui = state.interfaceSettings.modal;
     let revDetails = ui.selectedBridge != null && ui.selectedRevision != null
@@ -85,7 +87,7 @@ class MusicBox extends Component {
                         <span style={{ alignItems: "center", display: 'flex', flexDirection: 'column' }} >
                             {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revisionID}` : 'No song selected'} <br />
                             <img src={waveFormImg} height={40} /> <br />
-                            { this.props.hasMusic ? `Length - ${(time-(time%=60))/60+(9<time?':':':0')+time}` : `No song selected`} <br />
+                            <PlaybackBar duration={time} />
                             Time: { this.state.playbackStatus }
                          </span>
                     </Col>

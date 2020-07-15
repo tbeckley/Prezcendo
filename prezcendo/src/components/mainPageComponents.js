@@ -44,14 +44,14 @@ class ContainerComponent extends React.Component {
       super(props);
 
       this.state={
-        transitionEditorOpen: false,
+        editorOpen: false,
         transitionTipOpen: false,
       };
   }
 
   toggleTip = () => this.setState({ transitionTipOpen: !this.state.transitionTipOpen});
 
-  closeEditor = () => this.setState({transitionEditorOpen: false});
+  closeEditor = () => this.setState({editorOpen: false});
 
   render() {
     return (
@@ -66,14 +66,14 @@ class ContainerComponent extends React.Component {
           <button className="App-transition-button middle" />
           <button
             className={ "App-transition-button right" + (this.props.transitionEmpty ? " empty" : "") }
-            onClick={() => this.setState({transitionEditorOpen: true})}
+            onClick={() => this.setState({editorOpen: true})}
             id="TooltipBridge"
           />
           <Tooltip placement="bottom" isOpen={this.state.transitionTipOpen} target="TooltipBridge" toggle={this.toggleTip}>
             Add a transition
           </Tooltip>
         </div>
-        <Modal isOpen={this.state.transitionEditorOpen} toggle={this.closeEditor} >
+        <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
           <ModalHeader toggle={this.closeEditor}>
             GENERATE A TRANSITION
           </ModalHeader>

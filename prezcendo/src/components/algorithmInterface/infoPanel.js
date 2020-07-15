@@ -1,20 +1,18 @@
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
 import PropTypes from "prop-types";
 import "../../css/VersionB.css";
 import { connect } from "react-redux";
-import { Component } from "react";
+import React, { Component } from "react";
 
+import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { FlexRow, FlexCol, Typography } from "./common";
-import SettingsControl from "./settingsControl";
 import actions from "../../store/actions";
 import {
   Row,
   Col,
   Input,
-  Tooltip,
   Button,
 } from "reactstrap";
+
 
 import MusicBox from './musicBox';
 
@@ -30,25 +28,22 @@ class InfoPanel extends Component {
 
   render () {
     return (
-      <div>
-        
-          <div className="VersionB">
-              <VersionBGenerate revisions={ this.props.bridgeInfo.revisions } dispatch={ this.props.dispatch }/>
-              { this.props.bridgeInfo.revisions && this.props.bridgeInfo.revisions.length != 0 && 
-                <div className="VersionB Playback">
-                  { this.props.bridgeInfo.revisions.map( ( bridge, i ) =>
-                    <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("Playing track ", i + 1) }>
-                      Track {i+1}
-                      <i className={ this.state.favTrack == i ? "fas fa-star": "far fa-star"} onClick={ () => this.setState({ favTrack: i }) } />
-                      <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
-                        <i className="fa fa-play" />
-                      </Button>
-                    </div>
-                  ) }
-                </div>
-              }
-            </div>
-    </div>
+      <div className="VersionB">
+        <VersionBGenerate revisions={ this.props.bridgeInfo.revisions } dispatch={ this.props.dispatch }/>
+        { this.props.bridgeInfo.revisions && this.props.bridgeInfo.revisions.length != 0 && 
+          <div className="VersionB Playback">
+            { this.props.bridgeInfo.revisions.map( ( bridge, i ) =>
+              <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("Playing track ", i + 1) }>
+                Track {i+1}
+                <i className={ this.state.favTrack == i ? "fas fa-star": "far fa-star"} onClick={ () => this.setState({ favTrack: i }) } />
+                <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
+                  <i className="fa fa-play" />
+                </Button>
+              </div>
+            ) }
+          </div>
+        }
+      </div>
     );
   }
 }
@@ -95,8 +90,11 @@ class VersionBGenerate extends Component {
           },
         },
         tooltipOpen: false,
+        editorOpen: false,
       };
   }
+
+  closeEditor = () => this.setState({editorOpen: false});
 
   createRevision = () => {
     this.props.dispatch(actions.createRevision(0)); // Create a dummy revision
@@ -126,7 +124,7 @@ class VersionBGenerate extends Component {
                     max={ param[parameter].max }
                     value={ param[parameter].value }
                     onChange={ (e) => this.changeSlider( parameter, e.target.value )}
-                  ></Input>
+                  />
                 </Col>
                 <Col>
                   <Typography>{ param[parameter].names[1] }</Typography>
@@ -138,12 +136,23 @@ class VersionBGenerate extends Component {
             </Col>
           ) }
         </Col>
+
+        <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
+          <ModalHeader toggle={this.closeEditor}>
+            NEW GENERATION
+          </ModalHeader>
+          <ModalBody>
+            SECOND MODAL
+          </ModalBody>
+        </Modal>
         
         <div className="VersionB Button-Container">
           <Button color={"primary"} onClick={this.createRevision}>
             Generate
           </Button>
-          <Button color={"primary"}>
+          <Button color={"primary"}
+            onClick={() => this.setState({editorOpen: true})}
+          >
             Clear
           </Button>
           <Button color={"primary"} id="TooltipHistory">

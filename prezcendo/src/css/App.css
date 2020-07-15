@@ -24,8 +24,10 @@
 .App-container {
   width: 100%;
   height: 100%;
+  overflow-x: auto;
+  scrollbar-color: var(--grey-dark);
   background-color: var(--grey-medium);
-  padding-top: 20vh;
+  padding: 20vh 2% 10vh;
 }
 
 .App-link {
@@ -36,10 +38,11 @@
   border-radius: 50%;
   background-color: var(--grey-light);
   border: 5px solid var(--grey-light);
+  height: 15px;
+  width: 15px;
   padding: 15px;
   z-index: 1;
-  position: absolute;
-  top: 35%;
+  box-shadow: 0 0 5pt 1pt rgba(0, 0, 0, 0.8);
 }
 
 .App-transition-button:hover {

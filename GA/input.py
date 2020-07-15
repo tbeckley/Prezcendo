@@ -18,5 +18,6 @@ input_filename = 'CarelessWhisper.mid'
 print(service.midi_file_to_input_convention(input_filename))
 
 # for output
-midi_array = service.convert_output_array_to_midi_array(song_notes_for_output)
-service.play_midi(midi_array)
+midi_stream = service.convert_output_array_to_midi_array(song_notes_for_output)
+service.create_midi_file(midi_stream, output_filename)
+service.play_midi(midi_stream)

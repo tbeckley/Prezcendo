@@ -71,6 +71,7 @@ def convert_output_array_to_midi_array(song_notes_for_output):
                 n = Note(letter_note_array[0] + str(letter_note_array[1]))
                 n.quarterLength = 0.25
                 s.append(n)
+    return s
 
 
 # create a midi file by providing name and array to add as input for the file

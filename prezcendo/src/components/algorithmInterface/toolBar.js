@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Button } from "reactstrap";
 import { FlexRow } from "./common";
 
+import MusicBox from './musicBox';
+
 class ToolBar extends React.Component {
     render() {
         return(
@@ -11,9 +13,7 @@ class ToolBar extends React.Component {
                     View in tree
                 </Button>
                 Current Bridge:
-                <div>
-                    Playback bar
-                </div>
+                <MusicBox style={{width: '20%' }} bridge={0} rev={0} />
             </FlexRow>
         );
     }

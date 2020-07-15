@@ -4,15 +4,14 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Container, ProgressBar } from "react-bootstrap";
 import { FlexRow, FlexCol, Typography } from "./common";
 import actions from "../../store/actions";
 import {
   Row,
   Col,
-  Input,
   Button,
 } from "reactstrap";
-
 
 import MusicBox from './musicBox';
 
@@ -68,53 +67,41 @@ class InfoPanel extends Component {
   render() {
     const param = this.state.parameters;
     return(
-      <div className="VersionB Generate">
-        <Col>
-          <div> PLAYBAR </div>
-          <div> GEN: 2 </div>
-          <div> PARAMETERS </div>
-          { Object.keys(param).map( ( parameter, i ) =>
-            <Col key={ i }>
-              <Row>
-                <Col>
-                  <Typography>{ param[parameter].names[0] }</Typography>
-                </Col>
-                <Col>
-                  <Input
-                    type="range"
-                    min={ param[parameter].min }
-                    max={ param[parameter].max }
-                    value={ param[parameter].value }
-                    onChange={ (e) => this.changeSlider( parameter, e.target.value )}
-                  />
-                </Col>
-                <Col>
+      <FlexCol className="VersionB Generate">
+          <Typography> PLAYBAR </Typography>
+          <Typography> GEN: 2 </Typography>
+          <Typography> PARAMETERS </Typography>
+          <Row>
+            { Object.keys(param).map( ( parameter, i ) => [
+              <Col md={3} key={i} style={{textAlign: "right"}}>
+                <Typography>{ param[parameter].names[0] }</Typography>
+              </Col>,
+              <Col md={6} key={i} style={{textAlign: "center"}}>
+                <ProgressBar
+                  now={ param[parameter].value / param[parameter].max * 100}
+                />
+                <Typography key={i} >{ param[parameter].value }</Typography>
+              </Col>,
+              <Col md={3} key={i} style={{textAlign: "left"}}>
                   <Typography>{ param[parameter].names[1] }</Typography>
-                </Col>
-              </Row>
-              <Row style={{ justifyContent:"center"}}>
-                <Typography>{ param[parameter].value }</Typography>
-              </Row>
-            </Col>
-          ) }
-        </Col>
-
-        <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
+              </Col>
+            ] ) }
+          </Row>
+          <Button color={"primary"} id="TooltipHistory">
+            SET AS BRIDGE
+          </Button>
+          <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
+            Currently not available
+          </Tooltip>
+          <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
           <ModalHeader toggle={this.closeEditor}>
             NEW GENERATION
           </ModalHeader>
           <ModalBody>
             SECOND MODAL
           </ModalBody>
-        </Modal>
-
-        <Button color={"primary"} id="TooltipHistory">
-          SET AS BRIDGE
-        </Button>
-        <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
-          Currently not available
-        </Tooltip>
-      </div>
+        </Modal>  
+      </FlexCol>
     );
   }
 }

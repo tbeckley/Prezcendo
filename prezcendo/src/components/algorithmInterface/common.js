@@ -15,7 +15,7 @@ export const FlexCol = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: rgba(38, 38, 38);
+  align-items: center;
 `;
 export const IconButton = styled.button`
   width: 20px;

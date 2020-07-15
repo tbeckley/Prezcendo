@@ -6,19 +6,18 @@ import actions from '../../store/actions';
 import { responseToArrayBuffer } from '../../helpers/midiHelper';
 import { getBaseURL } from '../../helpers/webHelper';
 
-import { Container, Row, Col } from 'react-bootstrap';
-import { MdArrowForward } from 'react-icons/md';
+import { FlexCol } from "./common";
+import { MdArrowDownward } from 'react-icons/md';
 
 import HistoryBlock from './historyBlock';
 
 function mapStateToProps(state) {
     return {
         bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
-        instruments: state.instruments
     };
 }
 
-class HistoryBar extends Component {
+class TreePanel extends Component {
     constructor(props) {
         super(props);
 
@@ -27,6 +26,10 @@ class HistoryBar extends Component {
         };
 
         this.createRevision(0); // Create two test revisions for the history bar
+        this.createRevision(0); // The second test revision
+        this.createRevision(0); // The second test revision
+        this.createRevision(0); // The second test revision
+        this.createRevision(0); // The second test revision
         this.createRevision(0); // The second test revision
         this.props.dispatch(actions.setSelectedRevision(0));
     }
@@ -61,29 +64,18 @@ class HistoryBar extends Component {
 
     render() {
         return (
-            <Container fluid>
-                <Row>
-                    <Col md={1}>
-
-                    </Col>
-                    <Col md={10} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-                        { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
-
-                        {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowForward key={k} size={50} />, this.getBlock(v,k+1) ] )}
-                    </Col>
-                    <Col md={1}>
-
-                    </Col>
-                </Row>
-            </Container>
+            <FlexCol style={{ overflow: "auto", width: "50%"}}>
+                { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
+                {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} />, this.getBlock(v,k+1) ] )}
+            </FlexCol>
         );
     }
 }
 
-HistoryBar.propTypes = {
+TreePanel.propTypes = {
     dispatch: PropTypes.func,
     bridgeInfo: PropTypes.object,
     bridgeID: PropTypes.number
 };
 
-export default connect(mapStateToProps)(HistoryBar);
+export default connect(mapStateToProps)(TreePanel);

@@ -5,8 +5,8 @@ export default {
     bridges: [
         {
             id: 0,
-            startBlockID: 0,
-            endBlockID: 0,
+            prevBlockID: 0,
+            nextBlockID: 0,
             currentParameters: {
                 happySad:  0.5,
                 simpleComplex: 0.5,
@@ -15,7 +15,7 @@ export default {
             scale: [SCALE_NOTES.C, SCALE_TYPES.NATRUAL],
             previousBars: [], // TBD
             nextBars: [], // TBD
-            revisions: []
+            revisions: [] // family tree / generations / children
         }
     ],
     songSettings: {

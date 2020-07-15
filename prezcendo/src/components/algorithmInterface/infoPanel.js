@@ -3,9 +3,9 @@ import "../../css/VersionB.css";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
-import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
-import { Container, ProgressBar } from "react-bootstrap";
-import { FlexRow, FlexCol, Typography } from "./common";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Container, ProgressBar, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { FlexRow, FlexCol, Typography, TooltipButton } from "./common";
 import actions from "../../store/actions";
 import {
   Row,
@@ -14,12 +14,15 @@ import {
 } from "reactstrap";
 
 import MusicBox from './musicBox';
+import { TRANSITION_PARAMETERS } from "../../constants";
 
 function mapStateToProps(state, ownProps) {
   return {
     ...ownProps,
     bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
     revisionID: state.interfaceSettings.modal.selectedRevision,
+    isFirstRevision: state.interfaceSettings.modal.selectedRevision == 0,
+    isLastRevision: state.interfaceSettings.modal.selectedRevision == state.bridges[state.interfaceSettings.modal.selectedBridge].revisions.length -1,
   };
 }
 
@@ -29,24 +32,9 @@ class InfoPanel extends Component {
 
       this.state= {
         parameters: {
-          happySad:{
-            names: [ "Happy", "Sad" ],
-            min: 0,
-            max: 100,
-            value: 50,
-          },
-          simpleComplex:{
-            names: [ "Simple", "Complex" ],
-            min: 0,
-            max: 100,
-            value: 50,
-          },
-          duration:{
-            names: [ "Duration", "(seconds)" ],
-            min: 0,
-            max: 10,
-            value: 5,
-          },
+          happySad: 50,
+          simpleComplex: 50,
+          duration: 5,
         },
         tooltipOpen: false,
         editorOpen: false,
@@ -66,38 +54,38 @@ class InfoPanel extends Component {
   }
 
   render() {
-    const param = this.state.parameters;
     return(
       <FlexCol className="VersionB Generate">
-          <Typography> PLAYBAR </Typography>
-          <Typography> GEN: {this.props.revisionID} </Typography>
-          <Typography>GENERATED WITH </Typography>
+        <Typography> PLAYBAR </Typography>
+        <Typography> GEN: {this.props.revisionID} </Typography>
+        <Typography>GENERATED WITH </Typography>
+        { !this.props.isFirstRevision && 
           <Row>
-            { Object.keys(param).map( ( parameter, i ) => [
+            { Object.keys(this.state.parameters).map( ( parameter ) => [
               <Col md={3} key={0} style={{textAlign: "right"}}>
-                <Typography>{ param[parameter].names[0] }</Typography>
+                <Typography>{ TRANSITION_PARAMETERS[parameter].names[0] }</Typography>
               </Col>,
               <Col md={6} key={1} style={{textAlign: "center"}}>
                 <ProgressBar
-                  now={ param[parameter].value / param[parameter].max * 100}
+                  now={ this.state.parameters[parameter] / TRANSITION_PARAMETERS[parameter].max * 100}
                 />
-                <Typography key={2} >{ param[parameter].value }</Typography>
+                <Typography key={2} >{ this.state.parameters[parameter] }</Typography>
               </Col>,
               <Col md={3} key={3} style={{textAlign: "left"}}>
-                  <Typography>{ param[parameter].names[1] }</Typography>
+                  <Typography>{ TRANSITION_PARAMETERS[parameter].names[1] }</Typography>
               </Col>
             ] ) }
           </Row>
-          <Button color={"primary"} id="TooltipHistory">
-            SET AS BRIDGE
-          </Button>
-          <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
-            Currently not available
-          </Tooltip>
-          <Button color={"primary"} onClick={() => this.setState({ editorOpen: true })}>
-            CREATE NEW GENERATION
-          </Button>
-          <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
+        }
+
+        <TooltipButton buttonText="REMOVE CURRENT BRIDGE" />
+        <TooltipButton buttonText="DELETE GENERATION AND ALL DESCENDENTS" />
+        <TooltipButton buttonText="SET AS BRIDGE" />
+        { this.props.isLastRevision && 
+          <TooltipButton buttonText="CREATE NEW GENERATION" tooltipText="Generate children using this bridge as a parent" />
+        }
+        
+        <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
           <ModalHeader toggle={this.closeEditor}>
             NEW GENERATION
           </ModalHeader>
@@ -114,6 +102,8 @@ InfoPanel.propTypes = {
   bridgeInfo: PropTypes.object,
   dispatch: PropTypes.func,
   revisionID: PropTypes.number,
+  isFirstRevision: PropTypes.bool,
+  isLastRevision: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(InfoPanel);

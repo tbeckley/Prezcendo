@@ -21,6 +21,24 @@ export const SCALE_TYPES = {
     SHARP: 2
 };
 
+export const TRANSITION_PARAMETERS = {
+    happySad:{
+        names: [ "Happy", "Sad" ],
+        min: 0,
+        max: 100
+    },
+    simpleComplex:{
+        names: [ "Simple", "Complex" ],
+        min: 0,
+        max: 100
+    },
+    duration:{
+        names: [ "Duration", "(seconds)" ],
+        min: 0,
+        max: 10
+    }
+};
+
 export const DEFAULT_TRANSITION = {
     id: 0,
     prevBlockID: 0,

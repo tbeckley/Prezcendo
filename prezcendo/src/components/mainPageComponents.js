@@ -199,54 +199,48 @@ class ContainerComponent extends React.Component {
           <SongSection sectionName={"Ending"} color={"purple"} />
           <AddBlockButton />
         </div>
-
-        <div>
-          <Tooltip
+        <Tooltip
             placement="bottom"
             isOpen={this.state.transitionTipOpen}
             target="TooltipBridge"
-            toggle={this.toggleTip}
-          >
-            Add a transition
-          </Tooltip>
-
-          <Modal
-            isOpen={this.state.editorOpen}
-            toggle={this.closeEditor}
-            scrollable
-          >
-            <ModalHeader toggle={this.closeEditor}>
-              GENERATE A TRANSITION
-            </ModalHeader>
-            <ModalBody>
-              <ToolBar style={{ height: "10%" }} />
-              <div
-                style={{ display: "flex", flexDirection: "row", height: "90%" }}
-              >
-                <TreePanel
-                  bridgeID={this.state.bridgeID}
-                  style={{ overflow: "auto", height: "100%" }}
-                />
-                <InfoPanel onExit={this.closeEditor} />
-              </div>
-            </ModalBody>
-          </Modal>
-        </div>
-
-        <CSSTransition
-          in={notesLayoutOpen}
-          timeout={800}
-          classNames="sliding-container"
-          unmountOnExit
+            toggle={this.toggleTip} >
+          Add a transition
+        </Tooltip>
+        <Modal
+          isOpen={this.state.editorOpen}
+          toggle={this.closeEditor}
+          scrollable
         >
-          <NotesLayout
-            sequenceData={this.state.songSequences.find(
-              (sequence) => sequence.id === this.state.activeSequenceID
-            )}
-            sequenceUpdater={this.updateSequenceData}
-            onExit={() => this.setState({ notesLayoutOpen: false })}
-          />
-        </CSSTransition>
+          <ModalHeader toggle={this.closeEditor}>
+            GENERATE A TRANSITION
+          </ModalHeader>
+          <ModalBody>
+            <ToolBar style={{ height: "10%" }} />
+            <div
+              style={{ display: "flex", flexDirection: "row", height: "90%" }}
+            >
+              <TreePanel
+                bridgeID={this.state.bridgeID}
+                style={{ overflow: "auto", height: "100%" }}
+              />
+              <InfoPanel onExit={this.closeEditor} />
+            </div>
+          </ModalBody>
+        </Modal>
+        <CSSTransition
+        in={notesLayoutOpen}
+        timeout={800}
+        classNames="sliding-container"
+        unmountOnExit
+      >
+        <NotesLayout
+          sequenceData={this.state.songSequences.find(
+            (sequence) => sequence.id === this.state.activeSequenceID
+          )}
+          sequenceUpdater={this.updateSequenceData}
+          onExit={() => this.setState({ notesLayoutOpen: false })}
+        />
+      </CSSTransition>
       </div>
     );
   }

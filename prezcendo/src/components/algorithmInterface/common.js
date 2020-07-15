@@ -1,4 +1,8 @@
 import styled from "@emotion/styled";
+import React from "react";
+import PropTypes from "prop-types";
+
+import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
 
 export const FlexRow = styled.div`
   display: flex;
@@ -27,3 +31,18 @@ export const IconButton = styled.button`
 export const Typography = styled.div`
   padding: 2px 0;
 `;
+
+export const TooltipButton = ({ buttonText, tooltipText = "Currently not available"}) => {
+  return (
+    <OverlayTrigger
+      placement="bottom"
+      overlay={<Tooltip> { tooltipText } </Tooltip> } >
+      <Button color={"primary"}>{buttonText}</Button>
+    </OverlayTrigger>
+  );
+};
+
+TooltipButton.propTypes = {
+  buttonText: PropTypes.string,
+  tooltipText: PropTypes.string,
+};

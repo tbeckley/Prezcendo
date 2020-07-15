@@ -16,10 +16,10 @@ import {
   Button,
 } from "reactstrap";
 
-import HistoryBar from "../algorithmInterface/historyBar";
-import MusicBox from '../algorithmInterface/musicBox';
+import HistoryBar from "./treePanel";
+import MusicBox from './musicBox';
 
-class EditingPage extends Component {
+class InfoPanel extends Component {
   constructor(props) {
       super(props);
       
@@ -93,7 +93,7 @@ class EditingPage extends Component {
   }
 }
 
-EditingPage.propTypes = {
+InfoPanel.propTypes = {
   onExit: PropTypes.func,
   bridgeVersionA: PropTypes.bool,
   bridgeInfo: PropTypes.object,
@@ -107,7 +107,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(EditingPage);
+export default connect(mapStateToProps)(InfoPanel);
 
 class VersionBGenerate extends Component {
   constructor(props) {
@@ -152,11 +152,15 @@ class VersionBGenerate extends Component {
     const param = this.state.parameters;
     return(
       <div className="VersionB Generate">
-        <img 
-          src={require("../../assets/GenreMap.PNG")}
-          alt="Genre Map"
-          style={{ height: "350px"}}
-        />
+        <FlexRow
+              css={css`
+                justify-content: center;
+                background: rgba(38, 38, 38);
+                height: 100px;
+              `}
+            >
+              <HistoryBar bridgeID={0} />
+            </FlexRow>
         <Col>
           { Object.keys(param).map( ( parameter, i ) =>
             <Col key={ i }>

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import "../css/App.css";
 
 import { Tooltip, Modal, ModalBody } from "reactstrap";
-import EditingPage from "./algorithmInterface/editingPage";
+import InfoPanel from "./algorithmInterface/infoPanel";
 import { ToolBar } from "./algorithmInterface/toolBar";
 
 export class HeaderComponent extends React.Component {
@@ -74,7 +74,7 @@ class ContainerComponent extends React.Component {
         <Modal isOpen={this.state.transitionEditorOpen} toggle={this.closeEditor} >
          <ToolBar toggle={this.closeEditor} /> 
           <ModalBody>
-            <EditingPage onExit={this.closeEditor} />
+            <InfoPanel onExit={this.closeEditor} />
           </ModalBody>
         </Modal>
       </div>

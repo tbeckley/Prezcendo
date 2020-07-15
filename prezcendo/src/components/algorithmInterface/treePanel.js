@@ -7,7 +7,7 @@ import { responseToArrayBuffer } from '../../helpers/midiHelper';
 import { getBaseURL } from '../../helpers/webHelper';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import { MdArrowForward } from 'react-icons/md';
+import { MdArrowDownward } from 'react-icons/md';
 
 import HistoryBlock from './historyBlock';
 
@@ -18,7 +18,7 @@ function mapStateToProps(state) {
     };
 }
 
-class HistoryBar extends Component {
+class TreePanel extends Component {
     constructor(props) {
         super(props);
 
@@ -62,28 +62,22 @@ class HistoryBar extends Component {
     render() {
         return (
             <Container fluid>
-                <Row>
-                    <Col md={1}>
-
-                    </Col>
-                    <Col md={10} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
+                <Col>
+                    <Row md={10} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                         { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
 
-                        {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowForward key={k} size={50} />, this.getBlock(v,k+1) ] )}
-                    </Col>
-                    <Col md={1}>
-
-                    </Col>
-                </Row>
+                        {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} />, this.getBlock(v,k+1) ] )}
+                    </Row>
+                </Col>
             </Container>
         );
     }
 }
 
-HistoryBar.propTypes = {
+TreePanel.propTypes = {
     dispatch: PropTypes.func,
     bridgeInfo: PropTypes.object,
     bridgeID: PropTypes.number
 };
 
-export default connect(mapStateToProps)(HistoryBar);
+export default connect(mapStateToProps)(TreePanel);

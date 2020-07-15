@@ -18,7 +18,10 @@ class fitnessFunc:
         # there are 12 notes in total
         # this is the hexatonic scale (blues)
         # could potentially use heptatonic scale for more "major" tone in future
-        scale = [tonic, tonic + 3, tonic + 5, tonic + 6, tonic + 7, tonic + 10, tonic + 12]
+
+        #should always put in the lowest version of tonic
+        scale = [tonic, tonic + 3, tonic + 5, tonic + 6, tonic + 7, tonic + 10, tonic + 12,
+            tonic + 12 + 3, tonic + 12 + 5, tonic + 12 + 6, tonic + 12 + 7, tonic + 12 +10, tonic + 24]
         return scale
 
         # note that this assumes 4/4 time, will implement other time signatures in future

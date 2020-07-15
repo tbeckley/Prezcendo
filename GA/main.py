@@ -1,5 +1,7 @@
 from fitnessFunc import *
 from DNA import *
+from service import *
+from testSongs import *
 import random
 
 #to reduce merge conflicts
@@ -21,16 +23,18 @@ def ALtests():
     #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
     #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2]]*rows
 
-    bridge = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2],
+    # bridge = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
+    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2],
         
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    fitness = jazz.fitnessCalc(bridge, 0)
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    #     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    #     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    #     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+    bridge = ItDontMeanAThingFaster
+    fitness = jazz.fitnessCalc(bridge, 5)
     print(fitness)
 
 def DNAFitnessTest():
@@ -160,27 +164,27 @@ def evolution(gen, childAmt, tonic, initialPop, crossVer):
 #msg = "Hello World. Python is running on your computer."
 #print(msg)
 
-crossVer = 2 #TODO: CHANGE THIS
-init = genInitPop(10, crossVer)
+# crossVer = 2 #TODO: CHANGE THIS
+# init = genInitPop(10, crossVer)
 
-#gen 1
-children = evolution(1, 10, 0, init, crossVer)
-#gen 2
-children = evolution(1, 10, 0, children, crossVer)
-#gen 3
-children = evolution(1, 10, 0, children, crossVer)
-#gen 5
-children = evolution(2, 10, 0, children, crossVer)
-#gen 10
-children = evolution(5, 10, 0, children, crossVer)
-#gen 20
-children = evolution(100, 10, 0, children, crossVer)
+# #gen 1
+# children = evolution(1, 10, 0, init, crossVer)
+# #gen 2
+# children = evolution(1, 10, 0, children, crossVer)
+# #gen 3
+# children = evolution(1, 10, 0, children, crossVer)
+# #gen 5
+# children = evolution(2, 10, 0, children, crossVer)
+# #gen 10
+# children = evolution(5, 10, 0, children, crossVer)
+# #gen 20
+# children = evolution(100, 10, 0, children, crossVer)
 
-for val in children:
-    print(val.gene)
+# for val in children:
+#     print(val.gene)
 
 #tests
-#ALtests()
+ALtests()
 #DNAFitnessTest()
 
 

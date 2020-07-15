@@ -74,16 +74,16 @@ class ContainerComponent extends React.Component {
             Add a transition
           </Tooltip>
         </div>
-        <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
+        <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} scrollable >
           <ModalHeader toggle={this.closeEditor}>
             GENERATE A TRANSITION
           </ModalHeader>
           <ModalBody>
-            <ToolBar />
-            <FlexRow>
-              <TreePanel bridgeID={this.state.bridgeID} />
+            <ToolBar style={{height: "10%"}}/>
+            <div style={{display: "flex", flexDirection: "row", height: "90%"}}>
+              <TreePanel bridgeID={this.state.bridgeID} style={{ overflow: "auto", height: "100%" }}/>
               <InfoPanel onExit={this.closeEditor} />
-            </FlexRow>
+            </div>
           </ModalBody>
         </Modal>
       </div>

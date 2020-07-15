@@ -6,7 +6,7 @@ import actions from '../../store/actions';
 import { responseToArrayBuffer } from '../../helpers/midiHelper';
 import { getBaseURL } from '../../helpers/webHelper';
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { FlexCol } from "./common";
 import { MdArrowDownward } from 'react-icons/md';
 
 import HistoryBlock from './historyBlock';
@@ -14,7 +14,6 @@ import HistoryBlock from './historyBlock';
 function mapStateToProps(state) {
     return {
         bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
-        instruments: state.instruments
     };
 }
 
@@ -27,6 +26,10 @@ class TreePanel extends Component {
         };
 
         this.createRevision(0); // Create two test revisions for the history bar
+        this.createRevision(0); // The second test revision
+        this.createRevision(0); // The second test revision
+        this.createRevision(0); // The second test revision
+        this.createRevision(0); // The second test revision
         this.createRevision(0); // The second test revision
         this.props.dispatch(actions.setSelectedRevision(0));
     }
@@ -61,13 +64,10 @@ class TreePanel extends Component {
 
     render() {
         return (
-            <Col>
-                <Row md={2} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                    { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
-
-                    {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} height={20} />, this.getBlock(v,k+1) ] )}
-                </Row>
-            </Col>
+            <FlexCol style={{ overflow: "auto", width: "50%"}}>
+                { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
+                {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} />, this.getBlock(v,k+1) ] )}
+            </FlexCol>
         );
     }
 }

@@ -6,6 +6,7 @@
 .VersionB.Generate {
     display: flex;
     flex-direction: column;
+    width: 50%;
 }
 
 .VersionB.Playback-Button {

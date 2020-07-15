@@ -120,8 +120,6 @@ class InfoPanel extends Component {
 }
 
 InfoPanel.propTypes = {
-  onExit: PropTypes.func,
-  bridgeVersionA: PropTypes.bool,
   bridgeInfo: PropTypes.object,
   dispatch: PropTypes.func,
 };

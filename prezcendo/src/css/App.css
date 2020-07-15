@@ -73,6 +73,10 @@
   border-radius: 1em;
 }
 
+.modal-header {
+  border-bottom: 3px solid var(--grey-light);
+}
+
 .close {
   color: var(--grey-light);
 }

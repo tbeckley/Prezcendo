@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "../css/App.css";
 
-import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Tooltip, Modal, ModalBody } from "reactstrap";
 import EditingPage from "./algorithmInterface/editingPage";
+import { ToolBar } from "./algorithmInterface/toolBar";
 
 export class HeaderComponent extends React.Component {
   render() {
@@ -46,7 +47,9 @@ class ContainerComponent extends React.Component {
       };
   }
 
-  toggle = () => this.setState({ transitionTipOpen: !this.state.transitionTipOpen});
+  toggleTip = () => this.setState({ transitionTipOpen: !this.state.transitionTipOpen});
+
+  closeEditor = () => this.setState({transitionEditorOpen: false});
 
   render() {
     return (
@@ -64,22 +67,14 @@ class ContainerComponent extends React.Component {
             onClick={() => this.setState({transitionEditorOpen: true})}
             id="TooltipBridge"
           />
-          <Tooltip placement="bottom" isOpen={this.state.transitionTipOpen} target="TooltipBridge" toggle={this.toggle}>
+          <Tooltip placement="bottom" isOpen={this.state.transitionTipOpen} target="TooltipBridge" toggle={this.toggleTip}>
             Add a transition
           </Tooltip>
         </div>
-        <Modal
-          isOpen={this.state.transitionEditorOpen}
-          toggle={() => this.setState({transitionEditorOpen: false})}
-          centered
-        >
-          <ModalHeader toggle={() => this.setState({transitionEditorOpen: false})}>
-            TOOLBAR
-          </ModalHeader>
+        <Modal isOpen={this.state.transitionEditorOpen} toggle={this.closeEditor} >
+         <ToolBar toggle={this.closeEditor} /> 
           <ModalBody>
-            <EditingPage 
-              onExit={() => this.setState({transitionEditorOpen: false})}
-            />
+            <EditingPage onExit={this.closeEditor} />
           </ModalBody>
         </Modal>
       </div>

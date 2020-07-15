@@ -1,12 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Button } from "reactstrap";
+import { FlexRow } from "./common";
 
 class ToolBar extends React.Component {
     render() {
         return(
-            <toolbar>
-                TOOLBAR
-            </toolbar>
+            <FlexRow style={{ margin: 0 }}>
+                <Button>
+                    View in tree
+                </Button>
+                Current Bridge:
+                <div>
+                    Playback bar
+                </div>
+            </FlexRow>
         );
     }
 }

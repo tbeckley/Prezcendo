@@ -46,6 +46,7 @@ class ContainerComponent extends React.Component {
       this.state={
         editorOpen: false,
         transitionTipOpen: false,
+        bridgeID: 0,
       };
   }
 
@@ -80,7 +81,7 @@ class ContainerComponent extends React.Component {
           <ModalBody>
             <ToolBar />
             <FlexRow>
-              <TreePanel bridgeID={0} />
+              <TreePanel bridgeID={this.state.bridgeID} />
               <InfoPanel onExit={this.closeEditor} />
             </FlexRow>
           </ModalBody>

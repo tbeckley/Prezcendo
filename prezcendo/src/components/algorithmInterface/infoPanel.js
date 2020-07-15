@@ -16,45 +16,6 @@ import {
 
 import MusicBox from './musicBox';
 
-class InfoPanel extends Component {
-  constructor(props) {
-      super(props);
-      
-      this.state={
-        tooltipOpen: false,
-        favTrack: null,
-      };
-  }
-
-  render () {
-    return (
-      <div className="VersionB">
-        <VersionBGenerate revisions={ this.props.bridgeInfo.revisions } dispatch={ this.props.dispatch }/>
-        { this.props.bridgeInfo.revisions && this.props.bridgeInfo.revisions.length != 0 && 
-          <div className="VersionB Playback">
-            { this.props.bridgeInfo.revisions.map( ( bridge, i ) =>
-              <div key={ i } className="VersionB Playback-Button" onClick={ () => console.log("Playing track ", i + 1) }>
-                Track {i+1}
-                <i className={ this.state.favTrack == i ? "fas fa-star": "far fa-star"} onClick={ () => this.setState({ favTrack: i }) } />
-                <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
-                  <i className="fa fa-play" />
-                </Button>
-              </div>
-            ) }
-          </div>
-        }
-      </div>
-    );
-  }
-}
-
-InfoPanel.propTypes = {
-  onExit: PropTypes.func,
-  bridgeVersionA: PropTypes.bool,
-  bridgeInfo: PropTypes.object,
-  dispatch: PropTypes.func,
-};
-
 function mapStateToProps(state, ownProps) {
   return {
     ...ownProps,
@@ -62,9 +23,7 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(InfoPanel);
-
-class VersionBGenerate extends Component {
+class InfoPanel extends Component {
   constructor(props) {
       super(props);
 
@@ -111,6 +70,9 @@ class VersionBGenerate extends Component {
     return(
       <div className="VersionB Generate">
         <Col>
+          <div> PLAYBAR </div>
+          <div> GEN: 2 </div>
+          <div> PARAMETERS </div>
           { Object.keys(param).map( ( parameter, i ) =>
             <Col key={ i }>
               <Row>
@@ -145,29 +107,23 @@ class VersionBGenerate extends Component {
             SECOND MODAL
           </ModalBody>
         </Modal>
-        
-        <div className="VersionB Button-Container">
-          <Button color={"primary"} onClick={this.createRevision}>
-            Generate
-          </Button>
-          <Button color={"primary"}
-            onClick={() => this.setState({editorOpen: true})}
-          >
-            Clear
-          </Button>
-          <Button color={"primary"} id="TooltipHistory">
-            History
-          </Button>
-          <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
-            Currently not available
-          </Tooltip>
-        </div>
+
+        <Button color={"primary"} id="TooltipHistory">
+          SET AS BRIDGE
+        </Button>
+        <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
+          Currently not available
+        </Tooltip>
       </div>
     );
   }
 }
 
-VersionBGenerate.propTypes = {
+InfoPanel.propTypes = {
+  onExit: PropTypes.func,
+  bridgeVersionA: PropTypes.bool,
+  bridgeInfo: PropTypes.object,
   dispatch: PropTypes.func,
-  revisions: PropTypes.array,
 };
+
+export default connect(mapStateToProps)(InfoPanel);

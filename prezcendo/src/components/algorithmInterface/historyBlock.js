@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux";
 
-import { Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 
 import PropTypes from 'prop-types';
 
@@ -28,22 +28,16 @@ class HistoryBlock extends Component {
 
     render() {
         return (
-            <Container fluid style={{ ...style, ...this.props.style}} onClick={this.select}>
-                <Row>
-                    <Col>
-                        REVISION {this.props.revisionID} {this.props.selected ? '*' : ''}
-                    </Col>
-                </Row>
-            </Container>
+            <div className="VersionB Playback-Button" onClick={this.select}>
+                REVISION {this.props.revisionID} {this.props.selected ? '*' : ''}
+                <i className="fas fa-star" />
+                <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
+                <i className="fa fa-play" />
+                </Button>
+            </div>
         );
     }
 }
-
-const style={
-    width: 150,
-    height: 45,
-    border: 'solid'
-};
 
 HistoryBlock.propTypes = {
     style: PropTypes.object,

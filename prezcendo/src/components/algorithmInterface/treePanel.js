@@ -61,15 +61,13 @@ class TreePanel extends Component {
 
     render() {
         return (
-            <Container fluid>
-                <Col>
-                    <Row md={10} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                        { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
+            <Col>
+                <Row md={2} style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                    { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
 
-                        {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} />, this.getBlock(v,k+1) ] )}
-                    </Row>
-                </Col>
-            </Container>
+                    {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} height={20} />, this.getBlock(v,k+1) ] )}
+                </Row>
+            </Col>
         );
     }
 }

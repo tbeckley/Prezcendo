@@ -5,12 +5,7 @@
 
 .VersionB.Generate {
     display: flex;
-    flex-direction: row;
-}
-
-.VersionB.Playback {
-    display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .VersionB.Playback-Button {
@@ -22,7 +17,7 @@
 
 .VersionB.Button-Container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .VersionB.Button-Container > * {

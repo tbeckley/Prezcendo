@@ -1,7 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import "../css/App.css";
 
-import { Button, Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
+import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
 import EditingPage from "./algorithmInterface/editingPage";
 
 export class HeaderComponent extends React.Component {
@@ -28,49 +30,65 @@ export class HeaderComponent extends React.Component {
   }
 }
 
-export const ContainerComponent = () => {
-  const [bridgeEditorOpen, setBridgeEditorOpen] = React.useState(false);
-  const [bridgeVersionA, setBridgeVersionA] = React.useState(true);
-  //   const [prototypeVersion, setPrototypeVersion] = React.useState("1");
-  const [tooltipOpen, setTooltipOpen] = React.useState(false);
+function mapStateToProps(state) {
+  return {
+    transitionEmpty: state.bridges[0].revisions.length == 0,
+  };
+}
 
-  const toggle = () => setTooltipOpen(!tooltipOpen);
+class ContainerComponent extends React.Component {
+  constructor(props) {
+      super(props);
 
-  return (
-    <div className="App-container">
-      <div style={{ position: "relative" }}>
-        <img
-          src={require("../assets/prezcendo_blocks.PNG")}
-          style={{ height: "auto", width: "100%" }}
-          alt="blocks"
-        />
-        <button className="App-bridge-button left" />
-        <button className="App-bridge-button middle" />
-        <button
-          className="App-bridge-button right"
-          onClick={() => setBridgeEditorOpen(true)}
-          id="TooltipBridge"
-        />
-        <Tooltip placement="bottom" isOpen={tooltipOpen} target="TooltipBridge" toggle={toggle}>
-          Add a bridge
-        </Tooltip>
-      </div>
-      <Button color={"primary"} onClick={ () => setBridgeVersionA(!bridgeVersionA)} >Toggle</Button>
-      <Modal
-        isOpen={bridgeEditorOpen}
-        toggle={() => setBridgeEditorOpen(false)}
-        centered
-      >
-        <ModalHeader toggle={() => setBridgeEditorOpen(false)}>
-          Version { bridgeVersionA ? "A" : "B"}
-        </ModalHeader>
-        <ModalBody>
-          <EditingPage 
-            onExit={() => setBridgeEditorOpen(false)} 
-            bridgeVersionA={ bridgeVersionA }
+      this.state={
+        transitionEditorOpen: false,
+        transitionTipOpen: false,
+      };
+  }
+
+  toggle = () => this.setState({ transitionTipOpen: !this.state.transitionTipOpen});
+
+  render() {
+    return (
+      <div className="App-container">
+        <div style={{ position: "relative" }}>
+          <img
+            src={require("../assets/prezcendo_blocks.PNG")}
+            style={{ height: "auto", width: "100%" }}
+            alt="blocks"
           />
-        </ModalBody>
-      </Modal>
-    </div>
-  );
+          <button className="App-transition-button left" />
+          <button className="App-transition-button middle" />
+          <button
+            className={ this.props.transitionEmpty ? "App-transition-button right empty" : "App-transition-button right"}
+            onClick={() => this.setState({transitionEditorOpen: true})}
+            id="TooltipBridge"
+          />
+          <Tooltip placement="bottom" isOpen={this.state.transitionTipOpen} target="TooltipBridge" toggle={this.toggle}>
+            Add a transition
+          </Tooltip>
+        </div>
+        <Modal
+          isOpen={this.state.transitionEditorOpen}
+          toggle={() => this.setState({transitionEditorOpen: false})}
+          centered
+        >
+          <ModalHeader toggle={() => this.setState({transitionEditorOpen: false})}>
+            TOOLBAR
+          </ModalHeader>
+          <ModalBody>
+            <EditingPage 
+              onExit={() => this.setState({transitionEditorOpen: false})}
+            />
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
+
+ContainerComponent.propTypes = {
+  transitionEmpty: PropTypes.object,
 };
+
+export default connect(mapStateToProps)(ContainerComponent);

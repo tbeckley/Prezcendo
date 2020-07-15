@@ -253,7 +253,7 @@ class ContainerComponent extends React.Component {
 }
 
 ContainerComponent.propTypes = {
-  transitionEmpty: PropTypes.object,
+  transitionEmpty: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(ContainerComponent);

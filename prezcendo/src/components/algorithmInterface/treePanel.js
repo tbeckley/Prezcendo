@@ -75,7 +75,8 @@ class TreePanel extends Component {
 TreePanel.propTypes = {
     dispatch: PropTypes.func,
     bridgeInfo: PropTypes.object,
-    bridgeID: PropTypes.number
+    bridgeID: PropTypes.number,
+    revisionID: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(TreePanel);

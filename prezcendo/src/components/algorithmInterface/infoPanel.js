@@ -18,7 +18,8 @@ import MusicBox from './musicBox';
 function mapStateToProps(state, ownProps) {
   return {
     ...ownProps,
-    bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge]
+    bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
+    revisionID: state.interfaceSettings.modal.selectedRevision,
   };
 }
 
@@ -69,20 +70,20 @@ class InfoPanel extends Component {
     return(
       <FlexCol className="VersionB Generate">
           <Typography> PLAYBAR </Typography>
-          <Typography> GEN: 2 </Typography>
-          <Typography> PARAMETERS </Typography>
+          <Typography> GEN: {this.props.revisionID} </Typography>
+          <Typography>GENERATED WITH </Typography>
           <Row>
             { Object.keys(param).map( ( parameter, i ) => [
-              <Col md={3} key={i} style={{textAlign: "right"}}>
+              <Col md={3} key={0} style={{textAlign: "right"}}>
                 <Typography>{ param[parameter].names[0] }</Typography>
               </Col>,
-              <Col md={6} key={i} style={{textAlign: "center"}}>
+              <Col md={6} key={1} style={{textAlign: "center"}}>
                 <ProgressBar
                   now={ param[parameter].value / param[parameter].max * 100}
                 />
-                <Typography key={i} >{ param[parameter].value }</Typography>
+                <Typography key={2} >{ param[parameter].value }</Typography>
               </Col>,
-              <Col md={3} key={i} style={{textAlign: "left"}}>
+              <Col md={3} key={3} style={{textAlign: "left"}}>
                   <Typography>{ param[parameter].names[1] }</Typography>
               </Col>
             ] ) }
@@ -93,6 +94,9 @@ class InfoPanel extends Component {
           <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
             Currently not available
           </Tooltip>
+          <Button color={"primary"} onClick={() => this.setState({ editorOpen: true })}>
+            CREATE NEW GENERATION
+          </Button>
           <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
           <ModalHeader toggle={this.closeEditor}>
             NEW GENERATION
@@ -109,6 +113,7 @@ class InfoPanel extends Component {
 InfoPanel.propTypes = {
   bridgeInfo: PropTypes.object,
   dispatch: PropTypes.func,
+  revisionID: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(InfoPanel);

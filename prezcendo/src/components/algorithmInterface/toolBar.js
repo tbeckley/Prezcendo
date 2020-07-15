@@ -1,18 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { ModalHeader } from "reactstrap";
-
-export class ToolBar extends React.Component {
+class ToolBar extends React.Component {
     render() {
         return(
-            <ModalHeader toggle={this.props.toggle}>
+            <toolbar>
                 TOOLBAR
-            </ModalHeader>
+            </toolbar>
         );
     }
 }
 
 ToolBar.propTypes = {
-    toggle: PropTypes.function,
+    dispatch: PropTypes.func,
 };
+
+export default ToolBar;

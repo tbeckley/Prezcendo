@@ -2,10 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "../css/App.css";
+import { FlexRow } from "./algorithmInterface/common";
 
-import { Tooltip, Modal, ModalBody } from "reactstrap";
+import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
+import ToolBar from "./algorithmInterface/toolBar";
+import TreePanel from "./algorithmInterface/treePanel";
 import InfoPanel from "./algorithmInterface/infoPanel";
-import { ToolBar } from "./algorithmInterface/toolBar";
 
 export class HeaderComponent extends React.Component {
   render() {
@@ -63,7 +65,7 @@ class ContainerComponent extends React.Component {
           <button className="App-transition-button left" />
           <button className="App-transition-button middle" />
           <button
-            className={ this.props.transitionEmpty ? "App-transition-button right empty" : "App-transition-button right"}
+            className={ "App-transition-button right" + (this.props.transitionEmpty ? " empty" : "") }
             onClick={() => this.setState({transitionEditorOpen: true})}
             id="TooltipBridge"
           />
@@ -72,9 +74,15 @@ class ContainerComponent extends React.Component {
           </Tooltip>
         </div>
         <Modal isOpen={this.state.transitionEditorOpen} toggle={this.closeEditor} >
-         <ToolBar toggle={this.closeEditor} /> 
+          <ModalHeader toggle={this.closeEditor}>
+            GENERATE A TRANSITION
+          </ModalHeader>
           <ModalBody>
-            <InfoPanel onExit={this.closeEditor} />
+            <ToolBar />
+            <FlexRow>
+              <TreePanel bridgeID={0} />
+              <InfoPanel onExit={this.closeEditor} />
+            </FlexRow>
           </ModalBody>
         </Modal>
       </div>

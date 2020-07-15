@@ -16,7 +16,6 @@ import {
   Button,
 } from "reactstrap";
 
-import HistoryBar from "./treePanel";
 import MusicBox from './musicBox';
 
 class InfoPanel extends Component {
@@ -32,46 +31,8 @@ class InfoPanel extends Component {
   render () {
     return (
       <div>
-        { this.props.bridgeVersionA ? 
-          <div>
-            <FlexRow
-              css={css`
-                justify-content: center;
-                background: rgba(38, 38, 38);
-                height: 100px;
-              `}
-            >
-              <HistoryBar bridgeID={0} />
-            </FlexRow>
-            <FlexRow
-        css={css`
-          height: 50vh;
-        `}
-      >
-        <FlexCol
-          css={css`
-            width: 50%;
-            margin-right: 3%;
-          `}
-        >
-          <MusicBox />
-        </FlexCol>
-        <FlexCol
-          css={css`
-            width: 50%;
-            align-items: center;
-            justify-content: center;
-          `}
-        >
-          {/* Selection Box */}
-
-          <SettingsControl onExit={this.props.onExit} />
-        </FlexCol>
-
-
-      </FlexRow>
-          </div>
-          : <div className="VersionB">
+        
+          <div className="VersionB">
               <VersionBGenerate revisions={ this.props.bridgeInfo.revisions } dispatch={ this.props.dispatch }/>
               { this.props.bridgeInfo.revisions && this.props.bridgeInfo.revisions.length != 0 && 
                 <div className="VersionB Playback">
@@ -87,7 +48,6 @@ class InfoPanel extends Component {
                 </div>
               }
             </div>
-        }
     </div>
     );
   }
@@ -152,15 +112,6 @@ class VersionBGenerate extends Component {
     const param = this.state.parameters;
     return(
       <div className="VersionB Generate">
-        <FlexRow
-              css={css`
-                justify-content: center;
-                background: rgba(38, 38, 38);
-                height: 100px;
-              `}
-            >
-              <HistoryBar bridgeID={0} />
-            </FlexRow>
         <Col>
           { Object.keys(param).map( ( parameter, i ) =>
             <Col key={ i }>

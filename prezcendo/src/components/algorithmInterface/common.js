@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Button, Tooltip, OverlayTrigger } from "react-bootstrap";
+import { Button, Tooltip, OverlayTrigger, Row, Col, ProgressBar, Form } from "react-bootstrap";
+
+import { TRANSITION_SLIDERS } from "../../constants";
 
 export const FlexRow = styled.div`
   display: flex;
@@ -32,12 +34,12 @@ export const Typography = styled.div`
   padding: 2px 0;
 `;
 
-export const TooltipButton = ({ buttonText, tooltipText = "Currently not available"}) => {
+export const TooltipButton = ({ buttonText, tooltipText = "Currently not available", onClick = () => {} } ) => {
   return (
     <OverlayTrigger
       placement="bottom"
       overlay={<Tooltip> { tooltipText } </Tooltip> } >
-      <Button color={"primary"}>{buttonText}</Button>
+      <Button color={"primary"} onClick={onClick}>{buttonText}</Button>
     </OverlayTrigger>
   );
 };
@@ -45,4 +47,44 @@ export const TooltipButton = ({ buttonText, tooltipText = "Currently not availab
 TooltipButton.propTypes = {
   buttonText: PropTypes.string,
   tooltipText: PropTypes.string,
+  onClick: PropTypes.func,
+};
+
+export class ParametersDisplay extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  static defaultProps = {
+    editable: true,
+    changeSlider: () => {},
+  }
+
+  render() {
+    return (
+      <Row>
+        { Object.keys(this.props.parameters).map( ( parameter ) => [
+          <Col md={3} key={0} style={{textAlign: "right"}}>
+            <Typography>{ TRANSITION_SLIDERS[parameter].names[0] }</Typography>
+          </Col>,
+          <Col md={6} key={1} style={{textAlign: "center"}}>
+            { this.props.editable 
+              ? <Form.Control type="range" value={this.props.parameters[parameter]} onChange={(e) => this.props.changeSlider(parameter, e.target.value)}/>
+              : <ProgressBar now={ this.props.parameters[parameter] / TRANSITION_SLIDERS[parameter].max * 100} />
+            }
+            <Typography>{ this.props.parameters[parameter] }</Typography>
+          </Col>,
+          <Col md={3} key={2} style={{textAlign: "left"}}>
+              <Typography>{ TRANSITION_SLIDERS[parameter].names[1] }</Typography>
+          </Col>
+        ] ) }
+      </Row>
+    );
+  }
+}
+
+ParametersDisplay.propTypes = {
+  parameters: PropTypes.object,
+  editable: PropTypes.bool,
+  changeSlider: PropTypes.func,
 };

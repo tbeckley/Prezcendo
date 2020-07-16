@@ -5,7 +5,7 @@ import React, { Component } from "react";
 
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 import { Container, ProgressBar, Tooltip, OverlayTrigger } from "react-bootstrap";
-import { FlexRow, FlexCol, Typography, TooltipButton } from "./common";
+import { FlexRow, FlexCol, Typography, TooltipButton, ParametersDisplay } from "./common";
 import actions from "../../store/actions";
 import {
   Row,
@@ -14,7 +14,6 @@ import {
 } from "reactstrap";
 
 import MusicBox from './musicBox';
-import { TRANSITION_PARAMETERS } from "../../constants";
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -32,11 +31,10 @@ class InfoPanel extends Component {
 
       this.state= {
         parameters: {
-          happySad: 50,
-          simpleComplex: 50,
-          duration: 5,
+          happySad: 54,
+          simpleComplex: 52,
+          duration: 9,
         },
-        tooltipOpen: false,
         editorOpen: false,
       };
   }
@@ -48,8 +46,9 @@ class InfoPanel extends Component {
   }
 
   changeSlider( parameter, value ) {
+    console.log(parameter);
     var newParam = this.state.parameters;
-    newParam[parameter].value = value;
+    newParam[parameter] = value;
     this.setState({ parameters: newParam });
   }
 
@@ -60,31 +59,23 @@ class InfoPanel extends Component {
         <Typography> GEN: {this.props.revisionID} </Typography>
         <Typography>GENERATED WITH </Typography>
         { !this.props.isFirstRevision && 
-          <Row>
-            { Object.keys(this.state.parameters).map( ( parameter ) => [
-              <Col md={3} key={0} style={{textAlign: "right"}}>
-                <Typography>{ TRANSITION_PARAMETERS[parameter].names[0] }</Typography>
-              </Col>,
-              <Col md={6} key={1} style={{textAlign: "center"}}>
-                <ProgressBar
-                  now={ this.state.parameters[parameter] / TRANSITION_PARAMETERS[parameter].max * 100}
-                />
-                <Typography key={2} >{ this.state.parameters[parameter] }</Typography>
-              </Col>,
-              <Col md={3} key={3} style={{textAlign: "left"}}>
-                  <Typography>{ TRANSITION_PARAMETERS[parameter].names[1] }</Typography>
-              </Col>
-            ] ) }
-          </Row>
+          <ParametersDisplay 
+            parameters={this.state.parameters}
+            changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
+          />
         }
 
         <TooltipButton buttonText="REMOVE CURRENT BRIDGE" />
         <TooltipButton buttonText="DELETE GENERATION AND ALL DESCENDENTS" />
         <TooltipButton buttonText="SET AS BRIDGE" />
         { this.props.isLastRevision && 
-          <TooltipButton buttonText="CREATE NEW GENERATION" tooltipText="Generate children using this bridge as a parent" />
+          <TooltipButton 
+            buttonText="CREATE NEW GENERATION" 
+            tooltipText="Generate children using this bridge as a parent" 
+            onClick={() => this.setState({ editorOpen: true})} 
+          />
         }
-        
+
         <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
           <ModalHeader toggle={this.closeEditor}>
             NEW GENERATION

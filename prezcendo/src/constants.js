@@ -21,7 +21,7 @@ export const SCALE_TYPES = {
     SHARP: 2
 };
 
-export const TRANSITION_PARAMETERS = {
+export const TRANSITION_SLIDERS = {
     happySad:{
         names: [ "Happy", "Sad" ],
         min: 0,

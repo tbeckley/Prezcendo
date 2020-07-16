@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import { FlexCol, Typography, TooltipButton, SlidersDisplay } from "./common";
+import { FlexRow, FlexCol, Typography, TooltipButton, SlidersDisplay } from "./common";
 import actions from "../../store/actions";
 
 import MusicBox from './musicBox';
@@ -14,7 +14,6 @@ function mapStateToProps(state, ownProps) {
     ...ownProps,
     bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
     revisionID: state.interfaceSettings.modal.selectedRevision,
-    isFirstRevision: state.interfaceSettings.modal.selectedRevision == 0,
     isLastRevision: state.interfaceSettings.modal.selectedRevision == state.bridges[state.interfaceSettings.modal.selectedBridge].revisions.length -1,
   };
 }
@@ -48,14 +47,11 @@ class InfoPanel extends Component {
   render() {
     return(
       <FlexCol className="VersionB Generate">
-        <Typography> PLAYBAR </Typography>
-        <Typography> GEN: {this.props.revisionID} </Typography>
-        <Typography>GENERATED WITH </Typography>
-        { !this.props.isFirstRevision && 
-          <SlidersDisplay parameters={this.state.parameters} />
-        }
+        <MusicBox bridge={0} rev={0} />
+        <Typography>NAME: { this.props.bridgeInfo.revisions[this.props.revisionID].name ? this.props.bridgeInfo.revisions[this.props.revisionID].name : ("Generation " + (this.props.revisionID + 1) ) }</Typography>
+        <Typography> GENERATION: {this.props.revisionID + 1} </Typography>
+        <SlidersDisplay parameters={this.state.parameters} />
 
-        <TooltipButton buttonText="REMOVE CURRENT BRIDGE" />
         <TooltipButton buttonText="DELETE GENERATION AND ALL DESCENDENTS" />
         <TooltipButton buttonText="SET AS BRIDGE" />
         { this.props.isLastRevision && 
@@ -71,10 +67,16 @@ class InfoPanel extends Component {
             NEW GENERATION
           </ModalHeader>
           <ModalBody>
+            <Typography> Parent: </Typography>
+            <MusicBox bridge={0} rev={0} style={{ width: "30%"}}/>
             <SlidersDisplay 
               parameters={this.state.parameters}
               changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
             />
+            <FlexRow>
+              <TooltipButton buttonText="Reset to Parent" />
+              <TooltipButton buttonText="GENERATE" />
+            </FlexRow>
           </ModalBody>
         </Modal>  
       </FlexCol>

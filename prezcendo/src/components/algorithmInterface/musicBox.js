@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { MdPlayArrow, MdStop } from 'react-icons/md';
+import { FlexRow } from "./common";
 
 import { getObjectFromArray,
             playMusic, stopMusic,
@@ -79,7 +80,18 @@ class MusicBox extends Component {
         let time = this.props.hasMusic
                     ? Math.ceil(getMaxLength(getObjectFromArray(this.props.revDetails.MIDI)))
                     : null;
-
+        if ( this.props.minimal ) {
+            return (
+                <Container  style={this.props.style}>
+                    <FlexRow style={{ backgroundColor: this.props.revDetails.color }}>
+                        <Button variant="light" size="lg" onClick={onClickFn} disabled={!this.props.hasMusic}>
+                            {buttonIcon}
+                        </Button>
+                        <PlaybackBar duration={time} minimal={this.props.minimal}/>
+                    </FlexRow>
+                </Container>
+            );
+        }
         return (
             <Container fluid style={this.props.style}>
                 <Row style={{ borderStyle: 'solid', backgroundColor: this.props.revDetails.color }}>
@@ -108,13 +120,15 @@ MusicBox.propTypes = {
     hasMusic: PropTypes.bool,
     style: PropTypes.object,
     revisionID: PropTypes.number,
-    instruments: PropTypes.object
+    instruments: PropTypes.object,
+    minimal: PropTypes.bool,
 };
 
 MusicBox.defaultProps = {
     bridge: 0,
     rev: 0,
     instruments: {},
+    minimal: false,
 };
 
 export default connect(mapStateToProps)(MusicBox);

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
-import { FlexRow } from "./common";
+import { FlexRow, TooltipButton } from "./common";
 
 import MusicBox from './musicBox';
 
@@ -9,11 +8,10 @@ class ToolBar extends React.Component {
     render() {
         return(
             <FlexRow style={{ margin: 0 }}>
-                <Button>
-                    View in tree
-                </Button>
                 Current Bridge:
-                <MusicBox style={{width: '20%' }} bridge={0} rev={0} />
+                <MusicBox bridge={0} rev={0} minimal={true} />
+                <TooltipButton buttonText="View in tree" />
+                <TooltipButton buttonText="Remove current bridge" />
             </FlexRow>
         );
     }

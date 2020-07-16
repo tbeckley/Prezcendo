@@ -6,7 +6,7 @@ import actions from '../../store/actions';
 import { responseToArrayBuffer } from '../../helpers/midiHelper';
 import { getBaseURL } from '../../helpers/webHelper';
 
-import { FlexCol } from "./common";
+import { FlexCol, FlexRow } from "./common";
 import { MdArrowDownward } from 'react-icons/md';
 
 import HistoryBlock from './historyBlock';
@@ -63,10 +63,13 @@ class TreePanel extends Component {
         }} />;
 
     render() {
+        const length = this.props.bridgeInfo.revisions.length;
+        const lastGen = this.props.bridgeInfo.revisions[length -1];
+        if (this.props.bridgeInfo.revisions.length < 2 ) return(null);
         return (
             <FlexCol style={{ overflow: "auto", width: "50%"}}>
-                { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
-                {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} />, this.getBlock(v,k+1) ] )}
+                {this.props.bridgeInfo.revisions.slice(0,-1).map((v, k) => [ this.getBlock(v,k), <MdArrowDownward key={k} size="50" /> ] )}
+                {this.props.bridgeInfo.revisions.slice(-1).map((v, k) => this.getBlock(v,k+length-1) )}
             </FlexCol>
         );
     }

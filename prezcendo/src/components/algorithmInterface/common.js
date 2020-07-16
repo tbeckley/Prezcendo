@@ -56,8 +56,11 @@ export class SlidersDisplay extends React.Component {
   }
 
   render() {
-    return (
-      <Row>
+    return ([
+      <Typography key={0}>
+        { this.props.changeSlider ? "PARAMETERS" : "GENERATED WITH" }
+      </Typography>,
+      <Row key={1}>
         { Object.keys(this.props.parameters).map( ( parameter ) => [
           <Col md={3} key={0} style={{textAlign: "right"}}>
             <Typography>{ TRANSITION_SLIDERS[parameter].names[0] }</Typography>
@@ -79,7 +82,7 @@ export class SlidersDisplay extends React.Component {
           </Col>
         ] ) }
       </Row>
-    );
+    ]);
   }
 }
 

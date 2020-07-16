@@ -31,7 +31,7 @@ class HistoryBlock extends Component {
             <div className="VersionB Playback-Button" onClick={this.select}>
                 <i className="fas fa-star" />
                 <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
-                REVISION {this.props.revisionID} {this.props.selected ? '*' : ''}
+                GENERATION {this.props.revisionID + 1}
                 </Button>
             </div>
         );

@@ -62,6 +62,6 @@ export const DEFAULT_REVISION = {
         simpleComplex: 0.5,
         duration: 5 // seconds
     },
-    offspring: [], // midi files of offspring
+    offspring: [0,0,0], // midi files of offspring
     successfulChild: -1
 };

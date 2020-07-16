@@ -50,14 +50,9 @@ TooltipButton.propTypes = {
   onClick: PropTypes.func,
 };
 
-export class ParametersDisplay extends React.Component {
+export class SlidersDisplay extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  static defaultProps = {
-    editable: true,
-    changeSlider: () => {},
   }
 
   render() {
@@ -68,9 +63,14 @@ export class ParametersDisplay extends React.Component {
             <Typography>{ TRANSITION_SLIDERS[parameter].names[0] }</Typography>
           </Col>,
           <Col md={6} key={1} style={{textAlign: "center"}}>
-            { this.props.editable 
-              ? <Form.Control type="range" value={this.props.parameters[parameter]} onChange={(e) => this.props.changeSlider(parameter, e.target.value)}/>
-              : <ProgressBar now={ this.props.parameters[parameter] / TRANSITION_SLIDERS[parameter].max * 100} />
+            { this.props.changeSlider 
+              ? <Form.Control 
+                  type="range" 
+                  min={ TRANSITION_SLIDERS[parameter].min }
+                  max={ TRANSITION_SLIDERS[parameter].max }
+                  value={ this.props.parameters[parameter] } 
+                  onChange={ (e) => this.props.changeSlider(parameter, e.target.value) } />
+              : <ProgressBar now={ this.props.parameters[parameter] / TRANSITION_SLIDERS[parameter].max * 100 } />
             }
             <Typography>{ this.props.parameters[parameter] }</Typography>
           </Col>,
@@ -83,7 +83,7 @@ export class ParametersDisplay extends React.Component {
   }
 }
 
-ParametersDisplay.propTypes = {
+SlidersDisplay.propTypes = {
   parameters: PropTypes.object,
   editable: PropTypes.bool,
   changeSlider: PropTypes.func,

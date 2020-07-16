@@ -4,14 +4,8 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import { Container, ProgressBar, Tooltip, OverlayTrigger } from "react-bootstrap";
-import { FlexRow, FlexCol, Typography, TooltipButton, ParametersDisplay } from "./common";
+import { FlexCol, Typography, TooltipButton, SlidersDisplay } from "./common";
 import actions from "../../store/actions";
-import {
-  Row,
-  Col,
-  Button,
-} from "reactstrap";
 
 import MusicBox from './musicBox';
 
@@ -46,7 +40,6 @@ class InfoPanel extends Component {
   }
 
   changeSlider( parameter, value ) {
-    console.log(parameter);
     var newParam = this.state.parameters;
     newParam[parameter] = value;
     this.setState({ parameters: newParam });
@@ -59,10 +52,7 @@ class InfoPanel extends Component {
         <Typography> GEN: {this.props.revisionID} </Typography>
         <Typography>GENERATED WITH </Typography>
         { !this.props.isFirstRevision && 
-          <ParametersDisplay 
-            parameters={this.state.parameters}
-            changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
-          />
+          <SlidersDisplay parameters={this.state.parameters} />
         }
 
         <TooltipButton buttonText="REMOVE CURRENT BRIDGE" />
@@ -81,7 +71,10 @@ class InfoPanel extends Component {
             NEW GENERATION
           </ModalHeader>
           <ModalBody>
-            SECOND MODAL
+            <SlidersDisplay 
+              parameters={this.state.parameters}
+              changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
+            />
           </ModalBody>
         </Modal>  
       </FlexCol>

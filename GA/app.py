@@ -1,14 +1,24 @@
-from flask import Flask, request, Response, json
+from flask import Flask, request, Response
 from redis import Redis
 from secrets import token_hex
+import json
 
-REDIS_HOST="" # Fill this out
-REDIS_PORT=0 # Fill this out
-REDIS_PASSWORD="" # Fill this out
 
 KEY_LENGTH=8
 
+with open("./secrets.json", "r") as secrets:
+   data = json.loads(secrets.read());
+   REDIS_HOST=data["REDIS_URL"]
+   REDIS_PORT=data["REDIS_PORT"]
+   REDIS_PASSWORD=data["REDIS_PASSWORD"]
+
 r = Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD, decode_responses=False)
+
+if r.ping():
+   print("Connection to redis server " + str(REDIS_HOST) + " established")
+else:
+   print("Connection error!")
+   exit(1)
 
 app = Flask(__name__)
 
@@ -39,7 +49,6 @@ def generate_bridge():
 
    return resp
 
-
 @app.route('/midi/<key>', methods=["GET"])
 def get_midi(key = None):
    if key is None:
@@ -52,11 +61,9 @@ def get_midi(key = None):
 
    return resp
 
-
 @app.route('/')
-def example2():
+def test_route():
    return "Hello World!"
-
 
 if __name__ == '__main__':
     app.run()

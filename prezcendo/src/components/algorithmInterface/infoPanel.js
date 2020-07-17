@@ -50,12 +50,13 @@ class InfoPanel extends Component {
   }
 
   render() {
-    console.log(this.props);
     const transitionInfo = this.props.transitionInfo;
     if ( transitionInfo == null ) {
       return(null);
     }
+
     const name = transitionInfo.name ? transitionInfo.name : ("Generation " + (this.props.revisionID + 1) + " Child " + (this.props.childID + 1));
+    
     return(
       <FlexCol className="VersionB Generate">
         <MusicBox bridge={0} rev={0} />

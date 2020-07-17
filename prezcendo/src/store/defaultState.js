@@ -15,7 +15,11 @@ export default {
             scale: [SCALE_NOTES.C, SCALE_TYPES.NATRUAL],
             previousBars: [], // TBD
             nextBars: [], // TBD
-            revisions: [] // family tree / generations / children
+            revisions: [], // family tree / generations / children
+            currentBridge: {
+                revisionID: null,
+                childID: null,
+            }
         }
     ],
     songSettings: {

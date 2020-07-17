@@ -125,8 +125,9 @@ MusicBox.propTypes = {
 };
 
 MusicBox.defaultProps = {
-    bridge: 0,
-    rev: 0,
+    bridgeID: 0,
+    revID: 0,
+    childID: 0,
     instruments: {},
     minimal: false,
 };

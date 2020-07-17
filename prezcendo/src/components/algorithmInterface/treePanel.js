@@ -68,7 +68,7 @@ class TreePanel extends Component {
         if (this.props.bridgeInfo.revisions.length < 2 ) return(null);
         return (
             <FlexCol style={{ overflow: "auto", width: "50%"}}>
-                { this.props.bridgeInfo.revisions.slice(0,-1).map((rev, i) => [ this.getBlock(rev,i), <MdArrowDownward key={i} size="50" /> ] )}
+                { this.props.bridgeInfo.revisions.slice(0,-1).map((rev, i) => [ this.getBlock(rev,i), <MdArrowDownward key={i+1} size="50" /> ] )}
                 <FlexRow>
                     { lastRev.offspring.map((offspring, i) => this.getBlockLastRev(offspring, i) )}
                 </FlexRow>

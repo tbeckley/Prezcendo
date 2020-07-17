@@ -28,7 +28,7 @@ class HistoryBlock extends Component {
     render() {
         return (
             <div className="VersionB Playback-Button" onClick={this.select}>
-                <i className="fas fa-star" />
+                <i className={ this.props.selected ? "fas fa-star" : "far fa-star" } />
                 <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
                     GENERATION {this.props.revisionID + 1}
                 </Button>

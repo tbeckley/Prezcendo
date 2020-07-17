@@ -12,7 +12,7 @@ import MusicBox from './musicBox';
 function mapStateToProps(state, ownProps) {
   const modal = state.interfaceSettings.modal;
   const bridgeInfo = state.bridges[state.interfaceSettings.modal.selectedBridge];
-  console.log(state);
+  // console.log(state);
 
   return {
     ...ownProps,
@@ -29,7 +29,11 @@ class InfoPanel extends Component {
       super(props);
 
       this.state= {
-        newParam: { ...this.props.parameters} ,
+        newParam: {
+          happySad: this.props.parameters.happySad,
+          simpleComplex: this.props.parameters.simpleComplex,
+          duration: this.props.parameters.duration,
+        } ,
         editorOpen: false,
       };
   }
@@ -41,9 +45,9 @@ class InfoPanel extends Component {
   }
 
   changeSlider( parameter, value ) {
-    var newParam = this.state.newParam;
+    var newParam = { ...this.state.newParam };
     newParam[parameter] = value;
-    this.setState({ parameters: newParam });
+    this.setState({ newParam: newParam });
   }
 
   setBridge = () => {
@@ -51,7 +55,7 @@ class InfoPanel extends Component {
   }
 
   render() {
-    // console.log(this.props);
+    console.log(this.props);
     const transitionInfo = this.props.transitionInfo;
     if ( transitionInfo == null ) {
       return(null);

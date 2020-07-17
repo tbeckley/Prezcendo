@@ -24,37 +24,44 @@
 .App-container {
   width: 100%;
   height: 100%;
+  overflow-x: auto;
+  scrollbar-color: var(--grey-dark);
   background-color: var(--grey-medium);
-  padding-top: 20vh;
+  padding: 20vh 2% 10vh;
 }
 
 .App-link {
   color: #61dafb;
 }
 
-.App-bridge-button {
+.App-transition-button {
   border-radius: 50%;
   background-color: var(--grey-light);
-  border: none;
+  border: 5px solid var(--grey-light);
+  height: 15px;
+  width: 15px;
   padding: 15px;
   z-index: 1;
-  position: absolute;
-  top: 35%;
+  box-shadow: 0 0 5pt 1pt rgba(0, 0, 0, 0.8);
 }
 
-.App-bridge-button:hover {
+.App-transition-button:hover {
   box-shadow: 0 0 3pt 2pt #92e8e2;
 }
 
-.App-bridge-button.left {
+.App-transition-button.empty {
+  background-color: var(--grey-medium);
+}
+
+.App-transition-button.left {
   left: 22%;
 }
 
-.App-bridge-button.middle {
+.App-transition-button.middle {
   left: 50.5%;
 }
 
-.App-bridge-button.right {
+.App-transition-button.right {
   left: 79.3%;
 }
 
@@ -67,6 +74,10 @@
   background-color: var(--grey-medium);
   height: 90vh;
   border-radius: 1em;
+}
+
+.modal-header {
+  border-bottom: 3px solid var(--grey-light);
 }
 
 .close {
@@ -108,5 +119,5 @@
 }
 
 body {
-  background-color: #3d3d3d;
+  background-color: var(--grey-medium);
 }

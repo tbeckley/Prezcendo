@@ -2,9 +2,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import {
+import ContainerComponent, {
   HeaderComponent,
-  ContainerComponent,
 } from "./components/mainPageComponents";
 
 function mapStateToProps() {

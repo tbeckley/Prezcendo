@@ -6,7 +6,7 @@ import actions from '../../store/actions';
 import { responseToArrayBuffer } from '../../helpers/midiHelper';
 import { getBaseURL } from '../../helpers/webHelper';
 
-import { FlexCol } from "./common";
+import { FlexCol, FlexRow } from "./common";
 import { MdArrowDownward } from 'react-icons/md';
 
 import HistoryBlock from './historyBlock';
@@ -31,17 +31,13 @@ class TreePanel extends Component {
         this.createRevision(0); // The second test revision
         this.createRevision(0); // The second test revision
         this.createRevision(0); // The second test revision
-        this.props.dispatch(actions.setSelectedRevision(0));
+        this.props.dispatch(actions.setSelectedTransition(0));
     }
 
-    componentDidMount() {
-        this.loadMidis();
-    }
+    componentDidMount = () => this.loadMidis();
 
     // THESE ARE TEST FUNCITONS
-    createRevision = () => {
-            this.props.dispatch(actions.createRevision(0)); // Create a dummy revision
-    }
+    createRevision = () => this.props.dispatch(actions.createRevision(0)); // Create a dummy revision
 
     loadMidis = () => {
         const MIDIURL = getBaseURL();
@@ -58,15 +54,24 @@ class TreePanel extends Component {
                     .then(responseToArrayBuffer))), 1000);
     }
 
-    getBlock = (v, k) => <HistoryBlock
-        key={k} revisionID={k} bridgeID={this.props.bridgeID} style={{
-        }} />;
+    getBlock = (rev, i) => <HistoryBlock
+        key={i} revisionID={i} childID={rev.successfulChild} bridgeID={this.props.bridgeID} style={{
+    }} />;
+
+    getBlockLastRev = (rev, i) => <HistoryBlock
+        key={i} revisionID={ this.props.bridgeInfo.revisions.length -1 } childID={i} bridgeID={this.props.bridgeID} style={{
+    }} />;
 
     render() {
+        const length = this.props.bridgeInfo.revisions.length;
+        const lastRev = this.props.bridgeInfo.revisions[length -1];
+        if (this.props.bridgeInfo.revisions.length < 2 ) return(null);
         return (
             <FlexCol style={{ overflow: "auto", width: "50%"}}>
-                { this.props.bridgeInfo.revisions.slice(0,1).map(this.getBlock)}
-                {this.props.bridgeInfo.revisions.slice(1).map((v, k) => [ <MdArrowDownward key={k} size={50} />, this.getBlock(v,k+1) ] )}
+                { this.props.bridgeInfo.revisions.slice(0,-1).map((rev, i) => [ this.getBlock(rev,i), <MdArrowDownward key={i+1} size="50" /> ] )}
+                <FlexRow>
+                    { lastRev.offspring.map((offspring, i) => this.getBlockLastRev(offspring, i) )}
+                </FlexRow>
             </FlexCol>
         );
     }
@@ -75,7 +80,8 @@ class TreePanel extends Component {
 TreePanel.propTypes = {
     dispatch: PropTypes.func,
     bridgeInfo: PropTypes.object,
-    bridgeID: PropTypes.number
+    bridgeID: PropTypes.number,
+    revisionID: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(TreePanel);

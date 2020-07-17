@@ -21,29 +21,20 @@ export const SCALE_TYPES = {
     SHARP: 2
 };
 
-export const DEFAULT_TRANSITION = {
-    id: 0,
-    prevBlockID: 0,
-    nextBlockID: 0,
-    currentParameters: {
-        happySad:  0.5,
-        simpleComplex: 0.5,
-        duration: 5 // seconds
+export const TRANSITION_SLIDERS = {
+    happySad:{
+        names: [ "Happy", "Sad" ],
+        min: 0,
+        max: 100
     },
-    scale: [SCALE_NOTES.C, SCALE_TYPES.NATRUAL],
-    previousBars: [], // TBD
-    nextBars: [], // TBD
-    revisions: [], // family tree / generations / children
-    currentTransition: null,
-};
-
-export const DEFAULT_REVISION = {
-    id: 0,
-    param: {
-        happySad:  0.5,
-        simpleComplex: 0.5,
-        duration: 5 // seconds
+    simpleComplex:{
+        names: [ "Simple", "Complex" ],
+        min: 0,
+        max: 100
     },
-    offspring: [], // midi files of offspring
-    successfulChild: -1
+    duration:{
+        names: [ "Duration", "(seconds)" ],
+        min: 0,
+        max: 10
+    }
 };

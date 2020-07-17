@@ -3,23 +3,23 @@ import "../../css/VersionB.css";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
-import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
-import { FlexRow, FlexCol, Typography } from "./common";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import { FlexRow, FlexCol, Typography, TooltipButton, SlidersDisplay } from "./common";
 import actions from "../../store/actions";
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-} from "reactstrap";
-
 
 import MusicBox from './musicBox';
 
 function mapStateToProps(state, ownProps) {
+  const modal = state.interfaceSettings.modal;
+  const bridgeInfo = state.bridges[state.interfaceSettings.modal.selectedBridge];
+
   return {
     ...ownProps,
-    bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge]
+    revisionID: modal.selectedRevision,
+    childID: modal.selectedChild,
+    isLastRevision: modal.selectedRevision == ( bridgeInfo.revisions.length -1 ),
+    parameters: bridgeInfo.revisions[modal.selectedRevision].parameters,
+    transitionInfo: bridgeInfo.revisions[modal.selectedRevision].offspring[modal.selectedChild],
   };
 }
 
@@ -28,100 +28,92 @@ class InfoPanel extends Component {
       super(props);
 
       this.state= {
-        parameters: {
-          happySad:{
-            names: [ "Happy", "Sad" ],
-            min: 0,
-            max: 100,
-            value: 50,
-          },
-          simpleComplex:{
-            names: [ "Simple", "Complex" ],
-            min: 0,
-            max: 100,
-            value: 50,
-          },
-          duration:{
-            names: [ "Duration", "(seconds)" ],
-            min: 0,
-            max: 10,
-            value: 5,
-          },
-        },
-        tooltipOpen: false,
+        newParam: this.props.parameters,
         editorOpen: false,
       };
   }
 
-  closeEditor = () => this.setState({editorOpen: false});
+  closeEditor = () => this.setState({editorOpen: false, newParam: this.props.parameters});
 
   createRevision = () => {
-    this.props.dispatch(actions.createRevision(0)); // Create a dummy revision
+    this.props.dispatch(actions.createRevision(0, this.props.revisionID, this.props.childID, this.state.newParam)); // Create a dummy revision
+    this.setState({editorOpen: false});
   }
 
   changeSlider( parameter, value ) {
-    var newParam = this.state.parameters;
-    newParam[parameter].value = value;
-    this.setState({ parameters: newParam });
+    var newParam = { ...this.state.newParam };
+    newParam[parameter] = value;
+    this.setState({ newParam: newParam });
   }
 
+  setBridge = () => this.props.dispatch(actions.setCurrentBridge( this.props.revisionID, this.props.childID ));
+
   render() {
-    const param = this.state.parameters;
+    const transitionInfo = this.props.transitionInfo;
+    if ( transitionInfo == null ) {
+      return(null);
+    }
+
+    const name = transitionInfo.name ? transitionInfo.name : ("Generation " + (this.props.revisionID + 1) + " Child " + (this.props.childID + 1));
+
     return(
-      <div className="VersionB Generate">
-        <Col>
-          <div> PLAYBAR </div>
-          <div> GEN: 2 </div>
-          <div> PARAMETERS </div>
-          { Object.keys(param).map( ( parameter, i ) =>
-            <Col key={ i }>
-              <Row>
-                <Col>
-                  <Typography>{ param[parameter].names[0] }</Typography>
-                </Col>
-                <Col>
-                  <Input
-                    type="range"
-                    min={ param[parameter].min }
-                    max={ param[parameter].max }
-                    value={ param[parameter].value }
-                    onChange={ (e) => this.changeSlider( parameter, e.target.value )}
-                  />
-                </Col>
-                <Col>
-                  <Typography>{ param[parameter].names[1] }</Typography>
-                </Col>
-              </Row>
-              <Row style={{ justifyContent:"center"}}>
-                <Typography>{ param[parameter].value }</Typography>
-              </Row>
-            </Col>
-          ) }
-        </Col>
+      <FlexCol className="VersionB Generate">
+        <MusicBox bridge={0} rev={0} />
+        <Typography>NAME: {name} </Typography>
+        <Typography> GENERATION: {this.props.revisionID + 1} </Typography>
+        <SlidersDisplay parameters={this.props.parameters} />
+
+        <TooltipButton buttonText="DELETE GENERATION AND ALL DESCENDENTS" />
+        <TooltipButton 
+          buttonText="SET AS BRIDGE" 
+          tooltipText="Use this transition in song"
+          onClick={this.setBridge}
+        />
+        { this.props.isLastRevision && 
+          <TooltipButton 
+            buttonText="CREATE NEW GENERATION" 
+            tooltipText="Generate children using this bridge as a parent" 
+            onClick={() => this.setState({ editorOpen: true})} 
+          />
+        }
 
         <Modal isOpen={this.state.editorOpen} toggle={this.closeEditor} >
           <ModalHeader toggle={this.closeEditor}>
             NEW GENERATION
           </ModalHeader>
           <ModalBody>
-            SECOND MODAL
+            <Typography> Parent: </Typography>
+            <MusicBox bridge={0} rev={0} style={{ width: "30%"}}/>
+            <SlidersDisplay 
+              parameters={this.state.newParam}
+              changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
+            />
+            <FlexRow>
+              <TooltipButton 
+                buttonText="Reset to Parent" 
+                tooltipText="Change parameters to parent's parameters"
+                onClick={ () => this.setState({newParam: this.props.parameters}) }
+              />
+              <TooltipButton 
+                buttonText="GENERATE" 
+                tooltipText="Create new generation with this parent"
+                onClick={this.createRevision}
+              />
+            </FlexRow>
           </ModalBody>
-        </Modal>
-
-        <Button color={"primary"} id="TooltipHistory">
-          SET AS BRIDGE
-        </Button>
-        <Tooltip placement="bottom" isOpen={this.state.tooltipOpen} target="TooltipHistory" toggle={ () => this.setState({ tooltipOpen: !this.state.tooltipOpen })}>
-          Currently not available
-        </Tooltip>
-      </div>
+        </Modal>  
+      </FlexCol>
     );
   }
 }
 
 InfoPanel.propTypes = {
-  bridgeInfo: PropTypes.object,
+  transitionInfo: PropTypes.object,
   dispatch: PropTypes.func,
+  revisionID: PropTypes.number,
+  childID: PropTypes.number,
+  isLastRevision: PropTypes.bool,
+  parameters: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(InfoPanel);

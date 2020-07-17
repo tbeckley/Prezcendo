@@ -9,8 +9,12 @@ import PropTypes from 'prop-types';
 import actions from '../../store/actions';
 
 function mapStateToProps(state, ownProps) {
+    const modal = state.interfaceSettings.modal;
+    const currentBridge = state.bridges[modal.selectedBridge].currentBridge;
+
     return {
-        selected: (ownProps.revisionID == state.interfaceSettings.modal.selectedRevision)
+        selected: (ownProps.revisionID == modal.selectedRevision) && (ownProps.childID == modal.selectedChild),
+        current: (ownProps.revisionID == currentBridge.revisionID) && (ownProps.childID == currentBridge.childID)
     };
 }
 
@@ -19,19 +23,20 @@ class HistoryBlock extends Component {
         super(props);
     }
 
-
     select = () => {
         this.props.dispatch(
-            actions.setSelectedRevision(
-                this.props.revisionID));
+            actions.setSelectedTransition(
+                this.props.revisionID, this.props.childID));
     }
 
     render() {
         return (
             <div className="VersionB Playback-Button" onClick={this.select}>
-                <i className="fas fa-star" />
-                <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
-                REVISION {this.props.revisionID} {this.props.selected ? '*' : ''}
+                { this.props.current && 
+                    <i className="fas fa-star" />
+                }
+                <Button className={this.props.selected ? "btn-success" : "btn-primary" } style={{ width: "140px", height: "70px"}}>
+                    GENERATION {this.props.revisionID + 1}
                 </Button>
             </div>
         );
@@ -41,8 +46,10 @@ class HistoryBlock extends Component {
 HistoryBlock.propTypes = {
     style: PropTypes.object,
     revisionID: PropTypes.number,
+    childID: PropTypes.number,
     selected: PropTypes.bool,
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
+    current: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(HistoryBlock);

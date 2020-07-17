@@ -12,7 +12,6 @@ import MusicBox from './musicBox';
 function mapStateToProps(state, ownProps) {
   const modal = state.interfaceSettings.modal;
   const bridgeInfo = state.bridges[state.interfaceSettings.modal.selectedBridge];
-  // console.log(state);
 
   return {
     ...ownProps,
@@ -29,19 +28,16 @@ class InfoPanel extends Component {
       super(props);
 
       this.state= {
-        newParam: {
-          happySad: this.props.parameters.happySad,
-          simpleComplex: this.props.parameters.simpleComplex,
-          duration: this.props.parameters.duration,
-        } ,
+        newParam: this.props.parameters,
         editorOpen: false,
       };
   }
 
-  closeEditor = () => this.setState({editorOpen: false});
+  closeEditor = () => this.setState({editorOpen: false, newParam: this.props.parameters});
 
   createRevision = () => {
     this.props.dispatch(actions.createRevision(0, this.props.revisionID, this.props.childID, this.state.newParam)); // Create a dummy revision
+    this.setState({editorOpen: false});
   }
 
   changeSlider( parameter, value ) {
@@ -50,12 +46,9 @@ class InfoPanel extends Component {
     this.setState({ newParam: newParam });
   }
 
-  setBridge = () => {
-    this.props.dispatch(actions.setCurrentBridge( this.props.revisionID, this.props.childID ));
-  }
+  setBridge = () => this.props.dispatch(actions.setCurrentBridge( this.props.revisionID, this.props.childID ));
 
   render() {
-    console.log(this.props);
     const transitionInfo = this.props.transitionInfo;
     if ( transitionInfo == null ) {
       return(null);
@@ -96,7 +89,11 @@ class InfoPanel extends Component {
               changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
             />
             <FlexRow>
-              <TooltipButton buttonText="Reset to Parent" />
+              <TooltipButton 
+                buttonText="Reset to Parent" 
+                tooltipText="Change parameters to parent's parameters"
+                onClick={ () => this.setState({newParam: this.props.parameters}) }
+              />
               <TooltipButton 
                 buttonText="GENERATE" 
                 tooltipText="Create new generation with this parent"

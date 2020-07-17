@@ -56,7 +56,6 @@ export class SlidersDisplay extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
     return ([
       <Typography key={0}>
         { this.props.changeSlider ? "PARAMETERS" : "GENERATED WITH" }

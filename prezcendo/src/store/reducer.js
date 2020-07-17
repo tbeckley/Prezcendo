@@ -14,10 +14,7 @@ export default function rootReducer(state = defaultState, action) {
 
     switch(action.type) {
         case types.CREATE_REVISION: {
-            console.log(DEFAULT_PARAMETERS);
-            const parameters = payload.parameters == null 
-                ?   { ...DEFAULT_PARAMETERS }
-                : payload.parameters;
+            const parameters = payload.parameters == null ? { ...DEFAULT_PARAMETERS } : payload.parameters;
             const revision = { ...DEFAULT_REVISION, parameters: parameters };
             return {
                 ...state,

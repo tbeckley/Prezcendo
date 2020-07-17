@@ -3,6 +3,7 @@ export const theme = {
     dark: "0 0 5px 5px rgba(0, 0, 0, 0.4)",
     light: "0 0 20px -5px rgba(255, 255, 255, 1)",
     innerDim: "inset 0 0 100px 100px rgba(255, 255, 255, 0.35)",
+    innerDarken: "inset 0 0 100px 100px rgba(0, 0, 0, 0.25)",
   },
   font: {
     weights: {
@@ -10,7 +11,9 @@ export const theme = {
       bold: "700",
       black: "900",
     },
-    sizes: {},
+    sizes: {
+      large: "64px",
+    },
   },
   colors: {
     pink: {
@@ -32,12 +35,18 @@ export const theme = {
     grey: {
       light: "#E5E5E5",
       dark: "#9E9E9E",
+      darker: "#252424",
+      accent: "#555555",
     },
     buttons: {
-      green: "#8EE297",
-      red: "#E28E8E",
-      yellow: "#E9F46E",
-      blue: "#6ECBF4",
+      green: {
+        normal: "#8EE297",
+        dim: "#DBFFE4",
+      },
+      yellow: { normal: "#E9F46E", dim: "#ffffbb" },
+
+      red: { normal: "#E28E8E" },
+      blue: { normal: "#6ECBF4" },
     },
   },
 };

@@ -9,22 +9,32 @@ const ConnectionBar = styled.div`
   width: 4vw;
   height: 10px;
 `;
-const SongSection = ({ sectionName, color = "blue", isFirst = false }) => {
+const SongSection = ({
+  sectionName,
+  color = "blue",
+  isFirst = false,
+  clickable = true,
+}) => {
   const Block = () => (
     <div
       css={css`
         background: ${theme.colors[color].light};
         color: ${theme.colors[color].dark};
         display: flex;
-        width: 225px;
+        width: 100%;
+        min-width: 225px;
         height: 100px;
         border-radius: 20px;
         align-items: center;
         justify-content: center;
-        box-shadow: ${theme.shadows.dark};
-        cursor: pointer;
+        box-shadow: ${clickable
+          ? `${theme.shadows.dark}`
+          : `${theme.shadows.innerDarken}`};
+        cursor: ${clickable ? "pointer" : "not-allowed"};
         &:hover {
-          box-shadow: ${theme.shadows.innerDim}, ${theme.shadows.light};
+          box-shadow: ${clickable
+            ? `${theme.shadows.innerDim}, ${theme.shadows.light}`
+            : ""};
         }
       `}
     >
@@ -58,5 +68,6 @@ SongSection.propTypes = {
   sectionName: PropTypes.string,
   color: PropTypes.oneOf(Object.keys(theme.colors)),
   isFirst: PropTypes.bool,
+  clickable: PropTypes.bool,
 };
 export default SongSection;

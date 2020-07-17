@@ -19,10 +19,11 @@ export default {
             midi
         }
     }),
-    setSelectedRevision: (revisionID) => ({
-        type: types.SELECT_REVISION,
+    setSelectedTransition: (revisionID, childID) => ({
+        type: types.SELECT_TRANSITION,
         payload: {
-            revisionID
+            revisionID,
+            childID,
         }
     }),
     handleMIDI: (bridgeID, revisionID, promiseToArrayBuffer) =>

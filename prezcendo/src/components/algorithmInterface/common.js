@@ -78,7 +78,7 @@ export class SlidersDisplay extends React.Component {
             <Typography>{ this.props.parameters[parameter] }</Typography>
           </Col>,
           <Col md={3} key={2} style={{textAlign: "left"}}>
-              <Typography>{ TRANSITION_SLIDERS[parameter].names[1] }</Typography>
+            <Typography>{ TRANSITION_SLIDERS[parameter].names[1] }</Typography>
           </Col>
         ] ) }
       </Row>

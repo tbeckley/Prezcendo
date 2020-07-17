@@ -10,7 +10,7 @@ import actions from '../../store/actions';
 
 function mapStateToProps(state, ownProps) {
     return {
-        selected: (ownProps.revisionID == state.interfaceSettings.modal.selectedRevision)
+        selected: (ownProps.revisionID == state.interfaceSettings.modal.selectedRevision) && (ownProps.childID == state.interfaceSettings.modal.selectedChild)
     };
 }
 
@@ -19,11 +19,10 @@ class HistoryBlock extends Component {
         super(props);
     }
 
-
     select = () => {
         this.props.dispatch(
-            actions.setSelectedRevision(
-                this.props.revisionID));
+            actions.setSelectedTransition(
+                this.props.revisionID, this.props.childID));
     }
 
     render() {
@@ -31,7 +30,7 @@ class HistoryBlock extends Component {
             <div className="VersionB Playback-Button" onClick={this.select}>
                 <i className="fas fa-star" />
                 <Button color={"primary"} style={{ width: "140px", height: "70px"}}>
-                GENERATION {this.props.revisionID + 1}
+                    GENERATION {this.props.revisionID + 1}
                 </Button>
             </div>
         );
@@ -41,6 +40,7 @@ class HistoryBlock extends Component {
 HistoryBlock.propTypes = {
     style: PropTypes.object,
     revisionID: PropTypes.number,
+    childID: PropTypes.number,
     selected: PropTypes.bool,
     dispatch: PropTypes.func
 };

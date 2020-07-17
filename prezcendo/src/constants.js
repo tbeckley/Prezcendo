@@ -38,30 +38,3 @@ export const TRANSITION_SLIDERS = {
         max: 10
     }
 };
-
-export const DEFAULT_TRANSITION = {
-    id: 0,
-    prevBlockID: 0,
-    nextBlockID: 0,
-    currentParameters: {
-        happySad:  0.5,
-        simpleComplex: 0.5,
-        duration: 5 // seconds
-    },
-    scale: [SCALE_NOTES.C, SCALE_TYPES.NATRUAL],
-    previousBars: [], // TBD
-    nextBars: [], // TBD
-    revisions: [], // family tree / generations / children
-    currentTransition: null,
-};
-
-export const DEFAULT_REVISION = {
-    id: 0,
-    param: {
-        happySad:  0.5,
-        simpleComplex: 0.5,
-        duration: 5 // seconds
-    },
-    offspring: [0,0,0], // midi files of offspring
-    successfulChild: -1
-};

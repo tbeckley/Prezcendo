@@ -10,11 +10,16 @@ import actions from "../../store/actions";
 import MusicBox from './musicBox';
 
 function mapStateToProps(state, ownProps) {
+  const modal = state.interfaceSettings.modal;
+  const bridgeInfo = state.bridges[state.interfaceSettings.modal.selectedBridge];
+
   return {
     ...ownProps,
-    bridgeInfo: state.bridges[state.interfaceSettings.modal.selectedBridge],
-    revisionID: state.interfaceSettings.modal.selectedRevision,
-    isLastRevision: state.interfaceSettings.modal.selectedRevision == state.bridges[state.interfaceSettings.modal.selectedBridge].revisions.length -1,
+    revisionID: modal.selectedRevision,
+    childID: modal.selectedChild,
+    isLastRevision: modal.selectedRevision == ( bridgeInfo.revisions.length -1 ),
+    parameters: bridgeInfo.revisions[modal.selectedRevision].parameters,
+    transitionInfo: bridgeInfo.revisions[modal.selectedRevision].offspring[modal.selectedChild],
   };
 }
 
@@ -45,10 +50,16 @@ class InfoPanel extends Component {
   }
 
   render() {
+    console.log(this.props);
+    const transitionInfo = this.props.transitionInfo;
+    if ( transitionInfo == null ) {
+      return(null);
+    }
+    const name = transitionInfo.name ? transitionInfo.name : ("Generation " + (this.props.revisionID + 1) + " Child " + (this.props.childID + 1));
     return(
       <FlexCol className="VersionB Generate">
         <MusicBox bridge={0} rev={0} />
-        <Typography>NAME: { this.props.bridgeInfo.revisions[this.props.revisionID].name ? this.props.bridgeInfo.revisions[this.props.revisionID].name : ("Generation " + (this.props.revisionID + 1) ) }</Typography>
+        <Typography>NAME: {name} </Typography>
         <Typography> GENERATION: {this.props.revisionID + 1} </Typography>
         <SlidersDisplay parameters={this.state.parameters} />
 
@@ -85,11 +96,12 @@ class InfoPanel extends Component {
 }
 
 InfoPanel.propTypes = {
-  bridgeInfo: PropTypes.object,
+  transitionInfo: PropTypes.object,
   dispatch: PropTypes.func,
   revisionID: PropTypes.number,
-  isFirstRevision: PropTypes.bool,
+  childID: PropTypes.number,
   isLastRevision: PropTypes.bool,
+  parameters: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(InfoPanel);

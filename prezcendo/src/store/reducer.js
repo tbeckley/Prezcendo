@@ -1,6 +1,6 @@
 import types from './types';
 import defaultState from './defaultState';
-import { DEFAULT_REVISION } from '../constants';
+import { DEFAULT_REVISION } from './defaultState';
 import * as R from 'ramda';
 
 export default function rootReducer(state = defaultState, action) {
@@ -14,7 +14,6 @@ export default function rootReducer(state = defaultState, action) {
 
     switch(action.type) {
         case types.CREATE_REVISION: {
-            // console.log(state);
             return {
                 ...state,
                 bridges: {
@@ -41,14 +40,15 @@ export default function rootReducer(state = defaultState, action) {
             };
             return q;
         }
-        case types.SELECT_REVISION:
+        case types.SELECT_TRANSITION:
             return {
                 ...state,
                 interfaceSettings: {
                     ...state.interfaceSettings,
                     modal: {
                         ...state.interfaceSettings.modal,
-                        selectedRevision: payload.revisionID
+                        selectedRevision: payload.revisionID,
+                        selectedChild: payload.childID,
                     }
                 }
             };

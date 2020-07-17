@@ -12,6 +12,7 @@ import MusicBox from './musicBox';
 function mapStateToProps(state, ownProps) {
   const modal = state.interfaceSettings.modal;
   const bridgeInfo = state.bridges[state.interfaceSettings.modal.selectedBridge];
+  console.log(state);
 
   return {
     ...ownProps,
@@ -28,11 +29,7 @@ class InfoPanel extends Component {
       super(props);
 
       this.state= {
-        parameters: {
-          happySad: 54,
-          simpleComplex: 52,
-          duration: 9,
-        },
+        newParam: { ...this.props.parameters} ,
         editorOpen: false,
       };
   }
@@ -40,11 +37,11 @@ class InfoPanel extends Component {
   closeEditor = () => this.setState({editorOpen: false});
 
   createRevision = () => {
-    this.props.dispatch(actions.createRevision(0)); // Create a dummy revision
+    this.props.dispatch(actions.createRevision(0, this.props.revisionID, this.props.childID, this.state.newParam)); // Create a dummy revision
   }
 
   changeSlider( parameter, value ) {
-    var newParam = this.state.parameters;
+    var newParam = this.state.newParam;
     newParam[parameter] = value;
     this.setState({ parameters: newParam });
   }
@@ -54,6 +51,7 @@ class InfoPanel extends Component {
   }
 
   render() {
+    // console.log(this.props);
     const transitionInfo = this.props.transitionInfo;
     if ( transitionInfo == null ) {
       return(null);
@@ -66,7 +64,7 @@ class InfoPanel extends Component {
         <MusicBox bridge={0} rev={0} />
         <Typography>NAME: {name} </Typography>
         <Typography> GENERATION: {this.props.revisionID + 1} </Typography>
-        <SlidersDisplay parameters={this.state.parameters} />
+        <SlidersDisplay parameters={this.props.parameters} />
 
         <TooltipButton buttonText="DELETE GENERATION AND ALL DESCENDENTS" />
         <TooltipButton 
@@ -90,12 +88,16 @@ class InfoPanel extends Component {
             <Typography> Parent: </Typography>
             <MusicBox bridge={0} rev={0} style={{ width: "30%"}}/>
             <SlidersDisplay 
-              parameters={this.state.parameters}
+              parameters={this.state.newParam}
               changeSlider={(parameter, value) => this.changeSlider(parameter, value)}
             />
             <FlexRow>
               <TooltipButton buttonText="Reset to Parent" />
-              <TooltipButton buttonText="GENERATE" />
+              <TooltipButton 
+                buttonText="GENERATE" 
+                tooltipText="Create new generation with this parent"
+                onClick={this.createRevision}
+              />
             </FlexRow>
           </ModalBody>
         </Modal>  

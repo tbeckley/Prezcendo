@@ -10,13 +10,13 @@ export default {
     delayedTestAction: (msg, timeout) => async dispatch => setTimeout(() =>
             dispatch({ type: types.TEST_ACTION, payload: msg }),
             timeout*1000),
-    createRevision: (bridgeID, revisionID = null, rating=null, midi=null) => ({
+    createRevision: (bridgeID, revisionID = null, childID= null, parameters=null) => ({
         type: types.CREATE_REVISION,
         payload: {
             bridgeID,
             revisionID,
-            rating,
-            midi
+            childID,
+            parameters,
         }
     }),
     setCurrentBridge: (revisionID, childID ) => ({

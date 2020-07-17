@@ -1,6 +1,6 @@
 import types from './types';
 import defaultState from './defaultState';
-import { DEFAULT_REVISION } from './defaultState';
+import { DEFAULT_REVISION, DEFAULT_PARAMETERS } from './defaultState';
 import * as R from 'ramda';
 
 export default function rootReducer(state = defaultState, action) {
@@ -14,13 +14,20 @@ export default function rootReducer(state = defaultState, action) {
 
     switch(action.type) {
         case types.CREATE_REVISION: {
+            const parameters = payload.parameters == null 
+                ?   {
+                        ...DEFAULT_PARAMETERS
+
+                    }
+                : payload.parameters;
+            const revision = { ...DEFAULT_REVISION, parameters: parameters };
             return {
                 ...state,
                 bridges: {
                     ...state.bridges,
                     [payload.bridgeID]: {
                         ...state.bridges[payload.bridgeID],
-                        revisions: R.append( DEFAULT_REVISION , state.bridges[payload.bridgeID].revisions)
+                        revisions: R.append( revision , state.bridges[payload.bridgeID].revisions)
                     }
                 }
             };

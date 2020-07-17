@@ -54,13 +54,15 @@ export const DEFAULT_TRANSITION = {
     currentTransition: null,
 };
 
+export const DEFAULT_PARAMETERS ={
+    happySad:  "50",
+    simpleComplex: "50",
+    duration: "5",
+};
+
 export const DEFAULT_REVISION = {
     id: 0,
-    param: {
-        happySad:  50,
-        simpleComplex: 50,
-        duration: 5
-    },
+    parameters: DEFAULT_PARAMETERS,
     offspring: [
         {
             name: "Child 1",

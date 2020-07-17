@@ -6,17 +6,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { Typography } from "../algorithmInterface/common";
 import { Row, Col, Button } from "reactstrap";
-import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { IdMaker } from "../../helpers/unitHelper";
 import { GiPianoKeys } from "react-icons/gi";
+import actions from "../../store/actions";
 
-const NotesLayout = ({ sequenceData, sequenceUpdater, onExit }) => {
-  const [editingTrack, setEditingTrack] = useState(false);
+import React, { Component } from "react";
 
-  const ExitButton = () => (
+import * as R from "ramda";
+import { connect } from "react-redux";
+
+function mapStateToProps(state, ownProps) {
+  return {
+    sequenceData: R.filter((a) => a.id == ownProps.sequenceID, state.blocks)[0],
+  };
+}
+
+class NotesLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  ExitButton = () => (
     <div
-      onClick={onExit}
+      onClick={this.props.onExit}
       css={css`
         color: ${theme.colors.buttons.yellow.normal};
         cursor: pointer;
@@ -34,14 +48,14 @@ const NotesLayout = ({ sequenceData, sequenceUpdater, onExit }) => {
     </div>
   );
 
-  const InstrumentTrack = styled.div`
+  InstrumentTrack = styled.div`
     margin: 5px 0;
     color: white;
     width: 100%;
     min-height: 125px;
   `;
 
-  const InstrumentIcon = (instrumentName) => {
+  InstrumentIcon = (instrumentName) => {
     let icon = null;
     switch (instrumentName) {
       case "PIANO":
@@ -74,82 +88,83 @@ const NotesLayout = ({ sequenceData, sequenceUpdater, onExit }) => {
     );
   };
 
-  const TrackLayers = sequenceData.tracks.map((track) => {
-    return (
-      <div
-        key={`track_${track.index}`}
-        css={css`
-          margin: 20px 0;
-          background: ${theme.colors.grey.dark};
-          display: flex;
-          align-items: center;
-          border-radius: 12px;
-        `}
-      >
-        <InstrumentIcon instrumentName={track.instrument} />
-        <InstrumentTrack track={track}>
-          <p> {track.id}</p>
-        </InstrumentTrack>
-      </div>
-    );
-  });
-
-  const addNewTrack = (instrument = "PIANO") => {
-    const newTracks = [
-      ...sequenceData.tracks,
-      { id: IdMaker(), instrument: instrument, notes: [] },
-    ];
-    sequenceUpdater({ ...sequenceData, tracks: newTracks });
-  };
-
-  return (
-    <div
-      css={css`
-        padding: 30px 20px;
-        color: white;
-        min-height: 75vh;
-        height: 100%;
-        width: 100vw;
-        background: ${theme.colors.grey.darker};
-        overflow-y: auto;
-      `}
-    >
-      <div
-        css={css`
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        `}
-      >
-        <ExitButton />
-        <Typography
+  TrackLayers = () =>
+    this.props.sequenceData.tracks.map((track) => {
+      return (
+        <div
+          key={`track_${track.index}`}
           css={css`
-            max-width: 300px;
+            margin: 20px 0;
+            background: ${theme.colors.grey.dark};
+            display: flex;
+            align-items: center;
+            border-radius: 12px;
           `}
         >
-          Right-click to Enable / Disable a Note. Left-click to switch between
-          Sharp / Flat.
-        </Typography>
-      </div>
+          {this.InstrumentIcon(track.instrument)}
+        </div>
+      );
+    });
 
+  addNewTrack = (instrument = "PIANO") => {
+    this.props.dispatch(
+      actions.addTrack(this.props.sequenceID, {
+        id: IdMaker(),
+        instrument: instrument,
+        notes: [],
+      })
+    );
+  };
+
+  render() {
+    return (
       <div
         css={css`
-          padding: 20px 40px;
+          padding: 30px 20px;
+          color: white;
+          min-height: 75vh;
+          height: 100%;
+          width: 100vw;
+          background: ${theme.colors.grey.darker};
+          overflow-y: auto;
         `}
       >
-        <Row>
-          <Col xs={12}>
-            <h1
-              css={css`
-                font-weight: ${theme.font.weights.black};
-                font-size: ${theme.font.sizes.large};
-              `}
-            >
-              {sequenceData.name}
-            </h1>
-          </Col>
-        </Row>
-        {/* <Row>
+        <div
+          css={css`
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          `}
+        >
+          {this.ExitButton()}
+          <Typography
+            css={css`
+              max-width: 300px;
+            `}
+          >
+            Right-click to Enable / Disable a Note. Left-click to switch between
+            Sharp / Flat.
+          </Typography>
+        </div>
+
+        <div
+          css={css`
+            padding: 20px 40px;
+          `}
+        >
+          <Row>
+            <Col xs={12}>
+              <h1
+                css={css`
+                  font-weight: ${theme.font.weights.black};
+                  font-size: ${theme.font.sizes.large};
+                `}
+              >
+                {this.props.sequenceData.name}
+              </h1>
+            </Col>
+          </Row>
+          {/* <Row>
           <Col>
             <button
               onClick={(e) => {
@@ -161,52 +176,53 @@ const NotesLayout = ({ sequenceData, sequenceUpdater, onExit }) => {
           </Col>
           <Col>{JSON.stringify(sequenceData)}</Col>
         </Row> */}
-        {!sequenceData.tracks.length && (
+          {!this.props.sequenceData.tracks.length && (
+            <Row>
+              <Col
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                  margin: 10px 0;
+                `}
+              >
+                <h2>{"You don't have any tracks yet."}</h2>
+              </Col>
+            </Row>
+          )}
           <Row>
-            <Col
-              css={css`
-                display: flex;
-                justify-content: center;
-                margin: 10px 0;
-              `}
-            >
-              <h2>{"You don't have any tracks yet."}</h2>
+            <Col>
+              <div
+                //onClick={(e) => this.setEditingTrack(!this.state.editingTrack)}
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                  cursor: pointer;
+                `}
+              >
+                {!this.state.editingTrack ? (
+                  <FontAwesomeIcon
+                    onClick={this.addNewTrack}
+                    icon={faPlusCircle}
+                    size="3x"
+                    color={theme.colors.buttons.green.normal}
+                    css={css`
+                      &:hover {
+                        color: ${theme.colors.buttons.green.dim};
+                      }
+                    `}
+                  />
+                ) : (
+                  <Button color={"primary"}>Close</Button>
+                )}
+              </div>
             </Col>
           </Row>
-        )}
-        <Row>
-          <Col>
-            <div
-              onClick={(e) => setEditingTrack(!editingTrack)}
-              css={css`
-                display: flex;
-                justify-content: center;
-                cursor: pointer;
-              `}
-            >
-              {!editingTrack ? (
-                <FontAwesomeIcon
-                  onClick={(e) => addNewTrack()}
-                  icon={faPlusCircle}
-                  size="3x"
-                  color={theme.colors.buttons.green.normal}
-                  css={css`
-                    &:hover {
-                      color: ${theme.colors.buttons.green.dim};
-                    }
-                  `}
-                />
-              ) : (
-                <Button color={"primary"}>Close</Button>
-              )}
-            </div>
-          </Col>
-        </Row>
-        {TrackLayers}
+          {this.TrackLayers()}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 NotesLayout.propTypes = {
   sequenceData: PropTypes.shape({
@@ -218,5 +234,7 @@ NotesLayout.propTypes = {
   }),
   sequenceUpdater: PropTypes.func,
   onExit: PropTypes.func,
+  sequenceID: PropTypes.string,
+  dispatch: PropTypes.func,
 };
-export default NotesLayout;
+export default connect(mapStateToProps)(NotesLayout);

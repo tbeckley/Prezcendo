@@ -205,10 +205,7 @@ class ContainerComponent extends React.Component {
           unmountOnExit
         >
           <NotesLayout
-            sequenceData={this.props.songSequences.find(
-              (sequence) => sequence.id === this.state.activeSequenceID
-            )}
-            sequenceUpdater={this.updateSequenceData}
+            sequenceID={this.state.activeSequenceID}
             onExit={() => this.setState({ notesLayoutOpen: false })}
           />
         </CSSTransition>

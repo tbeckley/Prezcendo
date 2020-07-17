@@ -49,6 +49,10 @@ class InfoPanel extends Component {
     this.setState({ parameters: newParam });
   }
 
+  setBridge = () => {
+    this.props.dispatch(actions.setCurrentBridge( this.props.revisionID, this.props.childID ));
+  }
+
   render() {
     const transitionInfo = this.props.transitionInfo;
     if ( transitionInfo == null ) {
@@ -56,7 +60,7 @@ class InfoPanel extends Component {
     }
 
     const name = transitionInfo.name ? transitionInfo.name : ("Generation " + (this.props.revisionID + 1) + " Child " + (this.props.childID + 1));
-    
+
     return(
       <FlexCol className="VersionB Generate">
         <MusicBox bridge={0} rev={0} />
@@ -65,7 +69,11 @@ class InfoPanel extends Component {
         <SlidersDisplay parameters={this.state.parameters} />
 
         <TooltipButton buttonText="DELETE GENERATION AND ALL DESCENDENTS" />
-        <TooltipButton buttonText="SET AS BRIDGE" />
+        <TooltipButton 
+          buttonText="SET AS BRIDGE" 
+          tooltipText="Use this transition in song"
+          onClick={this.setBridge}
+        />
         { this.props.isLastRevision && 
           <TooltipButton 
             buttonText="CREATE NEW GENERATION" 

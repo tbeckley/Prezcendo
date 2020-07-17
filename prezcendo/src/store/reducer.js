@@ -40,6 +40,22 @@ export default function rootReducer(state = defaultState, action) {
             };
             return q;
         }
+
+        case types.SET_CURRENT_BRIDGE:
+            return {
+                ...state,
+                bridges: {
+                    ...state.bridges,
+                    [state.interfaceSettings.modal.selectedBridge]: {
+                        ...state.bridges[state.interfaceSettings.modal.selectedBridge],
+                        currentBridge: {
+                            revisionID: payload.revisionID,
+                            childID: payload.childID,
+                        }
+                    }
+                }
+            };
+        
         case types.SELECT_TRANSITION:
             return {
                 ...state,

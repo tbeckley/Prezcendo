@@ -6,7 +6,7 @@ import { FlexRow, TooltipButton } from "./common";
 
 import MusicBox from './musicBox';
 
-function mapStateToProps(state) {  
+function mapStateToProps(state) {
     return {
         selectedBridge: state.interfaceSettings.modal.selectedBridge,
         currentBridge: state.bridges[state.interfaceSettings.modal.selectedBridge].currentBridge,

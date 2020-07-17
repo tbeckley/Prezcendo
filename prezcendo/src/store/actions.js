@@ -19,6 +19,13 @@ export default {
             midi
         }
     }),
+    setCurrentBridge: (revisionID, childID ) => ({
+        type: types.SET_CURRENT_BRIDGE,
+        payload: {
+            revisionID,
+            childID,
+        }
+    }),
     setSelectedTransition: (revisionID, childID) => ({
         type: types.SELECT_TRANSITION,
         payload: {

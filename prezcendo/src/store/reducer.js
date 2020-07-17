@@ -43,6 +43,16 @@ export default function rootReducer(state = defaultState, action) {
             return q;
         }
 
+        case types.ADD_BLOCK: {
+            return {
+                ...state,
+                blocks: [
+                    ...state.blocks,
+                    action.payload
+                ]
+            };
+        }
+
         case types.SET_CURRENT_BRIDGE:
             return {
                 ...state,
@@ -57,7 +67,7 @@ export default function rootReducer(state = defaultState, action) {
                     }
                 }
             };
-        
+
         case types.SELECT_TRANSITION:
             return {
                 ...state,

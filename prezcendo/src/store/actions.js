@@ -1,6 +1,6 @@
 import types from './types';
 import { getObjectFromArray, getInstrumentsToAdd } from '../helpers/midiHelper';
-
+import { IdMaker } from '../helpers/unitHelper';
 
 export default {
     testAction: msg => ({
@@ -31,6 +31,14 @@ export default {
         payload: {
             revisionID,
             childID,
+        }
+    }),
+    addBlock: (name) => ({
+        type: types.ADD_BLOCK,
+        payload: {
+            tracks: [],
+            name,
+            id: IdMaker()
         }
     }),
     handleMIDI: (bridgeID, revisionID, promiseToArrayBuffer) =>

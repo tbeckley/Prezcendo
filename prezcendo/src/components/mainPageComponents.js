@@ -4,6 +4,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "../css/App.css";
+import actions from "../store/actions";
 
 import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
 import ToolBar from "./algorithmInterface/toolBar";
@@ -44,28 +45,9 @@ export class HeaderComponent extends React.Component {
 function mapStateToProps(state) {
   return {
     transitionEmpty: state.bridges[0].revisions.length == 0,
+    songSequences: state.blocks,
   };
 }
-const AddBlockButton = () => (
-  <div
-    css={css`
-      padding-right: 20px;
-      margin-left: -1px;
-      color: ${theme.colors.buttons.green.normal};
-      cursor: pointer;
-    `}
-  >
-    <FontAwesomeIcon
-      icon={faPlusSquare}
-      size="3x"
-      css={css`
-        &:hover {
-          box-shadow: ${theme.shadows.innerDim}, ${theme.shadows.light};
-        }
-      `}
-    />
-  </div>
-);
 
 class ContainerComponent extends React.Component {
   constructor(props) {
@@ -77,45 +59,33 @@ class ContainerComponent extends React.Component {
       transitionTipOpen: false,
       bridgeID: 0,
       activeSequenceID: null,
-      songSequences: [
-        {
-          name: "Intro",
-          id: 6969,
-          bpm: 4,
-          noteValue: 4,
-          tracks: [],
-        },
-        {
-          name: "Hook",
-          id: 2020,
-          bpm: 4,
-          noteValue: 4,
-          tracks: [],
-        },
-        {
-          name: "bruh1",
-          id: 2021,
-          bpm: 4,
-          noteValue: 4,
-          tracks: [],
-        },
-        {
-          name: "bruh2",
-          id: 2022,
-          bpm: 4,
-          noteValue: 4,
-          tracks: [],
-        },
-        {
-          name: "bruh3",
-          id: 2023,
-          bpm: 4,
-          noteValue: 4,
-          tracks: [],
-        },
-      ],
     };
   }
+
+  AddBlockButton = () => (
+    <div
+      css={css`
+        padding-right: 20px;
+        margin-left: -1px;
+        color: ${theme.colors.buttons.green.normal};
+        cursor: pointer;
+      `}
+      onClick={() => {
+        console.log("TEST");
+        this.props.dispatch(actions.addBlock("BLARG"));
+      }}
+    >
+      <FontAwesomeIcon
+        icon={faPlusSquare}
+        size="3x"
+        css={css`
+          &:hover {
+            box-shadow: ${theme.shadows.innerDim}, ${theme.shadows.light};
+          }
+        `}
+      />
+    </div>
+  );
 
   toggleTip = () =>
     this.setState({ transitionTipOpen: !this.state.transitionTipOpen });
@@ -130,11 +100,11 @@ class ContainerComponent extends React.Component {
   };
 
   updateSequenceData = (newSequenceData) => {
-    const targetSequenceIndex = this.state.songSequences.findIndex(
+    const targetSequenceIndex = this.props.songSequences.findIndex(
       (sequence) => sequence.id === newSequenceData.id
     );
 
-    const old = this.state.songSequences;
+    const old = this.props.songSequences;
     const newSequencesState = [
       ...old.slice(0, targetSequenceIndex),
       newSequenceData,
@@ -144,7 +114,7 @@ class ContainerComponent extends React.Component {
   };
 
   render() {
-    const songSequences = this.state.songSequences;
+    const songSequences = this.props.songSequences;
     const notesLayoutOpen = this.state.notesLayoutOpen;
 
     const RenderedSongRequences = songSequences.map((sequence, index) => {
@@ -197,13 +167,14 @@ class ContainerComponent extends React.Component {
             id="TooltipBridge"
           />
           <SongSection sectionName={"Ending"} color={"purple"} />
-          <AddBlockButton />
+          {this.AddBlockButton()}
         </div>
         <Tooltip
-            placement="bottom"
-            isOpen={this.state.transitionTipOpen}
-            target="TooltipBridge"
-            toggle={this.toggleTip} >
+          placement="bottom"
+          isOpen={this.state.transitionTipOpen}
+          target="TooltipBridge"
+          toggle={this.toggleTip}
+        >
           Add a transition
         </Tooltip>
         <Modal
@@ -228,19 +199,19 @@ class ContainerComponent extends React.Component {
           </ModalBody>
         </Modal>
         <CSSTransition
-        in={notesLayoutOpen}
-        timeout={800}
-        classNames="sliding-container"
-        unmountOnExit
-      >
-        <NotesLayout
-          sequenceData={this.state.songSequences.find(
-            (sequence) => sequence.id === this.state.activeSequenceID
-          )}
-          sequenceUpdater={this.updateSequenceData}
-          onExit={() => this.setState({ notesLayoutOpen: false })}
-        />
-      </CSSTransition>
+          in={notesLayoutOpen}
+          timeout={800}
+          classNames="sliding-container"
+          unmountOnExit
+        >
+          <NotesLayout
+            sequenceData={this.props.songSequences.find(
+              (sequence) => sequence.id === this.state.activeSequenceID
+            )}
+            sequenceUpdater={this.updateSequenceData}
+            onExit={() => this.setState({ notesLayoutOpen: false })}
+          />
+        </CSSTransition>
       </div>
     );
   }
@@ -248,6 +219,8 @@ class ContainerComponent extends React.Component {
 
 ContainerComponent.propTypes = {
   transitionEmpty: PropTypes.bool,
+  songSequences: PropTypes.array,
+  dispatch: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(ContainerComponent);

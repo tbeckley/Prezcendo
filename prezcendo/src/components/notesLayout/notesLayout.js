@@ -215,7 +215,7 @@ class NotesLayout extends Component {
 NotesLayout.propTypes = {
   sequenceData: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.number,
+    id: PropTypes.string,
     bpm: PropTypes.number,
     noteValue: PropTypes.number,
     tracks: PropTypes.array,

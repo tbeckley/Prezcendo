@@ -59,8 +59,7 @@ export default function rootReducer(state = defaultState, action) {
     }
 
     case types.ADD_TRACK: {
-      //   const index = R.indexOf((a) => a.id === payload.blockId, state.blocks);
-      const index = 0;
+      const index = R.findIndex(R.propEq("id", payload.blockId), state.blocks);
 
       return {
         ...state,
@@ -102,6 +101,29 @@ export default function rootReducer(state = defaultState, action) {
           },
         },
       };
+
+    case types.UPDATE_TRACK: {
+      const index = R.findIndex(R.propEq("id", payload.blockId), state.blocks);
+
+      return {
+        ...state,
+        blocks: [
+          ...state.blocks.slice(0, index),
+          {
+            ...state.blocks[index],
+            tracks: [
+              ...state.blocks[index].tracks.slice(0, payload.trackIndex),
+              {
+                ...state.blocks[index].tracks[payload.trackIndex],
+                notes: payload.notes
+              },
+              ...state.blocks[index].tracks.slice(payload.trackIndex + 1)
+            ]
+          },
+          ...state.blocks.slice(index + 1)
+        ],
+      };
+    }
 
     case types.LOAD_INSTRUMENTS:
       return {

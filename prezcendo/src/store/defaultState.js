@@ -2,17 +2,6 @@ import { SCALE_NOTES, SCALE_TYPES, GENRES } from "../constants";
 
 export default {
   blocks: [
-    {
-      tracks: [
-        {
-          id: "_TRACK",
-          instrument: "piano",
-          notes: [],
-        },
-      ],
-      name: "BLARG",
-      id: "_BLOCK",
-    },
   ],
   bridges: [
     {

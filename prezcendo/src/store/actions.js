@@ -80,4 +80,12 @@ export default {
       },
     });
   },
+  updateTrack: (blockId, trackIndex, notes) => ({
+    type: types.UPDATE_TRACK,
+    payload: {
+      blockId,
+      trackIndex,
+      notes
+    }
+  })
 };

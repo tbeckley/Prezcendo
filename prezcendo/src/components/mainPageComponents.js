@@ -124,7 +124,7 @@ class ContainerComponent extends React.Component {
 
       return (
         <React.Fragment key={sequence.id}>
-          <div onClick={(e) => this.openNotesLayout(sequence.id)}>
+          <div onClick={() => this.openNotesLayout(sequence.id)}>
             <SongSection
               clickable={!this.state.notesLayoutOpen}
               key={sequence.id}

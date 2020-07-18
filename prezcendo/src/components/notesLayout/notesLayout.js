@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { Typography } from "../algorithmInterface/common";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import styled from "@emotion/styled";
 import { IdMaker } from "../../helpers/unitHelper";
 import { GiPianoKeys } from "react-icons/gi";
 import actions from "../../store/actions";
+import TrackNotesGrid from "./trackNotesGrid";
 
-import React, { Component } from "react";
+import React, { Component } from "react"; //eslint-disable-line no-unused-vars
 
 import * as R from "ramda";
 import { connect } from "react-redux";
@@ -89,22 +90,21 @@ class NotesLayout extends Component {
   };
 
   TrackLayers = () =>
-    this.props.sequenceData.tracks.map((track) => {
-      return (
-        <div
-          key={`track_${track.index}`}
-          css={css`
-            margin: 20px 0;
-            background: ${theme.colors.grey.dark};
-            display: flex;
-            align-items: center;
-            border-radius: 12px;
-          `}
-        >
-          {this.InstrumentIcon(track.instrument)}
-        </div>
-      );
-    });
+    this.props.sequenceData.tracks.map((track, idx) => (
+      <div
+        key={idx}
+        style={{
+          backgroundColor: theme.colors.green.dark,
+          display: "flex",
+          alignItems: "center",
+          borderRadius: 12,
+          margin: "20px 0",
+        }}
+      >
+        {this.InstrumentIcon(track.instrument)}
+        <TrackNotesGrid trackIndex={idx} blockId={this.props.sequenceID} />
+      </div>
+    ));
 
   addNewTrack = (instrument = "PIANO") => {
     this.props.dispatch(
@@ -164,18 +164,6 @@ class NotesLayout extends Component {
               </h1>
             </Col>
           </Row>
-          {/* <Row>
-          <Col>
-            <button
-              onClick={(e) => {
-                sequenceUpdater({ ...sequenceData, name: "Cool Name" });
-              }}
-            >
-              Click me and the Name of this section will change!
-            </button>
-          </Col>
-          <Col>{JSON.stringify(sequenceData)}</Col>
-        </Row> */}
           {!this.props.sequenceData.tracks.length && (
             <Row>
               <Col
@@ -192,7 +180,7 @@ class NotesLayout extends Component {
           <Row>
             <Col>
               <div
-                //onClick={(e) => this.setEditingTrack(!this.state.editingTrack)}
+                //onClick={(e) => this.setEditingTrack(!this.state.editingTrack)} // Fix
                 css={css`
                   display: flex;
                   justify-content: center;

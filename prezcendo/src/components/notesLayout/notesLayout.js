@@ -94,11 +94,13 @@ class NotesLayout extends Component {
       <div
         key={idx}
         style={{
-          backgroundColor: theme.colors.green.dark,
+          backgroundColor: theme.colors.grey.dark,
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-around",
           borderRadius: 12,
           margin: "20px 0",
+          overflowX: "auto",
         }}
       >
         {this.InstrumentIcon(track.instrument)}

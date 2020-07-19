@@ -35,6 +35,7 @@ export const theme = {
     grey: {
       light: "#E5E5E5",
       dark: "#9E9E9E",
+      dark2: "#525252",
       darker: "#252424",
       accent: "#555555",
     },
@@ -47,6 +48,7 @@ export const theme = {
 
       red: { normal: "#E28E8E" },
       blue: { normal: "#6ECBF4" },
+      teal: { normal: "#46908a" },
     },
   },
 };

@@ -4,7 +4,10 @@
     "es2020": true,
     "commonjs": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "settings": {
     "react": {
       "version": "detect"
@@ -25,6 +28,13 @@
   "rules": {
     "semi": ["warn", "always"],
     "eol-last": ["warn", "always"],
-    "no-unused-vars": ["warn"]
-  }
+    "no-unused-vars": ["warn"],
+    "react/prop-types": ["warn"],
+    "max-len": [2, 180, 4],
+    "quotes": ["warn", "double"]
+  },
+  "ignorePatterns": [
+    "**/serviceWorker.js",
+    "**/index.js"
+  ]
 }

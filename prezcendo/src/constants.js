@@ -1,8 +1,8 @@
 export const GENRES = {
-    JAZZ: 'jazz',
-    ROCK: 'rock',
-    BLUES: 'blues',
-    POP: 'pop'
+    JAZZ: "jazz",
+    ROCK: "rock",
+    BLUES: "blues",
+    POP: "pop"
 };
 
 export const SCALE_NOTES = {

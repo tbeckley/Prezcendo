@@ -44,16 +44,8 @@ class TrackNotesGrid extends Component {
   constructor(props) {
     super(props);
 
-    const testingNotes = [
-      {
-        note: 0,
-        time: 0,
-        type: SCALE_TYPES.NATRUAL,
-      },
-    ];
-
     this.state = {
-      notes: R.concat(testingNotes, props.initialTrackData.notes),
+      notes: props.initialTrackData.notes,
     };
   }
 

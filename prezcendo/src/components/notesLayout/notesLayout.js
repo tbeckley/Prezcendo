@@ -144,8 +144,8 @@ class NotesLayout extends Component {
               max-width: 300px;
             `}
           >
-            Right-click to Enable / Disable a Note. Left-click to switch between
-            Sharp / Flat.
+            Left-click to Enable / Disable a Note. Right-click to cycle between
+            Sharp / Flat / Natural.
           </Typography>
         </div>
 

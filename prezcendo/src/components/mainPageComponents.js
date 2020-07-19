@@ -6,7 +6,14 @@ import { connect } from "react-redux";
 import "../css/App.css";
 import actions from "../store/actions";
 
-import { Tooltip, Modal, ModalHeader, ModalBody } from "reactstrap";
+import {
+  Tooltip,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Input,
+  Button,
+} from "reactstrap";
 import ToolBar from "./algorithmInterface/toolBar";
 import TreePanel from "./algorithmInterface/treePanel";
 import InfoPanel from "./algorithmInterface/infoPanel";
@@ -54,7 +61,9 @@ class ContainerComponent extends React.Component {
     super(props);
 
     this.state = {
+      newBlockName: "",
       notesLayoutOpen: false,
+      blockNamingModalOpen: false,
       editorOpen: false,
       transitionTipOpen: false,
       bridgeID: 0,
@@ -71,8 +80,7 @@ class ContainerComponent extends React.Component {
         cursor: pointer;
       `}
       onClick={() => {
-        console.log("TEST");
-        this.props.dispatch(actions.addBlock("BLARG"));
+        this.setState({ blockNamingModalOpen: true });
       }}
     >
       <FontAwesomeIcon
@@ -111,6 +119,62 @@ class ContainerComponent extends React.Component {
       ...old.slice(targetSequenceIndex + 1),
     ];
     this.setState({ songSequences: newSequencesState });
+  };
+
+  NamePrompt = () => {
+    const isInputValid = this.state.newBlockName.length > 0;
+    const submit = () => {
+      if (isInputValid) {
+        this.props.dispatch(actions.addBlock(this.state.newBlockName));
+        this.setState({ newBlockName: "" });
+        this.setState({ blockNamingModalOpen: false });
+      }
+    };
+    return (
+      <Modal
+        autoFocus={false}
+        size="sm"
+        isOpen={this.state.blockNamingModalOpen}
+        css={css`
+          margin-top: 30%;
+        `}
+      >
+        <ModalHeader>Give a name to your song&apos;s new block</ModalHeader>
+        <ModalBody>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+            `}
+          >
+            <Input
+              onKeyDown={(e) => {
+                if (e.key === "Enter") submit();
+              }}
+              maxLength={15}
+              autoFocus
+              onChange={(e) => {
+                this.setState({ newBlockName: e.target.value });
+              }}
+              value={this.state.newBlockName}
+              css={css`
+                width: 75%;
+              `}
+              placeholder="New block name..."
+            />
+
+            <Button
+              disabled={!isInputValid}
+              color="primary"
+              onClick={() => submit()}
+            >
+              Create
+            </Button>
+          </div>
+        </ModalBody>
+      </Modal>
+    );
   };
 
   render() {
@@ -198,6 +262,7 @@ class ContainerComponent extends React.Component {
             </div>
           </ModalBody>
         </Modal>
+        {this.NamePrompt()}
         <CSSTransition
           in={notesLayoutOpen}
           timeout={800}

@@ -1,8 +1,5 @@
-import time
-
-import mido
-from mido import MidiFile
 from music21 import *
+from music21 import midi
 from music21.note import Note, Rest
 from music21.stream import Voice
 
@@ -51,26 +48,28 @@ def number_to_note(number: int) -> tuple:
 
 
 def convert_output_array_to_midi_array(song_notes_for_output):
+    global prev_note
     s = stream.Stream()
     # iterate through tracks
     for tracks in song_notes_for_output:
-        prev_note = 0
+        new_part = stream.Part()
         # iterate through output convention array to convert back to midi array
         for track_note in tracks:
             if track_note == -1:
                 r = Rest()
                 r.quarterLength = 0.25
-                s.append(r)
+                new_part.append(r)
             elif track_note == -2:
-                n = Note(prev_note[0] + str(prev_note[1]))
-                n.quarterLength = 0.25
-                s.append(n)
+                prev_note.quarterLength += 0.25
+                new_part.pop(len(new_part) - 1)
+                new_part.append(prev_note)
             else:
                 letter_note_array = number_to_note(track_note + 48)
-                prev_note = letter_note_array
                 n = Note(letter_note_array[0] + str(letter_note_array[1]))
                 n.quarterLength = 0.25
-                s.append(n)
+                prev_note = n
+                new_part.append(n)
+        s.insert(0, new_part)
     return s
 
 
@@ -83,19 +82,12 @@ def create_midi_file(output_midi_array, output_filename):
 
 
 def play_midi(output_filename):
-    # CODE TO PLAY THE SONG
-    with mido.open_output() as output:
-        try:
-            midi_file = MidiFile(output_filename)
-            t0 = time.time()
-            for message in midi_file.play():
-                print(message)
-                output.send(message)
-            print('play time: {:.2f} s (expected {:.2f})'.format(
-                time.time() - t0, midi_file.length))
-        except KeyboardInterrupt:
-            print()
-            output.reset()
+    mf = midi.MidiFile()
+    mf.open(output_filename)
+    mf.read()
+    mf.close()
+    s = midi.translate.midiFileToStream(mf)
+    s.show('midi')
 
 
 # might need to change as solely based on one test file

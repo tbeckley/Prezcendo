@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 function mapStateToProps(state, ownProps) {
   return {
     sequenceData: R.filter((a) => a.id == ownProps.sequenceID, state.blocks)[0],
+    songData: state.songSettings
   };
 }
 
@@ -121,9 +122,9 @@ class NotesLayout extends Component {
   };
 
   export = () => {
-    let midiData = generateMidi(this.props.sequenceData);
-    sendFileToApi("midi-save", midiData).then(q => {
-      console.log(q);
+    let midiData = generateMidi(this.props.sequenceData, this.props.songData);
+    sendFileToApi("save-midi", midiData).then(j => {
+      console.log(j);
     }).catch(e => {
       console.log(e);
     });
@@ -245,5 +246,6 @@ NotesLayout.propTypes = {
   onExit: PropTypes.func,
   sequenceID: PropTypes.string,
   dispatch: PropTypes.func,
+  songData: PropTypes.object
 };
 export default connect(mapStateToProps)(NotesLayout);

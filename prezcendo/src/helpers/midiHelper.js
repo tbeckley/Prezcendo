@@ -98,13 +98,14 @@ export const getMaxLength = (music) => Math.max(
   R.filter(R.pipe(R.isNil, R.not), R.map(R.pipe(R.prop("notes"), R.last), music.tracks))));
 
 
+const scale = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5" ];
 // MIDI Generation
-export function generateMidi (sequenceData) {
+export function generateMidi (sequenceData, songData) {
   let midi = new Midi();
 
-  const scale = ["C3", "D3", "E3", "F3", "G3", "A4", "B4", "C4" ];
+  midi.header.setTempo(songData.bpm);
 
-  const beatTime = 0.5;
+  const noteLength = (60/songData.bpm) * (songData.timeSignature[1]/16); // Seconds per beat * beats / note
 
   for(const track of sequenceData.tracks) {
     let midiTrack = midi.addTrack();
@@ -114,8 +115,8 @@ export function generateMidi (sequenceData) {
     for(const note of track.notes) {
       let obj = {
         name: scale[note.note],
-        time: beatTime * note.time,
-        duration: beatTime
+        time: noteLength * note.time,
+        duration: noteLength
       };
 
       midiTrack.addNote(obj);

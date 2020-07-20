@@ -24,8 +24,6 @@ app = Flask(__name__)
 
 @app.route('/initialise-bridge', methods=['GET', 'POST'])
 def generate_bridge():
-   body = request.get_json()
-
    files = ["first.mid", "VampireKillerCV1.mid", "samba.mid"]
    content = [None]*len(files)
 
@@ -59,6 +57,14 @@ def get_midi(key = None):
    resp = Response(val, mimetype="audio/midi")
    resp.headers['Access-Control-Allow-Origin'] = '*'
 
+   return resp
+
+@app.route('/midi-save')
+def save_midi():
+   print(request)
+
+   resp = Response("HELLO")
+   resp.headers['Access-Control-Allow-Origin'] = '*'
    return resp
 
 @app.route('/')

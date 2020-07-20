@@ -11,7 +11,9 @@ import { IdMaker } from "../../helpers/unitHelper";
 import { GiPianoKeys } from "react-icons/gi";
 import actions from "../../store/actions";
 import TrackNotesGrid from "./trackNotesGrid";
-
+import { MdFileDownload } from "react-icons/md";
+import { generateMidi } from "../../helpers/midiHelper";
+import { sendFileToApi } from "../../helpers/webAPIHelper";
 import React, { Component } from "react"; //eslint-disable-line no-unused-vars
 
 import * as R from "ramda";
@@ -118,6 +120,16 @@ class NotesLayout extends Component {
     );
   };
 
+  export = () => {
+    let midiData = generateMidi(this.props.sequenceData);
+    sendFileToApi("midi-save", midiData).then(q => {
+      console.log(q);
+    }).catch(e => {
+      console.log(e);
+    });
+
+  }
+
   render() {
     return (
       <div
@@ -144,9 +156,14 @@ class NotesLayout extends Component {
               max-width: 300px;
             `}
           >
-            Left-click to Enable / Disable a Note. Right-click to cycle between
+            <div>Left-click to Enable / Disable a Note. Right-click to cycle between
             Sharp / Flat / Natural.
+            </div>
+            <Button onClick={this.export}>
+              <MdFileDownload size={50} />
+            </Button>
           </Typography>
+
         </div>
 
         <div
@@ -190,17 +207,19 @@ class NotesLayout extends Component {
                 `}
               >
                 {!this.state.editingTrack ? (
-                  <FontAwesomeIcon
-                    onClick={this.addNewTrack}
-                    icon={faPlusCircle}
-                    size="3x"
-                    color={theme.colors.buttons.green.normal}
-                    css={css`
-                      &:hover {
-                        color: ${theme.colors.buttons.green.dim};
-                      }
-                    `}
-                  />
+                  <div>
+                    <FontAwesomeIcon
+                      onClick={this.addNewTrack}
+                      icon={faPlusCircle}
+                      size="3x"
+                      color={theme.colors.buttons.green.normal}
+                      css={css`
+                        &:hover {
+                          color: ${theme.colors.buttons.green.dim};
+                        }
+                      `}
+                    />
+                  </div>
                 ) : (
                   <Button color={"primary"}>Close</Button>
                 )}

@@ -1,4 +1,4 @@
-import * as R from 'ramda';
+import * as R from "ramda";
 
 const WEB_API_URL = "http://localhost:5000";
 
@@ -26,6 +26,17 @@ export async function postToApi(endpoint, data) {
             "Access-Control-Allow-Origin": "*"
         },
         body: JSON.stringify(data),
+        method: "POST"
+    });
+}
+
+export async function sendFileToApi(endpoint, fileData, mimeType="audio/midi") {
+    return await fetch(`${WEB_API_URL}/${endpoint}`, {
+        headers: {
+            "content-type": mimeType,
+            "Access-Control-Allow-Origin": "*"
+        },
+        body: fileData,
         method: "POST"
     });
 }

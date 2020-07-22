@@ -1,5 +1,7 @@
 from fitnessFunc import *
 from DNA import *
+from service import *
+from testSongs import *
 import random
 
 #to reduce merge conflicts
@@ -8,29 +10,9 @@ def ALtests():
     bridge = [[-2]*cols]*rows
 
     jazz = fitnessFunc("Jazz")
-    # jazz.printBridge(bridge)
-    # fitness = jazz.fitnessCalc(bridge, 0)
-    # print(fitness)
 
-    # bridge = [[0]*cols]*rows
-    # fitness = jazz.fitnessCalc(bridge, 0)
-    # print(fitness)
-
-    # bridge = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-    #     0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2]]*rows
-
-    bridge = [[0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2, 
-        0, -2, -2, -2, -2, 0, -1, 5, -2, -2, -2, 7, -2, -2, -2, -2],
-        
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-    fitness = jazz.fitnessCalc(bridge, 0)
+    bridge = SongThatMightPlay
+    fitness = jazz.fitnessCalc(LaVieEnRose, 2, LaVieEnRose, LaVieEnRose)
     print(fitness)
 
 def DNAFitnessTest():
@@ -65,7 +47,7 @@ def DNAFitnessTest():
     print(child.gene)
 
     jazz = fitnessFunc("Jazz")
-    fitness = jazz.fitnessCalc(child.gene, 0)
+    fitness = jazz.fitnessCalc(child.gene, 0, DNA1.gene, DNA2.gene)
     print("FITNESS " + str(fitness))
 
 #credit to https://stackoverflow.com/questions/15036009/suppose-i-have-three-weighted-choices-how-do-i-randomly-select-one
@@ -80,25 +62,19 @@ def weighted_choice(weights):
     #print("WEIGHT: " + str(i))
     return i
 
-def genInitPop(childAmt, crossVer):
+def genInitPop(childAmt, crossVer, song1, song2, tonic):
     #init first population (from midi/tyler)
 
-    #careless whisper
-    gene1 = [[19, -2, -2, -2, 17, -2, 12, -2, -2, -2, 8, -2, -2, -2, -2, -2, 19, -2, -2, -2, 17, -2, 12, -2, -2, -2, 8, -2, -2, -2, -1, -1,  15, -2, -2, -2, 13, -2, 8, -2, -2, -2, 5, -2, -2, -2, -2, -2, 15, -2, -2, -2, 13, -2, 8, -2, -2, -2, -2, -2, -2, -2, -2, -2, 13, -2, -2, -2, 12, -2, 8, -2, -2, -2, -2, -2, 5, -2, -2, -2, 1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, 1, -2, -2, -2, 3, -2, -2, -2, 5, -2, -2, -2, 7, -2, -2, -2, 8, -2, -2, -2, 10, -2, -2, -2, 12, -2, -2, -2],
-        
-        [-1, -1, -1, -1, 5, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, 10, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, -1, 0, -2, -2, -2, -1, -1, 1, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -1, -1, 12, -2, -2, -2, -2, -2, -2, -2, -1, -1, -1, -1, 12, -2, -1, -1, 12, -2, -2, -2, -2, -2, -2, -2, -2, -2]]
+    gene1 = song1 #placeholders for now instead of the midis we will be passed
     
-    #giorno's theme
-    gene2 =  [[12, -2, -2, -2, -1, -1, 8, -2, -2, -2, -2, -2, -1, -1, 8, 10, 11, -2, -2, 10, -2, -2, 8, -2, 7, -2, -2, 8, -2, -2, 10, -2, 12, -2, -1, 12, -1, -1, 17, -2, -2, -2, -2, -2, 5, -1, 7, -1, 8, -2, -2, 10, -2, -2, 8, -2, 9, -2, -2, 15, -2, -2, 13, -2, 12, -2, -2, -2, -1, -1, 8, -2, -2, -2, -2, -2, -1, -1, 8, 10, 11, -2, -2, 10, -2, -2, 8, -2, 7, -2, -2, 8, -2, -2, 10, -2, 12, -2, -2, -2, -1, -1, 17, -2, -2, -2, -2, -1, 17, -1, 19, -1, 20, -2, -2, 13, -2, -2, 12, -2, 11, -2, -2, 20, -2, -2, 16, -2],
-        
-        [5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, -2, -2, -2, -2, 5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, -2, -2, -2, -2, 5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -1, -1, 0, -2, -2, -2, -2, -2, -2, -2, 5, -2, -2, -2, -1, -1, 2, -2, -2, -2, -2, -2, -2, -2, -2, -2, 7, -2, -2, -2, -2, -2, -2, -2, 0, -2, -2, -2, -2, -2, -2, -2]]
+    gene2 = song2
 
     DNA1 = DNA(4, 4, 2, gene1)
-    DNA2 = DNA(4, 4, 2)
+    DNA2 = DNA(4, 4, 2, gene2)
 
     jazz = fitnessFunc("Jazz")
-    print("Careless Whisper: " + str(jazz.fitnessCalc(gene1, 0))) #originally in B, transposed to C, lowest note C
-    print("Giorno's theme: " + str(jazz.fitnessCalc(gene2, 7))) #originally in D, transposed to G, lowest note A
+    print("First Track: " + str(jazz.fitnessCalc(gene1, tonic, gene1, gene2))) 
+    print("Second Track: " + str(jazz.fitnessCalc(gene2, tonic, gene1, gene2))) 
 
     children = []
 
@@ -111,16 +87,19 @@ def genInitPop(childAmt, crossVer):
     
     return children
 
-def evolution(gen, childAmt, tonic, initialPop, crossVer):
+def evolution(gen, childAmt, tonic, initialPop, crossVer, gene1, gene2):
     children = initialPop
     jazz = fitnessFunc("Jazz")
+    total = 0
 
     for g in range(gen):
+        total = 0
         fitness = []
 
         for val in children:
             #print(val.gene)
-            fitness.append(jazz.fitnessCalc(val.gene, tonic))
+            fitness.append(jazz.fitnessCalc(val.gene, tonic, gene1, gene2))
+            total += fitness[-1]
         #print(fitness)
 
         newChildren = []
@@ -144,33 +123,16 @@ def evolution(gen, childAmt, tonic, initialPop, crossVer):
         children = newChildren
 
     print("FITNESS: " + str(fitness))
+    print(total)
     return children
-    
 
-    #generate 5 children
-    #apply fitness to all children
-    #normalize
-    #use to calculate probability of selecting child as parent
-    #generate 5 new children from randomly selected parents (randomly select each time, reroll if it's the same)
+crossVer = 2 #TODO: CHANGE THIS whenever you want to switch between the crossover functions
+tonic = 3
+song1 = LaVieEnRose
+song2 = GoldenWind
+init = genInitPop(10, crossVer, song1, song2, tonic)
 
-#msg = "Hello World. Python is running on your computer."
-#print(msg)
-
-crossVer = 1 #TODO: CHANGE THIS
-init = genInitPop(10, crossVer)
-
-#gen 1
-children = evolution(1, 10, 0, init, crossVer)
-#gen 2
-children = evolution(1, 10, 0, children, crossVer)
-#gen 3
-children = evolution(1, 10, 0, children, crossVer)
-#gen 5
-children = evolution(2, 10, 0, children, crossVer)
-#gen 10
-children = evolution(5, 10, 0, children, crossVer)
-#gen 20
-children = evolution(10, 10, 0, children, crossVer)
+children = evolution(80, 10, tonic, init, crossVer, song1, song2)
 
 for val in children:
     print(val.gene)

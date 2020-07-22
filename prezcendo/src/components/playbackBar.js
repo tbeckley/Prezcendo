@@ -44,9 +44,9 @@ class PlaybackBar extends Component {
                     <Col>
                         <ProgressBar min={0} now={ this.state.time } max={ this.props.duration }  style={{ width: '100%', height: '100%' }} />
                     </Col>
-                    <div>
-                        { toTimeNotation(this.state.time) } / { toTimeNotation(this.props.duration) }
-                    </div>
+                        <div>
+                            { toTimeNotation(this.state.time) } / { toTimeNotation(this.props.duration) }
+                        </div>
                 </Row>
             </Container>
         );
@@ -55,11 +55,13 @@ class PlaybackBar extends Component {
 
 PlaybackBar.propTypes = {
     isDisabled: PropTypes.bool,
-    duration: PropTypes.number
+    duration: PropTypes.number,
+    minimal: PropTypes.bool,
 };
 
 PlaybackBar.defaultProps = {
-    isDisabled: false
+    isDisabled: false,
+    minimal: false,
 };
 
 export default connect(mapStateToProps)(PlaybackBar); // Stub for later

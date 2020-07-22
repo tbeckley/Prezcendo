@@ -14,7 +14,7 @@ class DNA:
     # gene: 2d array with dimensions tracks*length
     # fitness: an object's fitness, defaults to 0 but can be calculated using fitness functions
 
-    mutationRate = 0.1 # replace with whatever rate you want
+    mutationRate = 0.01 # replace with whatever rate you want
     highestNote = 24 # assuming lowest note is 0, and we want a 2-octave span
 
     def __init__(self, numerator, denominator, track, genes=None):

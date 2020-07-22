@@ -1,8 +1,8 @@
 export const GENRES = {
-    JAZZ: 'jazz',
-    ROCK: 'rock',
-    BLUES: 'blues',
-    POP: 'pop'
+    JAZZ: "jazz",
+    ROCK: "rock",
+    BLUES: "blues",
+    POP: "pop"
 };
 
 export const SCALE_NOTES = {
@@ -21,3 +21,20 @@ export const SCALE_TYPES = {
     SHARP: 2
 };
 
+export const TRANSITION_SLIDERS = {
+    happySad:{
+        names: [ "Happy", "Sad" ],
+        min: 0,
+        max: 100
+    },
+    simpleComplex:{
+        names: [ "Simple", "Complex" ],
+        min: 0,
+        max: 100
+    },
+    duration:{
+        names: [ "Duration", "(seconds)" ],
+        min: 0,
+        max: 10
+    }
+};

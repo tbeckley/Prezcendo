@@ -3,19 +3,14 @@ import Tone from "tone";
 
 import * as R from "ramda";
 
-import { getBaseURL } from './webHelper';
+import { getBaseURL } from "./webHelper";
 
-// RESPONSE
+// Helpers for construction
 export async function responseToArrayBuffer(resp) {
   return await (await resp.blob()).arrayBuffer();
 }
 
 export const getObjectFromArray = (arrayBuffer) => new Midi(arrayBuffer);
-
-// MUSIC INFO
-export const getMaxLength = (music) => Math.max(
-    ...R.map(R.pipe(R.props(["time", "duration"], R.__), R.sum),
-    R.filter(R.pipe(R.isNil, R.not), R.map(R.pipe(R.prop("notes"), R.last), music.tracks))));
 
 // Match up track names to our names - Logic TBD
 export function getInstrumentName (instrument) {
@@ -25,8 +20,7 @@ export function getInstrumentName (instrument) {
   }
 }
 
-// Take the track and get hthe name property
-export const getInstrumentFromTrack = R.pipe(R.path(['instrument', 'name']), getInstrumentName);
+export const getInstrumentFromTrack = R.pipe(R.path(["instrument", "name"]), getInstrumentName);
 
 export function getInstrumentsToAdd(existingInstruments, music) {
   const requiredInstruments = R.uniq(R.map(getInstrumentFromTrack, music.tracks));
@@ -38,8 +32,8 @@ export function getInstrumentsToAdd(existingInstruments, music) {
     new Tone.Sampler(generateSourceMap(".ogg"), () => {}, `${BASE_URL}/samples/${instrument}/`).toMaster(), toCreate)]));
 }
 
-export function generateSourceMap(extesion='.ogg') {
-  const notes = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+export function generateSourceMap(extesion=".ogg") {
+  const notes = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
   const nums = R.map(R.toString, R.range(1, 7));
 
   let fullNotes = R.map(R.reduce(R.concat, ""), R.xprod(notes, nums));
@@ -47,6 +41,7 @@ export function generateSourceMap(extesion='.ogg') {
   return R.fromPairs(R.transpose([fullNotes, R.map(R.pipe(R.concat(R.__, extesion), R.replace("#", "s")), fullNotes)]));
 }
 
+// Music controls
 export async function playMusic(music, onceComplete = null, instruments = {}) {
   await Tone.start(); // TODO - Is running
 
@@ -58,7 +53,7 @@ export async function playMusic(music, onceComplete = null, instruments = {}) {
   requiredInstruments.map(i => i.sync());
 
   // Prepare the cleanup
-  const cleanupFunctions = ['releaseAll', 'unsync'];
+  const cleanupFunctions = ["releaseAll", "unsync"];
   const onCleanup = R.map(i => (() => i[0][i[1]]()), R.xprod(requiredInstruments, cleanupFunctions));
 
   for (let track of music.tracks)
@@ -86,13 +81,47 @@ export async function playMusic(music, onceComplete = null, instruments = {}) {
   });
 }
 
-export function getPlaybackTime() {
-  return Tone.Transport.state == "stopped" ? 0 : Tone.Transport.getSecondsAtTime();
-}
-
 export async function stopMusic() {
   Tone.Transport.cancel();
   Tone.Transport.emit("cleanup");
 }
 
+// Music status info
 export const isPlaying = () => Tone.Transport.status == "status";
+
+export function getPlaybackTime() {
+  return Tone.Transport.state == "stopped" ? 0 : Tone.Transport.getSecondsAtTime();
+}
+
+export const getMaxLength = (music) => Math.max(
+  ...R.map(R.pipe(R.props(["time", "duration"], R.__), R.sum),
+  R.filter(R.pipe(R.isNil, R.not), R.map(R.pipe(R.prop("notes"), R.last), music.tracks))));
+
+
+// MIDI Generation
+export function generateMidi (sequenceData) {
+  let midi = new Midi();
+
+  const scale = ["C3", "D3", "E3", "F3", "G3", "A4", "B4", "C4" ];
+
+  const beatTime = 0.5;
+
+  for(const track of sequenceData.tracks) {
+    let midiTrack = midi.addTrack();
+    midiTrack.instrument = track.instrument;
+
+
+    for(const note of track.notes) {
+      let obj = {
+        name: scale[note.note],
+        time: beatTime * note.time,
+        duration: beatTime
+      };
+
+      midiTrack.addNote(obj);
+    }
+  }
+
+  return new Buffer(midi.toArray()); // eslint-disable-line no-undef
+}
+

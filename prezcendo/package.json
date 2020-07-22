@@ -7,6 +7,9 @@
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -55,6 +58,7 @@
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
     "react-scripts": "^3.4.1",
+    "react-scrollbars-custom": "^4.0.25",
     "reactstrap": "^8.5.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
@@ -76,7 +80,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "lint": "eslint ./src/*.js{,on}"
+    "lint": "eslint ./src/**/**.js{,on}"
   },
   "browserslist": {
     "production": [

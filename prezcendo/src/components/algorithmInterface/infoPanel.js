@@ -14,8 +14,10 @@ function mapStateToProps(state, ownProps) {
 
   return {
     ...ownProps,
+    bridgeID: modal.selectedBridge,
     revisionID: modal.selectedRevision,
     transitionInfo: bridgeInfo.revisions[modal.selectedRevision],
+    revisionLength: bridgeInfo.revisions.length,
   };
 }
 
@@ -24,19 +26,21 @@ class InfoPanel extends Component {
   setBridge = () => this.props.dispatch(actions.setCurrentBridge( this.props.revisionID ));
 
   render() {
-    console.log(this.props);
-    
-    if ( this.props.revisionID == null ) {
-      return(null);
-    }
-
     const transitionInfo = this.props.transitionInfo;
-    const name = transitionInfo.name ? transitionInfo.name : ("Transition " + (this.props.revisionID + 1));
 
     return(
-      <FlexCol className="VersionB Generate">
-        <MusicBox bridge={0} rev={0} />
-        <Typography>NAME: {name} </Typography>
+      transitionInfo == null || this.props.revisionLength == 0
+      ? <FlexCol className="VersionB Generate">
+        <Typography> NO TRANSITIONS HAVE BEEN CREATED YET </Typography>
+        <TooltipButton 
+            buttonText="CREATE NEW TRANSITION" 
+            onClick={() => this.props.dispatch( actions.setNewTransModalOpen(true))} 
+        />
+      </FlexCol>
+
+      : <FlexCol className="VersionB Generate">
+        <MusicBox bridge={this.props.bridgeID} rev={this.props.revisionID} />
+        <Typography>NAME: { transitionInfo.name ? transitionInfo.name : ("Transition " + (this.props.revisionID + 1)) } </Typography>
         <SlidersDisplay parameters={transitionInfo.parameters} />
 
         <TooltipButton buttonText="DELETE" />
@@ -53,7 +57,9 @@ class InfoPanel extends Component {
 InfoPanel.propTypes = {
   transitionInfo: PropTypes.object,
   dispatch: PropTypes.func,
+  bridgeID: PropTypes.number,
   revisionID: PropTypes.number,
+  revisionLength: PropTypes.number,
 };
 
 export default connect(mapStateToProps)(InfoPanel);

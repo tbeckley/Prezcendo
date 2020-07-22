@@ -14,10 +14,8 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import ToolBar from "./algorithmInterface/toolBar";
-import TreePanel from "./algorithmInterface/treePanel";
-import InfoPanel from "./algorithmInterface/infoPanel";
 
+import TransitionModal from './algorithmInterface/transitionModal';
 import SongSection from "./songSection/songSection";
 import NotesLayout from "./notesLayout/notesLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -51,7 +49,7 @@ export class HeaderComponent extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    transitionEmpty: state.bridges[0].revisions.length == 0,
+    currentRevision: state.bridges[0].currentRevision,
     songSequences: state.blocks,
   };
 }
@@ -64,7 +62,6 @@ class ContainerComponent extends React.Component {
       newBlockName: "",
       notesLayoutOpen: false,
       blockNamingModalOpen: false,
-      editorOpen: false,
       transitionTipOpen: false,
       bridgeID: 0,
       activeSequenceID: null,
@@ -97,8 +94,6 @@ class ContainerComponent extends React.Component {
 
   toggleTip = () =>
     this.setState({ transitionTipOpen: !this.state.transitionTipOpen });
-
-  closeEditor = () => this.setState({ editorOpen: false });
 
   openNotesLayout = (sequenceID) => {
     if (!this.state.notesLayoutOpen) {
@@ -225,9 +220,9 @@ class ContainerComponent extends React.Component {
           <button
             className={
               "App-transition-button" +
-              (this.props.transitionEmpty ? " empty" : "")
+              (this.props.currentRevision == null ? " empty" : "")
             }
-            onClick={() => this.setState({ editorOpen: true })}
+            onClick={() => this.props.dispatch(actions.setTransModalOpen(true))}
             id="TooltipBridge"
           />
           <SongSection sectionName={"Ending"} color={"purple"} />
@@ -241,27 +236,7 @@ class ContainerComponent extends React.Component {
         >
           Add a transition
         </Tooltip>
-        <Modal
-          isOpen={this.state.editorOpen}
-          toggle={this.closeEditor}
-          scrollable
-        >
-          <ModalHeader toggle={this.closeEditor}>
-            GENERATE A TRANSITION
-          </ModalHeader>
-          <ModalBody>
-            <ToolBar style={{ height: "10%" }} />
-            <div
-              style={{ display: "flex", flexDirection: "row", height: "90%" }}
-            >
-              <TreePanel
-                bridgeID={this.state.bridgeID}
-                style={{ overflow: "auto", height: "100%" }}
-              />
-              <InfoPanel onExit={this.closeEditor} />
-            </div>
-          </ModalBody>
-        </Modal>
+        <TransitionModal />
         {this.NamePrompt()}
         <CSSTransition
           in={notesLayoutOpen}
@@ -280,7 +255,7 @@ class ContainerComponent extends React.Component {
 }
 
 ContainerComponent.propTypes = {
-  transitionEmpty: PropTypes.bool,
+  currentRevision: PropTypes.number,
   songSequences: PropTypes.array,
   dispatch: PropTypes.func,
 };

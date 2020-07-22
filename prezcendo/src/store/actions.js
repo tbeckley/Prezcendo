@@ -28,12 +28,23 @@ export default {
       revisionID,
     },
   }),
-  setSelectedTransition: (revisionID, childID) => ({
-    type: types.SELECT_TRANSITION,
+  setSelectedRevision: (revisionID) => ({
+    type: types.SELECT_REVISION,
     payload: {
       revisionID,
-      childID,
     },
+  }),
+  setTransModalOpen: ( isOpen = false ) => ({
+    type: types.SET_TRANSITION_MODAL_OPEN,
+    payload: {
+      isOpen
+    }
+  }),
+  setNewTransModalOpen: ( isOpen = false ) => ({
+    type: types.SET_NEW_TRANSITION_MODAL_OPEN,
+    payload: {
+      isOpen
+    }
   }),
   addBlock: (name) => ({
     type: types.ADD_BLOCK,

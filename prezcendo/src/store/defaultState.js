@@ -27,8 +27,10 @@ export default {
   },
   interfaceSettings: {
     modal: {
+      transModalOpen: false,
       selectedBridge: 0,
       selectedRevision: null,
+      newTransModalOpen: false,
     },
   },
   instruments: {},
@@ -60,5 +62,5 @@ export const DEFAULT_REVISION = {
   id: 0,
   name: null,
   parameters: DEFAULT_PARAMETERS,
-  midi: null,
+  MIDI: null,
 };

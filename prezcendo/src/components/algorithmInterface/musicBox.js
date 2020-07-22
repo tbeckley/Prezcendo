@@ -80,27 +80,26 @@ class MusicBox extends Component {
         let time = this.props.hasMusic
                     ? Math.ceil(getMaxLength(getObjectFromArray(this.props.revDetails.MIDI)))
                     : null;
-        if ( this.props.minimal ) {
-            return (
-                <Container  style={this.props.style}>
-                    <FlexRow style={{ backgroundColor: this.props.revDetails.color }}>
-                        <Button variant="light" size="lg" onClick={onClickFn} disabled={!this.props.hasMusic}>
-                            {buttonIcon}
-                        </Button>
-                        <PlaybackBar duration={time} minimal={this.props.minimal}/>
-                    </FlexRow>
-                </Container>
-            );
-        }
         return (
-            <Container fluid style={this.props.style}>
+            this.props.minimal
+            
+            ? <Container  style={this.props.style}>
+                <FlexRow style={{ backgroundColor: this.props.revDetails.color }}>
+                    <Button variant="light" size="lg" onClick={onClickFn} disabled={!this.props.hasMusic}>
+                        {buttonIcon}
+                    </Button>
+                    <PlaybackBar duration={time} minimal={this.props.minimal}/>
+                </FlexRow>
+            </Container>
+
+            : <Container fluid style={this.props.style}>
                 <Row style={{ borderStyle: 'solid', backgroundColor: this.props.revDetails.color }}>
                     <Col md={8}>
                         <span style={{ alignItems: "center", display: 'flex', flexDirection: 'column' }} >
                             {this.props.hasMusic ? `Bridge #${this.props.bridge} - Revision #${this.props.revisionID}` : 'No song selected'} <br />
                             <img src={waveFormImg} height={40} /> <br />
                             <PlaybackBar duration={time} />
-                         </span>
+                        </span>
                     </Col>
                     <Col md={4} style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
                         <Button variant="light" size="lg" onClick={onClickFn} disabled={!this.props.hasMusic}>
@@ -116,7 +115,6 @@ class MusicBox extends Component {
 MusicBox.propTypes = {
     revDetails: PropTypes.object,
     bridge: PropTypes.number,
-    rev: PropTypes.number,
     hasMusic: PropTypes.bool,
     style: PropTypes.object,
     revisionID: PropTypes.number,
@@ -126,8 +124,7 @@ MusicBox.propTypes = {
 
 MusicBox.defaultProps = {
     bridgeID: 0,
-    revID: 0,
-    childID: 0,
+    revisionID: 0,
     instruments: {},
     minimal: false,
 };

@@ -6,11 +6,11 @@ import actions from "../../store/actions";
 
 function mapStateToProps(state, ownProps) {
   const modal = state.interfaceSettings.modal;
-  const currentBridge = state.bridges[modal.selectedBridge].currentBridge;
+  const currentRevision = state.bridges[modal.selectedBridge].currentRevision;
 
   return {
     selected: ownProps.revisionID == modal.selectedRevision,
-    current: ownProps.revisionID == currentBridge,
+    current: ownProps.revisionID == currentRevision,
   };
 }
 
@@ -18,7 +18,7 @@ class HistoryBlock extends Component {
 
   select = () => {
     this.props.dispatch(
-        actions.setSelectedTransition(
+        actions.setSelectedRevision(
             this.props.revisionID));
 }
 

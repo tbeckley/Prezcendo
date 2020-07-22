@@ -131,7 +131,7 @@ class ContainerComponent extends React.Component {
         size="sm"
         isOpen={this.state.blockNamingModalOpen}
         css={css`
-          margin-top: 30%;
+          margin-top: 15vh;
         `}
       >
         <ModalHeader>Give a name to your song&apos;s new block</ModalHeader>

@@ -1,8 +1,8 @@
 from flask import Flask, request, Response
+from flask_cors import CORS
 from redis import Redis
 from secrets import token_hex
 import json
-
 
 KEY_LENGTH=8
 
@@ -59,12 +59,18 @@ def get_midi(key = None):
 
    return resp
 
-@app.route('/midi-save')
+@app.route('/save-midi', methods=["GET", "POST"])
 def save_midi():
-   print(request)
+   content = request.data
 
-   resp = Response("HELLO")
-   resp.headers['Access-Control-Allow-Origin'] = '*'
+   key = str(token_hex(KEY_LENGTH))
+   with open("./midis/"+key+".mid", "wb") as file:
+      file.write(content)
+
+   resp = Response(key)
+   resp.headers['Access-Control-Allow-Origin'] = "*"
+   resp.headers['Access-Control-Allow-Headers'] = "Content-Type"
+
    return resp
 
 @app.route('/')
@@ -72,4 +78,5 @@ def test_route():
    return "Hello World!"
 
 if __name__ == '__main__':
-    app.run()
+   CORS(app)
+   app.run()

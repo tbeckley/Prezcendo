@@ -116,7 +116,7 @@ class TrackNotesGrid extends Component {
     );
   };
 
-  SCALE_VALUES = ["C", "D", "E", "F", "G", "A", "B", "C"];
+  SCALE_VALUES = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5" ];
   render() {
     return (
       <div
@@ -128,7 +128,7 @@ class TrackNotesGrid extends Component {
           align-items: center;
         `}
       >
-        {R.range(0, GRID_HEIGHT).map((row, index) => (
+        {R.reverse(R.range(0, GRID_HEIGHT)).map((row) => (
           <div
             key={row}
             css={css`
@@ -136,7 +136,7 @@ class TrackNotesGrid extends Component {
               flex-direction: row;
             `}
           >
-            <BasicNoteSquare>{this.SCALE_VALUES[index]}</BasicNoteSquare>
+            <BasicNoteSquare>{this.SCALE_VALUES[row]}</BasicNoteSquare>
 
             {R.range(0, GRID_WIDTH).map((col) => this.getSquare(row, col))}
           </div>

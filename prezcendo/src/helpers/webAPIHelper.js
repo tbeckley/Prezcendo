@@ -33,8 +33,7 @@ export async function postToApi(endpoint, data) {
 export async function sendFileToApi(endpoint, fileData, mimeType="audio/midi") {
     return await fetch(`${WEB_API_URL}/${endpoint}`, {
         headers: {
-            "content-type": mimeType,
-            "Access-Control-Allow-Origin": "*"
+            "Content-Type": mimeType,
         },
         body: fileData,
         method: "POST"

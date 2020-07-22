@@ -14,31 +14,37 @@ export default {
     ),
   createRevision: (
     bridgeID,
-    revisionID = null,
-    childID = null,
     parameters = null
   ) => ({
     type: types.CREATE_REVISION,
     payload: {
       bridgeID,
-      revisionID,
-      childID,
       parameters,
     },
   }),
-  setCurrentBridge: (revisionID, childID) => ({
+  setCurrentBridge: (revisionID) => ({
     type: types.SET_CURRENT_BRIDGE,
     payload: {
       revisionID,
-      childID,
     },
   }),
-  setSelectedTransition: (revisionID, childID) => ({
-    type: types.SELECT_TRANSITION,
+  setSelectedRevision: (revisionID) => ({
+    type: types.SELECT_REVISION,
     payload: {
       revisionID,
-      childID,
     },
+  }),
+  setTransModalOpen: ( isOpen = false ) => ({
+    type: types.SET_TRANSITION_MODAL_OPEN,
+    payload: {
+      isOpen
+    }
+  }),
+  setNewTransModalOpen: ( isOpen = false ) => ({
+    type: types.SET_NEW_TRANSITION_MODAL_OPEN,
+    payload: {
+      isOpen
+    }
   }),
   addBlock: (name) => ({
     type: types.ADD_BLOCK,

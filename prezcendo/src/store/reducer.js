@@ -31,8 +31,16 @@ export default function rootReducer(state = defaultState, action) {
             ),
           },
         },
+        interfaceSettings: {
+          ...state.interfaceSettings,
+          modal: {
+            ...state.interfaceSettings.modal,
+            selectedRevision: state.bridges[payload.bridgeID].revisions.length,
+          },
+        },
       };
     }
+
     case types.LOAD_ARRAY_BUFFER: {
       let q = {
         ...state,
@@ -81,15 +89,12 @@ export default function rootReducer(state = defaultState, action) {
           ...state.bridges,
           [state.interfaceSettings.modal.selectedBridge]: {
             ...state.bridges[state.interfaceSettings.modal.selectedBridge],
-            currentBridge: {
-              revisionID: payload.revisionID,
-              childID: payload.childID,
-            },
+            currentRevision: payload.revisionID,
           },
         },
       };
 
-    case types.SELECT_TRANSITION:
+    case types.SELECT_REVISION:
       return {
         ...state,
         interfaceSettings: {
@@ -97,9 +102,32 @@ export default function rootReducer(state = defaultState, action) {
           modal: {
             ...state.interfaceSettings.modal,
             selectedRevision: payload.revisionID,
-            selectedChild: payload.childID,
           },
         },
+      };
+
+      case types.SET_TRANSITION_MODAL_OPEN:
+        return {
+          ...state,
+          interfaceSettings: {
+            ...state.interfaceSettings,
+            modal: {
+              ...state.interfaceSettings.modal,
+              transModalOpen: payload.isOpen,
+            },
+          }
+        };
+
+    case types.SET_NEW_TRANSITION_MODAL_OPEN:
+      return {
+        ...state,
+        interfaceSettings: {
+          ...state.interfaceSettings,
+          modal: {
+            ...state.interfaceSettings.modal,
+            newTransModalOpen: payload.isOpen,
+          },
+        }
       };
 
     case types.UPDATE_TRACK: {

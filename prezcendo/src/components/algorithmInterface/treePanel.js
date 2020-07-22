@@ -6,8 +6,7 @@ import actions from '../../store/actions';
 import { responseToArrayBuffer } from '../../helpers/midiHelper';
 import { getBaseURL } from '../../helpers/webHelper';
 
-import { FlexCol, FlexRow } from "./common";
-import { MdArrowDownward } from 'react-icons/md';
+import { FlexCol } from "./common";
 
 import HistoryBlock from './historyBlock';
 
@@ -18,21 +17,6 @@ function mapStateToProps(state) {
 }
 
 class TreePanel extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            selected: null
-        };
-
-        this.createRevision(0); // Create two test revisions for the history bar
-        this.createRevision(0); // The second test revision
-        this.createRevision(0); // The second test revision
-        this.createRevision(0); // The second test revision
-        this.createRevision(0); // The second test revision
-        this.createRevision(0); // The second test revision
-        this.props.dispatch(actions.setSelectedTransition(0));
-    }
 
     componentDidMount = () => this.loadMidis();
 
@@ -55,23 +39,15 @@ class TreePanel extends Component {
     }
 
     getBlock = (rev, i) => <HistoryBlock
-        key={i} revisionID={i} childID={rev.successfulChild} bridgeID={this.props.bridgeID} style={{
-    }} />;
-
-    getBlockLastRev = (rev, i) => <HistoryBlock
-        key={i} revisionID={ this.props.bridgeInfo.revisions.length -1 } childID={i} bridgeID={this.props.bridgeID} style={{
+        key={i} revisionID={i} bridgeID={this.props.bridgeID} style={{
     }} />;
 
     render() {
-        const length = this.props.bridgeInfo.revisions.length;
-        const lastRev = this.props.bridgeInfo.revisions[length -1];
-        if (this.props.bridgeInfo.revisions.length < 2 ) return(null);
+        const revisions = this.props.bridgeInfo.revisions;
+
         return (
-            <FlexCol style={{ overflow: "auto", width: "50%"}}>
-                { this.props.bridgeInfo.revisions.slice(0,-1).map((rev, i) => [ this.getBlock(rev,i), <MdArrowDownward key={i+1} size="50" /> ] )}
-                <FlexRow>
-                    { lastRev.offspring.map((offspring, i) => this.getBlockLastRev(offspring, i) )}
-                </FlexRow>
+            <FlexCol style={{ overflow: "hidden", overflowY: "scroll", width: "50%"}}>
+                { revisions.map(this.getBlock)}
             </FlexCol>
         );
     }

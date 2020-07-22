@@ -6,23 +6,20 @@ import actions from "../../store/actions";
 
 function mapStateToProps(state, ownProps) {
   const modal = state.interfaceSettings.modal;
-  const currentBridge = state.bridges[modal.selectedBridge].currentBridge;
+  const currentRevision = state.bridges[modal.selectedBridge].currentRevision;
 
   return {
-    selected: (ownProps.revisionID == modal.selectedRevision) && (ownProps.childID == modal.selectedChild),
-    current: (ownProps.revisionID == currentBridge.revisionID) && (ownProps.childID == currentBridge.childID)
+    selected: ownProps.revisionID == modal.selectedRevision,
+    current: ownProps.revisionID == currentRevision,
   };
 }
 
 class HistoryBlock extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   select = () => {
     this.props.dispatch(
-        actions.setSelectedTransition(
-            this.props.revisionID, this.props.childID));
+        actions.setSelectedRevision(
+            this.props.revisionID));
 }
 
   render() {
@@ -33,7 +30,7 @@ class HistoryBlock extends Component {
           className={this.props.selected ? "btn-success" : "btn-primary"}
           style={{ width: "140px", height: "70px" }}
         >
-          GENERATION {this.props.revisionID + 1}
+          TRANSITION {this.props.revisionID + 1}
         </Button>
       </div>
     );
@@ -43,7 +40,6 @@ class HistoryBlock extends Component {
 HistoryBlock.propTypes = {
   style: PropTypes.object,
   revisionID: PropTypes.number,
-  childID: PropTypes.number,
   selected: PropTypes.bool,
   dispatch: PropTypes.func,
   current: PropTypes.bool,

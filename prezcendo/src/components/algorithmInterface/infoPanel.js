@@ -37,7 +37,6 @@ class InfoPanel extends Component {
       <FlexCol className="VersionB Generate">
         <MusicBox bridge={0} rev={0} />
         <Typography>NAME: {name} </Typography>
-        <Typography> GENERATION: {this.props.revisionID + 1} </Typography>
         <SlidersDisplay parameters={transitionInfo.parameters} />
 
         <TooltipButton buttonText="DELETE" />

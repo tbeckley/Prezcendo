@@ -15,9 +15,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 class HistoryBlock extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   select = () => {
     this.props.dispatch(
@@ -33,7 +30,7 @@ class HistoryBlock extends Component {
           className={this.props.selected ? "btn-success" : "btn-primary"}
           style={{ width: "140px", height: "70px" }}
         >
-          GENERATION {this.props.revisionID + 1}
+          TRANSITION {this.props.revisionID + 1}
         </Button>
       </div>
     );
@@ -43,7 +40,6 @@ class HistoryBlock extends Component {
 HistoryBlock.propTypes = {
   style: PropTypes.object,
   revisionID: PropTypes.number,
-  childID: PropTypes.number,
   selected: PropTypes.bool,
   dispatch: PropTypes.func,
   current: PropTypes.bool,

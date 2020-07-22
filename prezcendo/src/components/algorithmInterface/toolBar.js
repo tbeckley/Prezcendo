@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import actions from "../../store/actions";
 
 import { DEFAULT_PARAMETERS } from "../../store/defaultState";
-import { FlexRow, Typography, TooltipButton, SlidersDisplay } from "./common";
+import { FlexRow, TooltipButton, SlidersDisplay } from "./common";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 import MusicBox from './musicBox';
@@ -30,7 +30,10 @@ class ToolBar extends React.Component {
         };
     }
 
-    createRevision = () => this.props.dispatch(actions.createRevision(0, this.state.newParam ));
+    createRevision = () => { 
+        this.props.dispatch(actions.createRevision(0, this.state.newParam )); 
+        this.closeEditor();
+    }
 
     closeEditor = () => this.setState({editorOpen: false, newParam: this.props.parameters});
 
@@ -67,8 +70,6 @@ class ToolBar extends React.Component {
                         NEW GENERATION
                     </ModalHeader>
                     <ModalBody>
-                        <Typography> Parent: </Typography>
-                        <MusicBox bridge={0} rev={0} style={{ width: "30%"}}/>
                         <SlidersDisplay 
                             parameters={this.state.newParam}
                             changeSlider={(parameter, value) => this.changeSlider(parameter, value)}

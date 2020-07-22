@@ -14,23 +14,18 @@ export default {
     ),
   createRevision: (
     bridgeID,
-    revisionID = null,
-    childID = null,
     parameters = null
   ) => ({
     type: types.CREATE_REVISION,
     payload: {
       bridgeID,
-      revisionID,
-      childID,
       parameters,
     },
   }),
-  setCurrentBridge: (revisionID, childID) => ({
+  setCurrentBridge: (revisionID) => ({
     type: types.SET_CURRENT_BRIDGE,
     payload: {
       revisionID,
-      childID,
     },
   }),
   setSelectedTransition: (revisionID, childID) => ({

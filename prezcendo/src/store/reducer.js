@@ -33,6 +33,7 @@ export default function rootReducer(state = defaultState, action) {
         },
       };
     }
+
     case types.LOAD_ARRAY_BUFFER: {
       let q = {
         ...state,
@@ -81,10 +82,7 @@ export default function rootReducer(state = defaultState, action) {
           ...state.bridges,
           [state.interfaceSettings.modal.selectedBridge]: {
             ...state.bridges[state.interfaceSettings.modal.selectedBridge],
-            currentBridge: {
-              revisionID: payload.revisionID,
-              childID: payload.childID,
-            },
+            currentBridge: payload.revisionID,
           },
         },
       };
@@ -97,7 +95,6 @@ export default function rootReducer(state = defaultState, action) {
           modal: {
             ...state.interfaceSettings.modal,
             selectedRevision: payload.revisionID,
-            selectedChild: payload.childID,
           },
         },
       };

@@ -17,10 +17,7 @@ export default {
       previousBars: [], // TBD
       nextBars: [], // TBD
       revisions: [], // family tree / generations / children
-      currentBridge: {
-        revisionID: null,
-        childID: null,
-      },
+      currentRevision: null,
     },
   ],
   songSettings: {
@@ -32,7 +29,6 @@ export default {
     modal: {
       selectedBridge: 0,
       selectedRevision: null,
-      selectedChild: null,
     },
   },
   instruments: {},
@@ -62,20 +58,7 @@ export const DEFAULT_PARAMETERS = {
 
 export const DEFAULT_REVISION = {
   id: 0,
+  name: null,
   parameters: DEFAULT_PARAMETERS,
-  offspring: [
-    {
-      name: "Child 1",
-      midi: null,
-    },
-    {
-      name: "Child 2",
-      midi: null,
-    },
-    {
-      name: "Child 3",
-      midi: null,
-    },
-  ], // midi files of offspring
-  successfulChild: 1,
+  midi: null,
 };

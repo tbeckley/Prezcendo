@@ -9,8 +9,8 @@ function mapStateToProps(state, ownProps) {
   const currentBridge = state.bridges[modal.selectedBridge].currentBridge;
 
   return {
-    selected: (ownProps.revisionID == modal.selectedRevision) && (ownProps.childID == modal.selectedChild),
-    current: (ownProps.revisionID == currentBridge.revisionID) && (ownProps.childID == currentBridge.childID)
+    selected: ownProps.revisionID == modal.selectedRevision,
+    current: ownProps.revisionID == currentBridge,
   };
 }
 
@@ -22,7 +22,7 @@ class HistoryBlock extends Component {
   select = () => {
     this.props.dispatch(
         actions.setSelectedTransition(
-            this.props.revisionID, this.props.childID));
+            this.props.revisionID));
 }
 
   render() {
